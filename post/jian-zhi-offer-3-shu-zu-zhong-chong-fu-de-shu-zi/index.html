@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1605295043509">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1605295614900">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -21,11 +21,11 @@
 
 
     <meta name="description" content="
-找出数组中重复的数字。
+找出数组中重复的数字
 在一个长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。
 示例
 输入：
-[2, 3,..." />
+[2, 3, ..." />
     <meta name="keywords" content="" />
   </head>
   <body>
@@ -35,7 +35,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1605295043509" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1605295614900" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -108,7 +108,7 @@
             
             <div class="post-content" v-pre>
               <blockquote>
-<p>找出数组中重复的数字。<br>
+<p><strong>找出数组中重复的数字</strong><br>
 在一个长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。<br><br>
 示例<br>
 输入：<br>
@@ -117,6 +117,20 @@
 限制：<br>
 2 &lt;= n &lt;= 100000</p>
 </blockquote>
+<p>由于题目中提到了“**长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内 **”，很自然的，第一种思路是新建一个新的等容量的vector容器ind，其中每个元素都默认初始化为0，代表每个元素出现了0次。之后对原vector容器遍历，每次将<code>ind[nums[i]]</code>加一，代表该元素出现了一次。如果加一之后发现该元素值&gt;1，说明这个元素出现了两次，此时直接返回元素i。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int findRepeatNumber(vector&lt;int&gt;&amp; nums) {
+        vector&lt;int&gt; ind(nums.size());
+        for(auto &amp;i: nums){
+            ++ind[i];
+            if(ind[i]&gt;1)
+                return i;
+        }
+        return -1;    
+    }
+};
+</code></pre>
 
             </div>
             
