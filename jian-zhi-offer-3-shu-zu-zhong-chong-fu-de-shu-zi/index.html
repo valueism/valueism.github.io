@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1605297107710">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1605297322963">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1605297107710" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1605297322963" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -115,10 +115,9 @@
 [2, 3, 1, 0, 2, 5, 3]<br>
 输出：2 或 3<br>
 限制：<br>
-2 &lt;= n &lt;= 100000<br>
-<br></p>
+2 &lt;= n &lt;= 100000</p>
 </blockquote>
-<p>    由于题目中提到了“**长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内 **”，很自然的，第一种思路是新建一个新的等容量的vector容器ind，其中每个元素都默认初始化为0，代表每个元素出现了0次。之后对原vector容器遍历，每次将<code>ind[nums[i]]</code>加一，代表该元素出现了一次。如果加一之后发现该元素值&gt;1，说明这个元素出现了两次，此时直接返回元素i。</p>
+<p>由于题目中提到了“**长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内 **”，很自然的，第一种思路是新建一个新的等容量的vector容器ind，其中每个元素都默认初始化为0，代表每个元素出现了0次。之后对原vector容器遍历，每次将<code>ind[nums[i]]</code>加一，代表该元素出现了一次。如果加一之后发现该元素值&gt;1，说明这个元素出现了两次，此时直接返回元素i。</p>
 <pre><code class="language-c++">class Solution {
 public:
     int findRepeatNumber(vector&lt;int&gt;&amp; nums) {
@@ -136,7 +135,7 @@ public:
 <img src="https://i.loli.net/2020/11/14/3Ibe7Z9YDFQmW8V.png"/>
 <center>上面是我的代码结果，下面是别人的hash方法代码结果</center>  
 <br>
-<p>但是这道题并没有这么简单，实际上还会<strong>考察时间、空间权衡</strong>的问题，也就是说，这道题需要分情况讨论<br>
+<p>看了评论才知道，这道题并没有这么简单，实际上还会<strong>考察时间、空间权衡</strong>的因素，也就是说，这道题需要分情况讨论<br>
 <img  src="https://i.loli.net/2020/11/14/cJbakSltLuECWG8.png" /></p>
 
             </div>
