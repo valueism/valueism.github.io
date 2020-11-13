@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1605296989148">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1605297107710">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1605296989148" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1605297107710" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -122,7 +122,8 @@
 <pre><code class="language-c++">class Solution {
 public:
     int findRepeatNumber(vector&lt;int&gt;&amp; nums) {
-        vector&lt;int&gt; ind(nums.size()); //其实这个vector充当了哈希表的角色，但是由于没有真正计算hash，效率会更更高
+        vector&lt;int&gt; ind(nums.size());  //其实第二个vector充当了哈希表的角色
+        //但是由于没有真正计算hash，效率会更更高
         for(auto &amp;i: nums){
             ++ind[i];
             if(ind[i]&gt;1)
