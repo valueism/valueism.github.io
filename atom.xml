@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://444494.xyz</id>
     <title>Nome</title>
-    <updated>2020-11-14T05:36:39.516Z</updated>
+    <updated>2020-11-14T05:53:15.126Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://444494.xyz"/>
     <link rel="self" href="https://444494.xyz/atom.xml"/>
@@ -11,14 +11,14 @@
     <icon>https://444494.xyz/favicon.ico</icon>
     <rights>All rights reserved 2020, Nome</rights>
     <entry>
-        <title type="html"><![CDATA[力扣×剑o #5. ]]></title>
+        <title type="html"><![CDATA[力扣×剑O #05. 替换空格]]></title>
         <id>https://444494.xyz/jian-zhi-offer-5/</id>
         <link href="https://444494.xyz/jian-zhi-offer-5/">
         </link>
         <updated>2020-11-13T19:32:15.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[力扣×剑o #3. 数组中重复的数字]]></title>
+        <title type="html"><![CDATA[力扣×剑O #3. 数组中重复的数字]]></title>
         <id>https://444494.xyz/jian-zhi-offer-3-shu-zu-zhong-chong-fu-de-shu-zi/</id>
         <link href="https://444494.xyz/jian-zhi-offer-3-shu-zu-zhong-chong-fu-de-shu-zi/">
         </link>
