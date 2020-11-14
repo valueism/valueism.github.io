@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1605340591172">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1605351135857">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -34,7 +34,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1605340591172" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1605351135857" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -134,9 +134,10 @@ public:
 <img src="https://i.loli.net/2020/11/14/3Ibe7Z9YDFQmW8V.png"/>
 <center>上面是我的代码结果，下面是别人的hash方法代码结果</center>  
 <br>
-<p>看了评论才知道，这道题并没有这么简单，实际上还会<strong>考察时间、空间权衡</strong>的因素，也就是说，这道题需要分情况讨论<br>
-<img  src="https://i.loli.net/2020/11/14/cJbakSltLuECWG8.png" /></p>
-<p>上面的代码属于时间优先，空间优先需要对原数组进行排序，我采用了选择排序</p>
+看了评论才知道，这道题并没有这么简单，实际上还会**考察时间、空间权衡**的因素，也就是说，这道题需要分情况讨论
+<img  src="https://i.loli.net/2020/11/14/cJbakSltLuECWG8.png" />
+<p>上面的代码属于时间优先，代码运行两次，运行时间分别是99%和100%。从时间的角度来说，这种方法已经足够了；<br>
+空间优先的情况下，需要原地对原数组进行排序，我采用了选择排序。</p>
 <blockquote>
 <p>首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置。<br><br>
 再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。<br><br>
@@ -155,7 +156,9 @@ public:
                  *(move)=*(move-1);
                 move--;
             }
-            if( move!=nums.begin()  &amp;&amp;*(move-1)==key)   //这两行和插入排序不同，如果插入前发现前面有同样大的数，说明有重复
+             //下面的这两行用于解题，不属于插入排序：
+             //如果插入前前面有同样大的数（因为while循环跳过了所有比key大的数），说明有重复，直接返回
+            if( move!=nums.begin()  &amp;&amp;*(move-1)==key)  
                 return key;
             *(move)=key;
 		}
@@ -164,19 +167,21 @@ public:
 };
 </code></pre>
 <figure data-type="image" tabindex="1"><img src="https://i.loli.net/2020/11/14/reyW3JlkM9ODNij.png" alt="20201114151949.png" loading="lazy"></figure>
-<center>实际效果很垃圾，和不如直接用sort排序然后找相同（第一个）</center>
-<p>后来看了别人的代码，空间复杂度最佳的是下面这种：</p>
+<center>实际效果很差，还不如直接用sort排序（第一行），时间空间都很一般</center>
+<br>
+后来研究别人的代码，空间复杂度最佳的是下面这种：
 <blockquote>
-<p>时间复杂度O(n)，空间复杂度O(1)。<br>可以看做是一种原地哈希，不过没有用到字典。具体做法就是因为题目中给的元素是 &lt; len（nums）的，所以我们可以让 位置i 的地方放元素i。如果位置i的元素不是i的话，那么我们就把i元素的位置放到它应该在的位置，即 nums[i] 和nums[nums[i]]的元素交换，这样就把原来在nums[i]的元素正确归位了。如果发现 要把 nums[i]正确归位的时候，发现nums[i]（这个nums[i]是下标）那个位置上的元素和要归位的元素已经一样了，说明就重复了，重复了就return<br></p>
+<p>时间复杂度O(n)，空间复杂度O(1)的方法：<br>可以看做是一种原地哈希，不过没有用到字典。具体做法就是因为题目中给的元素是 &lt; len（nums）的，所以我们可以让 位置i 的地方放元素i。如果位置i的元素不是i的话，那么我们就把i元素的位置放到它应该在的位置，即 nums[i] 和nums[nums[i]]的元素交换，这样就把原来在nums[i]的元素正确归位了。如果发现 要把 nums[i]正确归位的时候，发现nums[i]（这个nums[i]是下标）那个位置上的元素和要归位的元素已经一样了，说明就重复了，重复了就return<br></p>
 </blockquote>
-<p>就是利用了原数组作为哈希表，将各个数字归位放回nums[i]。<br>
-分为三种情况：</p>
+<p><strong>总体思路</strong>：就是利用了原数组作为哈希表，将各个数字归位、放回对应的nums[i]，在这个过程中如果某次归位前遇到了nums[i]=i，说明已经有重复的数字i了，则立即返回。<br>
+<strong>具体解法</strong>：遍历下标0到n-1，每个下标都检查归位，具体归位过程分为三种情况：</p>
 <ul>
-<li>第一种：已经i=nums[i]，此时直接跳过即可</li>
-<li>若i和nums[i]不相等，nums[i]的位置存放了数字j(即j=nums[nums[i]])。又像上面分为两种情况：
+<li>情况一：已经i=nums[i]，此时直接跳过即可</li>
+<li>若i和nums[i]不相等，i的位置存放了数字j(即j=nums[i])。又像上面分为两种情况：
 <ul>
-<li>第二种：如果j=nums[j]，即((nums[nums[i]])=nums[j])，那么说明有重复，直接返回j</li>
-<li>第三种：如果j和nums[j]不相等，nums[j]的位置存放了数字k(即k=nums[nums[j]])。那么可以直接将j和k两个数置换一下，将j放回他的位置nums[j]。</li>
+<li>情况二：如果j=nums[j]，即((nums[nums[i]])=nums[j])，那么说明有重复，直接返回j</li>
+<li>情况三：如果j和nums[j]不相等，nums[j]的位置存放了数字k(即k=nums[j])。那么可以直接将j和k两个数置换一下，将j放回他的位置nums[j]，k放到num[i]。<br>
+需要注意的是，只有j(nums[i])和k(nums[j])才是nums中存储的元素，i只是一个下标用于遍历（j既充当下标又是数组中元素）。</li>
 </ul>
 </li>
 </ul>
