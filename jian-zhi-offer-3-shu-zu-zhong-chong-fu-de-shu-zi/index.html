@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1605352587498">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1605352977797">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -34,7 +34,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1605352587498" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1605352977797" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -157,7 +157,8 @@ public:
                 move--;
             }
              //下面的这两行用于解题，不属于插入排序：
-             //如果插入前前面有同样大的数（因为while循环跳过了所有比key大的数），说明有重复，直接返回
+             //如果插入前前面有同样大的数（while循环跳过了所有比key大的数）
+             //说明有重复，直接返回
             if( move!=nums.begin()  &amp;&amp;*(move-1)==key)  
                 return key;
             *(move)=key;
@@ -170,9 +171,8 @@ public:
 <center>运行两次（下两行）的实际效果与sort排序（第一行）的对比</center>
 <br>
 后来研究别人的代码，还有下面这种思路不错的方法：
-<blockquote>
-<p>时间复杂度O(n)，空间复杂度O(1)的方法：<br>可以看做是一种原地哈希，不过没有用到字典。具体做法就是因为题目中给的元素是 &lt; len（nums）的，所以我们可以让 位置i 的地方放元素i。如果位置i的元素不是i的话，那么我们就把i元素的位置放到它应该在的位置，即 nums[i] 和nums[nums[i]]的元素交换，这样就把原来在nums[i]的元素正确归位了。如果发现 要把 nums[i]正确归位的时候，发现nums[i]（这个nums[i]是下标）那个位置上的元素和要归位的元素已经一样了，说明就重复了，重复了就return<br></p>
-</blockquote>
+<br>
+>时间复杂度O(n)，空间复杂度O(1)的方法：<br>可以看做是一种原地哈希，不过没有用到字典。具体做法就是因为题目中给的元素是 < len（nums）的，所以我们可以让 位置i 的地方放元素i。如果位置i的元素不是i的话，那么我们就把i元素的位置放到它应该在的位置，即 nums[i] 和nums[nums[i]]的元素交换，这样就把原来在nums[i]的元素正确归位了。如果发现 要把 nums[i]正确归位的时候，发现nums[i]（这个nums[i]是下标）那个位置上的元素和要归位的元素已经一样了，说明就重复了，重复了就return<br>
 <p><strong>总体思路</strong>：就是利用了原数组作为哈希表，将各个数字归位、放回对应的nums[i]，在这个过程中如果某次归位前遇到了nums[i]=i，说明已经有重复的数字i了，则立即返回。<br>
 <strong>具体解法</strong>：遍历下标0到n-1，每个下标都检查归位，具体归位过程分为三种情况：</p>
 <ul>
