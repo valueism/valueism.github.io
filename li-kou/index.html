@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1605537707814">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1605538345526">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1605537707814" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1605538345526" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -187,6 +187,24 @@ void PrintlistReversingly_Recursively(ListNode* pHead)
 <blockquote>
 <p>当链表非常长的时候 ， 就会导致函数调用的层级很深 ，从而有可能导致函数调用栈溢出 。显然用栈基千循环实现的代码的鲁棒性要好 一 些 。</p>
 </blockquote>
+<p>评论区给出了另一种方法：不用栈，不用递归。核心思想在于遍历两次链表，第一次遍历只记录个数，第二次遍历时逆序保存数据到同样大小数组中，遍历完成后最后返回数组。</p>
+<pre><code class="language-c++">std::vector&lt;int&gt; Solution::reversePrint(const ListNode* head)
+{
+    const ListNode* node = head;
+    std::size_t count = 0;
+    while (node != nullptr) {
+        ++count;
+        node = node-&gt;next;
+    }
+    std::vector&lt;int&gt; nums(count);  // 预分配 count 个空间。
+    node = head;
+    for (auto i = nums.rbegin(); i != nums.rend(); ++i) {
+        *i = node-&gt;val;
+        node = node-&gt;next;
+    }
+    return nums;
+}
+</code></pre>
 
             </div>
             
