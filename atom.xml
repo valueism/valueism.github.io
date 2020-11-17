@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://444494.xyz</id>
     <title>Nome</title>
-    <updated>2020-11-16T14:56:27.191Z</updated>
+    <updated>2020-11-17T04:41:55.229Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://444494.xyz"/>
     <link rel="self" href="https://444494.xyz/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://444494.xyz/images/avatar.png</logo>
     <icon>https://444494.xyz/favicon.ico</icon>
     <rights>All rights reserved 2020, Nome</rights>
+    <entry>
+        <title type="html"><![CDATA[拖延]]></title>
+        <id>https://444494.xyz/tuo-yan/</id>
+        <link href="https://444494.xyz/tuo-yan/">
+        </link>
+        <updated>2020-11-17T04:41:09.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[力扣×剑O #06.从尾到头打印链表]]></title>
         <id>https://444494.xyz/li-kou/</id>
