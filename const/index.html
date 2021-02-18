@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" >
 
-<title>修饰符const | Nome</title>
+<title>修饰符const总结 | Nome</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613654034626">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613654089563">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@ const int k;   ..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1613654034626" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1613654089563" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -103,7 +103,7 @@ const int k;   ..." />
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">修饰符const</h2>
+            <h2 class="post-title">修饰符const总结</h2>
             <div class="post-date">2021-02-15</div>
             
             <div class="post-content" v-pre>
@@ -116,7 +116,7 @@ const int k;                          //错误：k是一个未经初始化的常
 </li>
 <li>
 <p>const原理是预处理，会在运行时把常量替换成数字。因此<strong>const对象只在文件内有效</strong><br>
-我们想让这类 const对象像其他（非常量）对象一样工作，也就是说，只在一个文件定义 const，而在其他多个文件中声明并使用它。解决的办法是，对于 const变量不管是声明还是定义都添加 extern关键字，这样只需定义一次就可以了：(C++primer P54.)</p>
+我们想让这类 const对象像其他（非常量）对象一样工作，也就是说，只在一个文件定义 const，而在其他多个文件中声明并使用它。<strong>解决的办法是，对于 const变量不管是声明还是定义都添加 extern关键字</strong>，这样只需定义一次就可以了：(C++primer P54.)</p>
 <p>//file1.cc定义并初始化了一个常量，该常量能被其他文件访问<br>
 extern const int BuffSize = fcn（）;</p>
 <p>//file1.h头文件<br>
