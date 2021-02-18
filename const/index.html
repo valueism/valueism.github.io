@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613654089563">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613654630889">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@ const int k;   ..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1613654089563" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1613654630889" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -116,7 +116,7 @@ const int k;                          //错误：k是一个未经初始化的常
 </li>
 <li>
 <p>const原理是预处理，会在运行时把常量替换成数字。因此<strong>const对象只在文件内有效</strong><br>
-我们想让这类 const对象像其他（非常量）对象一样工作，也就是说，只在一个文件定义 const，而在其他多个文件中声明并使用它。<strong>解决的办法是，对于 const变量不管是声明还是定义都添加 extern关键字</strong>，这样只需定义一次就可以了：(C++primer P54.)</p>
+我们想让这类 const对象像其他（非常量）对象一样工作，也就是说，只在一个文件定义 const，而在其他多个文件中声明并使用它。<strong>解决的办法是，对于 const变量不管是声明还是定义都添加 extern关键字</strong>，这样只需定义一次就可以了：(C++primer P54).</p>
 <p>//file1.cc定义并初始化了一个常量，该常量能被其他文件访问<br>
 extern const int BuffSize = fcn（）;</p>
 <p>//file1.h头文件<br>
@@ -149,9 +149,11 @@ const int * const p3 = &amp;a;
 <p>最好的方法是从右往左读，例一中离p1最近的是*，说明这是一个指针。左侧的const int表明这个指针指向一个常量的整型对象。因此，p1是一个指向整型常量的指针。</p>
 <p>例二中离p2最近的是const，说明p2这个变量本身是常量，并且p2的变量类型由声明符确定。左侧的int*表明了p2的类型是整型指针。因此，p2是一个指向整型的常量指针。</p>
 <ol start="4">
-<li><strong>const修饰函数</strong><br>
-//const修饰函数返回值<br>
-const char* GetString(void);</li>
+<li>
+<p><strong>const修饰函数</strong></p>
+<p>//const修饰函数返回值<br>
+const char* GetString(void);</p>
+</li>
 </ol>
 <p>如果给以“指针传递”方式的函数返回值加const修饰，那么函数返回值（即指针）的内容不能被修改，该返回值只能被赋给加const修饰的同类型指针。<br>
 如果函数返回值采用“值传递方式”，由于函数会把返回值复制到外部临时的存储单元中，加const修饰没有任何价值。（值传递将返回值复制到另外一个存储单元）</p>
