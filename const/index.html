@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613650002745">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613653970826">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -21,12 +21,11 @@
 
 
     <meta name="description" content="
+
 const为了防止变量被修改，因此必须初始化
-
-
 const int i= get size（）；//正确：运行时初始化
 const int 3=42；                 //正确：编译时初始化
-const int k;  ..." />
+const int k;   ..." />
     <meta name="keywords" content="" />
   </head>
   <body>
@@ -36,7 +35,7 @@ const int k;  ..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1613650002745" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1613653970826" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -109,45 +108,59 @@ const int k;  ..." />
             
             <div class="post-content" v-pre>
               <ol>
-<li>const为了防止变量被修改，因此必须初始化</li>
-</ol>
-<blockquote>
-<p>const int i= get size（）；//正确：运行时初始化<br>
+<li>
+<p>const为了防止变量被修改，因此必须初始化<br>
+const int i= get size（）；//正确：运行时初始化<br>
 const int 3=42；                 //正确：编译时初始化<br>
 const int k;                          //错误：k是一个未经初始化的常量</p>
-</blockquote>
-<p>2.const原理是预处理，会在运行时把常量替换成数字。因此const对象只在文件内有效<br>
+</li>
+<li>
+<p>const原理是预处理，会在运行时把常量替换成数字。因此const对象只在文件内有效<br>
 我们想让这类 const对象像其他（非常量）对象一样工作，也就是说，只在一个文件定义 const，而在其他多个文件中声明并使用它。解决的办法是，对于 const变量不管是声明还是定义都添加 extern关键字，这样只需定义一次就可以了：(C++primer P54.)</p>
-<blockquote>
 <p>//file1.cc定义并初始化了一个常量，该常量能被其他文件访问<br>
-extern const int BuffSize = fcn（）;<br>
-//file1.h头文件<br>
+extern const int BuffSize = fcn（）;</p>
+<p>//file1.h头文件<br>
 extern const int bufsize；//与fi1e1.cc中定义的 BuffSize是同一个</p>
-</blockquote>
+</li>
+</ol>
 <p>fi1e1.h头文件中的声明也由 extern做了限定，其作用是指明 bufsize并非本文件所独有，它的定义将在别处出现。</p>
-<p>3.指针和const<br>
-const和指针一起用时，容易搞不清到底是指向常量的指针，还是指针本身是常量。</p>
+<ol start="3">
+<li>指针和const<br>
+const和指针一起用时，容易搞不清到底是指向常量的指针，还是指针本身是常量。</li>
+</ol>
 <blockquote>
-<p>来源：https://blog.csdn.net/ClaireSy/article/details/108422945?spm_id_from=333.788.b_636f6d6d656e74.41<br>
-//例一：const修饰的是指针，指针指向可以改，指针指向的值不可以更改<br>
-const int * p1 = &amp;a;<br>
-p1 = &amp;b; //正确<br>
-//*p1 = 100;  报错</p>
+<p>来源：https://blog.csdn.net/ClaireSy/article/details/108422945?spm_id_from=333.788.b_636f6d6d656e74.41</p>
 </blockquote>
-<blockquote>
-<p>//例二：const修饰的是常量，指针指向不可以改，指针指向的值可以更改<br>
-int * const p2 = &amp;a;<br>
-//p2 = &amp;b; //错误<br>
-*p2 = 100; //正确</p>
-</blockquote>
-<blockquote>
-<p>//例三：const既修饰指针又修饰常量<br>
-const int * const p3 = &amp;a;<br>
-//p3 = &amp;b; //错误<br>
-//*p3 = 100; //错误</p>
-</blockquote>
+<pre><code>例一：const修饰的是指针，指针指向可以改，指针指向的值不可以更改
+const int * p1 = &amp;a; 
+p1 = &amp;b; //正确
+//*p1 = 100;  报错
+
+//例二：const修饰的是常量，指针指向不可以改，指针指向的值可以更改
+int * const p2 = &amp;a;
+//p2 = &amp;b; //错误
+*p2 = 100; //正确
+
+//例三：const既修饰指针又修饰常量
+const int * const p3 = &amp;a;
+//p3 = &amp;b; //错误
+//*p3 = 100; //错误
+</code></pre>
 <p>最好的方法是从右往左读，例一中离p1最近的是*，说明这是一个指针。左侧的const int表明这个指针指向一个常量的整型对象。因此，p1是一个指向整型常量的指针。</p>
 <p>例二中离p2最近的是const，说明p2这个变量本身是常量，并且p2的变量类型由声明符确定。左侧的int*表明了p2的类型是整型指针。因此，p2是一个指向整型的常量指针。</p>
+<ol start="4">
+<li>const修饰函数<br>
+//const修饰函数返回值<br>
+const char* GetString(void);</li>
+</ol>
+<p>如果给以“指针传递”方式的函数返回值加const修饰，那么函数返回值（即指针）的内容不能被修改，该返回值只能被赋给加const修饰的同类型指针。<br>
+如果函数返回值采用“值传递方式”，由于函数会把返回值复制到外部临时的存储单元中，加const修饰没有任何价值。（值传递将返回值复制到另外一个存储单元）</p>
+<pre><code>//const修饰函数（const成员函数），防止函数f改变this指向的对象
+char* GetString(void) const;
+
+//const修饰参数，防止f函数改变参数的值，实际上const是修饰this指向的对象的
+char* GetString(const string str);
+</code></pre>
 
             </div>
             
