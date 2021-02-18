@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>剑指offer | Nome</title>
+<title>指针和引用 | Nome</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -20,7 +20,13 @@
 
 
 
-    <meta name="description" content="Break a leg">
+    <meta name="description" content="1.指针是对象，而引用不是对象。
+指针是由基础数据类型+变量修饰符*进行声明，代表对应数据类型的指针变量；引用只是通过变量修饰符&amp;对变量起的别名。
+
+int a=3;
+int *b=&amp;a;  //b是指向a的整型变量
+int..." />
+    <meta name="keywords" content="" />
   </head>
   <body>
     <div id="app" class="main">
@@ -96,43 +102,42 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: 剑指offer</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://444494.xyz/jian-zhi-offer-5/">
-                  <h2 class="post-title">力扣×剑O #05. 替换空格</h2>
-                </a>
-                <div class="post-date">
-                  2020-11-14
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://444494.xyz/jian-zhi-offer-3-shu-zu-zhong-chong-fu-de-shu-zi/">
-                  <h2 class="post-title">力扣×剑O #3. 数组中重复的数字</h2>
-                </a>
-                <div class="post-date">
-                  2020-11-14
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
+          <div class="post-detail">
+            <h2 class="post-title">指针和引用</h2>
+            <div class="post-date">2021-02-15</div>
+            
+            <div class="post-content" v-pre>
+              <p>1.指针是对象，而引用不是对象。<br>
+指针是由基础数据类型+变量修饰符*进行声明，代表对应数据类型的指针变量；引用只是通过变量修饰符&amp;对变量起的别名。</p>
+<blockquote>
+<p>int a=3;<br>
+int *b=&amp;a;  //b是指向a的整型变量<br>
+int &amp;c=a;  //c是整型变量a的别名</p>
+</blockquote>
+<p>由此带来的结果是：不能定义指向引用的指针（引用不是变量），可以定义指针的引用（指针是变量）。</p>
+<blockquote>
+<p>int i= 42;<br>
+int *p;<br>
+int *&amp;r=p;  //r是对指针p的引用</p>
+</blockquote>
+<p>2.引用必须初始化，指针不是。</p>
 
-          <div class="pagination-container">
-  
-  
-</div>
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/tuo-yan/">
+                  <h3 class="post-title">
+                    拖延
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
 
         </div>
       </div>
