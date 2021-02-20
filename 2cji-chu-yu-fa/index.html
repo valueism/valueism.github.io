@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" >
 
-<title>2.C++基础语法 | Nome</title>
+<title>2. C++基础语法 | Nome</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613790272340">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613791122367">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -42,7 +42,7 @@ unsign..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1613790272340" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1613791122367" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -110,7 +110,7 @@ unsign..." />
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">2.C++基础语法</h2>
+            <h2 class="post-title">2. C++基础语法</h2>
             <div class="post-date">2021-02-20</div>
             
             <div class="post-content" v-pre>
@@ -128,7 +128,9 @@ unsigned int: 所占内存大小：4byte，表示范围：0~2^32-1； <br/><br>
 <strong>长整型long int：所占内存大小：4byte</strong>，表示范围：-2<sup>31~2</sup>31-1；<br>
 unsigned long: 所占内存大小：4byte，表示范围：0~2^32-1； <br/><br>
 <strong>long long int：所占内存大小：8byte；</strong><br>
-unsigned long long int：所占内存大小：8byte；</p>
+unsigned long long int：所占内存大小：8byte；<br/><br>
+前缀：0、0x/0X分别代表8进制、16进制，不带前缀默认10进制；<br>
+后缀：u/U、l/L分别代表unsigned、long；</p>
 </li>
 <li>
 <p>浮点数类（注意：浮点数在内存中都是按科学计数法来存储的）<br>
@@ -143,7 +145,9 @@ unsigned 浮点数类似 unsigned 整数</p>
 <strong>char：所占内存大小：1byte；</strong><br>
 unsigned char：所占内存大小：1byte；<br>
 singned char: 所占内存大小：1byte；  <br/><br>
-<strong>wchar_t：所占所占内存大小：2byte；</strong></p>
+<strong>wchar_t：所占所占内存大小：2byte；</strong><br/><br>
+前缀：L(仅大写字母)代表是宽字符（如：L'x'），存储在wchar_t中；<br>
+常量：代表转义字符、通用字符等（如：'\n'）；</p>
 </li>
 <li>
 <p>字符串类<br>
@@ -158,6 +162,34 @@ singned char: 所占内存大小：1byte；  <br/><br>
 函数名可以使用“[动词+]名词”，如DrawGraph；</li>
 <li>使用统一的命名法则，如微软匈牙利命名法、大/小驼峰（Camel）命名法、Pascal命名法。</li>
 </ul>
+<hr>
+<h2 id="第二章课后练习题">第二章课后练习题</h2>
+<p><strong>一.</strong> 基础题（必做）<br>
+下面标识符是合法的有哪些（ bef） （涉及知识点： 2-5 标识符与关键字）<br>
+A.float<br>
+B.ipad<br>
+C.1button<br>
+D. A#BC<br>
+E.my_button<br>
+F. button_1_ok</p>
+<p>请给一个退出按钮命一个好变量名（ c）（涉及知识点： 2-5 标识符）<br>
+A. 1button<br>
+B. button1<br>
+C.buttonQuit<br>
+D.button_tuichu</p>
+<p>下面整数常量合法的是（ d）（涉及知识点： 2-6 常量）<br>
+A.078<br>
+B.03UU<br>
+C.0x9AHX<br>
+D.0xFFAA00</p>
+<p><strong>二.</strong> 提高题（选做）<br>
+下面程序输出结果是_12__ （涉及知识点： 2-6 常量的宏定义）</p>
+<p>#define MA(x) x*(x-1)<br>
+void main()<br>
+{<br>
+int a=1, b=2;<br>
+cout &lt;&lt; MA(1+a+b)) &lt;&lt; endl;<br>
+}</p>
 
             </div>
             

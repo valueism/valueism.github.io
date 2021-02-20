@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613790272340">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613791122367">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -23,9 +23,9 @@
 
 
     <meta name="description" content="1. 定义常量的两种方式：const和#define
-尽量使用const方式定义常量，#define使用宏替换方式，不会在编译期进行，很难排错
-#define PI 3.14159;        //编译前预处理过程进行，很难排错
-con..." />
+尽量使用const方式定义常量，#define使用宏定义方式，不会在编译期进行，很难排错
+#define PI 3.14159;        //编译前预处理过程进行处理，很难排错
+c..." />
     <meta name="keywords" content="C++" />
   </head>
   <body>
@@ -35,7 +35,7 @@ con..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1613790272340" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1613791122367" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -108,9 +108,9 @@ con..." />
             
             <div class="post-content" v-pre>
               <h2 id="1-定义常量的两种方式const和define">1. 定义常量的两种方式：const和#define</h2>
-<p>尽量使用const方式定义常量，#define使用宏替换方式，不会在编译期进行，很难排错</p>
-<pre><code>#define PI 3.14159;        //编译前预处理过程进行，很难排错
-const double PI =3.14159;  //编译过程进行，容易排错
+<p>尽量使用const方式定义常量，#define使用宏定义方式，不会在编译期进行，很难排错</p>
+<pre><code>#define PI 3.14159;        //编译前预处理过程进行处理，很难排错
+const double PI =3.14159;  //编译过程进行处理，容易排错
 </code></pre>
 <h2 id="2-const为了防止变量被修改因此必须初始化">2. const为了防止变量被修改，因此<strong>必须初始化</strong></h2>
 <pre><code class="language-c++">const int i= get size（）；//正确：运行时初始化
