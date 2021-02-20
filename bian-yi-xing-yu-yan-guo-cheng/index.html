@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>指针和引用 | Nome</title>
+<title>编译型语言过程 | Nome</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -22,13 +22,8 @@
 
 
 
-    <meta name="description" content="指针和引用的不同：
-
-指针是对象，而引用不是对象。
-指针是由基础数据类型+变量修饰符*进行声明，代表对应数据类型的指针变量；引用只是通过变量修饰符&amp;对变量起的别名。
-
-int *b=&amp;a;  //b是指向a的整型变量
-int..." />
+    <meta name="description" content="
+..." />
     <meta name="keywords" content="C++" />
   </head>
   <body>
@@ -106,52 +101,11 @@ int..." />
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">指针和引用</h2>
-            <div class="post-date">2021-02-15</div>
+            <h2 class="post-title">编译型语言过程</h2>
+            <div class="post-date">2021-02-20</div>
             
             <div class="post-content" v-pre>
-              <h2 id="指针和引用的不同">指针和引用的不同：</h2>
-<ol>
-<li>指针是对象，而引用不是对象。<br>
-指针是由基础数据类型+变量修饰符*进行声明，代表对应数据类型的指针变量；引用只是通过变量修饰符&amp;对变量起的别名。</li>
-</ol>
-<pre><code class="language-int">int *b=&amp;a;  //b是指向a的整型变量
-int &amp;c=a;  //c是整型变量a的别名  
-</code></pre>
-<p>由此带来的结果是：不能定义指向引用的指针（引用不是变量），可以定义指针的引用（指针是变量）。</p>
-<pre><code>int i= 42;
-int *p;
-int *&amp;r = p;  //正确，r是对指针p的引用，也是一个指针
-int &amp;*s = p;  //错误，不可以对引用生成指针
-</code></pre>
-<p>要理解r的类型到底是什么，最简单的办法是从右向左阅读r的定义。离变量名最近的符号（此例中是r的符号）对变量的类型有最直接的影响，因此r是一个引用。声明符的其余部分用以确定x引用的类型是什么，此例中的符号*说明r引用的是一个指针。最后，声明的基本数据类型部分指出r引用的是一个int指针。</p>
-<ol>
-<li>引用必须初始化，指针不是。尽管初始化都不能指向字面值，但引用可以指向常量和变量，指针只能指向变量。</li>
-</ol>
-<pre><code>//int &amp;ref = 10;  引用本身需要一个合法的内存空间，因此这行错误
-//加入const就可以了，编译器优化代码，int temp = 10; const int&amp; ref = temp;
-const int&amp; ref = 10;  //正确，引用可以引用常量和变量
-
-//int *a = &amp;10;  同理错误，指针不能用字面值的地址
-//const int *a = &amp;10;  仍然错误，指针只能指向变量
-</code></pre>
-<h2 id="指针和引用的相同">指针和引用的相同：</h2>
-<ol>
-<li>都不可以返回局部变量的引用/指针。<br>
-原因是局部变量的生命周期。</li>
-</ol>
-<h2 id="指针和引用的联系">指针和引用的联系：</h2>
-<p><strong>引用本质实际上通过内部的指针实现</strong></p>
-<pre><code>int a= 10;
-
-//自动转换为 int * const ref = &amp;a;  
-//指针常量：指针的指向不可更改，也说明了为什么引用不能更改。
-int &amp;ref = a;
-
-//内部发现a是引用，自动帮我们转换：*ref = 20;
-//不能修改指向，但可以更改指针指向的数据
-ref=20;
-</code></pre>
+              <figure data-type="image" tabindex="1"><img src="https://i.loli.net/2021/02/20/puGeMlcmstH1RSw.png" alt="" loading="lazy"></figure>
 
             </div>
             
@@ -166,9 +120,9 @@ ref=20;
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://444494.xyz/li-kou/">
+                <a href="https://444494.xyz/const/">
                   <h3 class="post-title">
-                    力扣×剑O #06.从尾到头打印链表
+                    修饰符const总结
                   </h3>
                 </a>
               </div>
