@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613789801957">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613790272340">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -22,10 +22,10 @@
 
 
 
-    <meta name="description" content="1. const为了防止变量被修改，因此必须初始化
-const int i= get size（）；//正确：运行时初始化
-const int 3=42；                 //正确：编译时初始化
-const int k;  ..." />
+    <meta name="description" content="1. 定义常量的两种方式：const和#define
+尽量使用const方式定义常量，#define使用宏替换方式，不会在编译期进行，很难排错
+#define PI 3.14159;        //编译前预处理过程进行，很难排错
+con..." />
     <meta name="keywords" content="C++" />
   </head>
   <body>
@@ -35,7 +35,7 @@ const int k;  ..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1613789801957" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1613790272340" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -107,12 +107,17 @@ const int k;  ..." />
             <div class="post-date">2021-02-15</div>
             
             <div class="post-content" v-pre>
-              <h2 id="1-const为了防止变量被修改因此必须初始化">1. const为了防止变量被修改，因此<strong>必须初始化</strong></h2>
+              <h2 id="1-定义常量的两种方式const和define">1. 定义常量的两种方式：const和#define</h2>
+<p>尽量使用const方式定义常量，#define使用宏替换方式，不会在编译期进行，很难排错</p>
+<pre><code>#define PI 3.14159;        //编译前预处理过程进行，很难排错
+const double PI =3.14159;  //编译过程进行，容易排错
+</code></pre>
+<h2 id="2-const为了防止变量被修改因此必须初始化">2. const为了防止变量被修改，因此<strong>必须初始化</strong></h2>
 <pre><code class="language-c++">const int i= get size（）；//正确：运行时初始化
 const int 3=42；                 //正确：编译时初始化
 const int k;                          //错误：k是一个未经初始化的常量  
 </code></pre>
-<h2 id="2-const原理是在编译时把变量替换成数字因此const对象只在文件内有效">2. const原理是在编译时把变量替换成数字，因此<strong>const对象只在文件内有效</strong></h2>
+<h2 id="3-const原理是在编译时把变量替换成数字因此const对象只在文件内有效">3. const原理是在编译时把变量替换成数字，因此<strong>const对象只在文件内有效</strong></h2>
 <p>如果我们想让这类 const对象像其他（非常量）对象一样工作，也就是说，只在一个文件定义 const，而在其他多个文件中声明并使用它。<strong>解决的办法是，对于 const变量不管是声明还是定义都添加 extern关键字</strong>，这样只需定义一次就可以了：(C++primer P54).</p>
 <pre><code class="language-c++">//file1.cc定义并初始化了一个常量，该常量能被其他文件访问
 extern const int BuffSize = fcn（）;
@@ -120,7 +125,7 @@ extern const int BuffSize = fcn（）;
 extern const int bufsize；//与fi1e1.cc中定义的 BuffSize是同一个
 </code></pre>
 <p>fi1e1.h头文件中的声明也由 extern做了限定，其作用是指明 bufsize并非本文件所独有，它的定义将在别处出现。</p>
-<h2 id="3-指针和const">3. 指针和const</h2>
+<h2 id="4-指针和const">4. 指针和const</h2>
 <p>const和指针一起用时，容易搞不清到底是指向常量的指针（<strong>常量指针</strong>），还是指针本身是常量（<strong>指针常量</strong>）。</p>
 <pre><code class="language-c++">/*
 *来源：https://blog.csdn.net/ClaireSy/article/details/108422945?spm_id_from=333.788.b_636f6d6d656e74.41
@@ -143,7 +148,7 @@ const int * const p3 = &amp;a;
 </code></pre>
 <p>最好的方法是从右往左读，例一中离p1最近的是*，说明这是一个指针。左侧的const int表明这个指针指向一个常量的整型对象。因此，p1是一个指向整型常量的指针（<strong>常量指针</strong>）。</p>
 <p>例二中离p2最近的是const，说明p2这个变量本身是常量，并且p2的变量类型由声明符确定。左侧的int*表明了p2的类型是整型指针。因此，p2是一个指向整型的指针，并且这个指针是常量（<strong>指针常量</strong>）。</p>
-<h2 id="4-引用和const">4. 引用和const</h2>
+<h2 id="5-引用和const">5. 引用和const</h2>
 <p>类似于指针，也有引用常量和常量引用。但由于引用本身不能修改，因此引用常量等价于普通的引用。</p>
 <pre><code class="language-c++">int a = 10;
 
@@ -157,7 +162,7 @@ int  &amp; const c = a;
 //int  &amp; c = a;   因为引用本来就不允许修改，因此和上面语句等价
 c =20;  //正确，不能修改引用，但可以修改值
 </code></pre>
-<h2 id="5-const修饰函数">5. const修饰函数</h2>
+<h2 id="6-const修饰函数">6. const修饰函数</h2>
 <p>const修饰函数，根据const从左到右的位置，可以分别修饰函数返回值 、函数形参和this对象</p>
 <ol>
 <li>const修饰函数返回值</li>
@@ -167,7 +172,7 @@ c =20;  //正确，不能修改引用，但可以修改值
 <p>如果给以“指针传递”方式的函数返回值加const修饰，那么函数返回值（即指针）的内容不能被修改，该返回值只能被赋给加const修饰的同类型指针。<br>
 如果函数返回值采用“值传递方式”，由于函数会把返回值复制到外部临时的存储单元中，加const修饰没有任何价值。（值传递将返回值复制到另外一个存储单元）</p>
 <ol start="2">
-<li>const修饰参数</li>
+<li>const修饰参数<br/></li>
 </ol>
 <pre><code class="language-c++">//防止f函数改变参数的值，实际上const是修饰this指向的对象的
 char* GetString(const string str);
