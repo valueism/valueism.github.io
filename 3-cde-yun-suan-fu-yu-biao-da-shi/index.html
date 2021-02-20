@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613797261880">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613797910451">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -36,7 +36,7 @@ assert()：当且仅当括号内的运算结果为真时，程序可以正常运
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1613797261880" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1613797910451" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -138,9 +138,42 @@ m-(m&gt;&gt;n&lt;&lt;n);  //对2^n取余
 <p>在重要代码处，最好先写注释再写代码，有利于思路清晰和保证代码注释一致性；</p>
 </li>
 <li>
-<p>注释不是越多越好，它是对代码的提示，要写就要写清楚，并且需要保持代码和注释的一致性，更新代码也要更新注释。</p>
+<p>注释不是越多越好，它是对代码的提示，要写就要写清楚，并且需要保持代码和注释的一致性，更新代码也要更新注释。<br>
+<br/></p>
 </li>
 </ul>
+<hr>
+<br/>
+<h2 id="第三章课后练习">第三章课后练习</h2>
+<p>一.填空题（必做）<br>
+下面每行程序输出结果是分别是什么 （涉及知识点： 3-7 sizeof 2-2 数据类型）</p>
+<pre><code>cout sizeof(char)  endl; __1_
+cout  sizeof(short)  endl; _2__
+cout  sizeof(int)  endl; _4__
+cout  sizeof(float)  endl; __4_
+cout  sizeof(double)  endl; __8_
+</code></pre>
+<p>下面程序输出结果是分别是什么 （涉及知识点：3-1 算术运算符，3-5赋值运算符， 3-7 sizeof ， 逗号运算符）</p>
+<pre><code>a = (x=10,y=20,z=x+y);
+cout&lt;&lt;a&lt;&lt;endl;  _30__
+</code></pre>
+<p>下面程序输出结果是分别是什么 （涉及知识点： 3-7 sizeof, 点运算符 ）</p>
+<pre><code>typedef struct{
+short Sunday = 0;
+short Monday = 1;
+short Tuesday = 2;
+short Wednesday = 3;
+short Thursday = 4;
+short Friday = 5;
+short Saturday = 6;
+} Week;
+Week w;
+cout&lt;&lt;sizeof(w.Sunday); _6__
+cout&lt;&lt;sizeof(w)&lt;&lt; endl; _14__
+</code></pre>
+<p>二.编程题（必做）<br>
+使用#define 编写一段代码，来实现“标准”宏MIN？（涉及知识点： 2-6 宏定义 3-3关系运算符 3-7 运算符优先级）</p>
+<p>分别写出bool 、int、 float、与“零值”比较，表达式返回值等于1的代码片段；（涉及知识点： 3-1表达式 3-3关系运算符 3-4 逻辑运算符 2-2 数据类型 ）</p>
 
             </div>
             
