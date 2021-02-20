@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://444494.xyz</id>
     <title>Nome</title>
-    <updated>2021-02-20T05:56:10.931Z</updated>
+    <updated>2021-02-20T15:13:30.060Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://444494.xyz"/>
     <link rel="self" href="https://444494.xyz/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://444494.xyz/images/avatar.png</logo>
     <icon>https://444494.xyz/favicon.ico</icon>
     <rights>All rights reserved 2021, Nome</rights>
+    <entry>
+        <title type="html"><![CDATA[其他]]></title>
+        <id>https://444494.xyz/qi-ta/</id>
+        <link href="https://444494.xyz/qi-ta/">
+        </link>
+        <updated>2021-02-20T14:58:05.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[3. C++的运算符与表达式]]></title>
         <id>https://444494.xyz/3-cde-yun-suan-fu-yu-biao-da-shi/</id>
@@ -72,12 +79,5 @@
         <link href="https://444494.xyz/jian-zhi-offer-5/">
         </link>
         <updated>2020-11-13T19:32:15.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[力扣×剑O #3. 数组中重复的数字]]></title>
-        <id>https://444494.xyz/jian-zhi-offer-3-shu-zu-zhong-chong-fu-de-shu-zi/</id>
-        <link href="https://444494.xyz/jian-zhi-offer-3-shu-zu-zhong-chong-fu-de-shu-zi/">
-        </link>
-        <updated>2020-11-13T19:10:19.000Z</updated>
     </entry>
 </feed>
