@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613795935301">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613797261880">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -36,7 +36,7 @@ assert()：当且仅当括号内的运算结果为真时，程序可以正常运
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1613795935301" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1613797261880" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -115,7 +115,7 @@ assert()：当且仅当括号内的运算结果为真时，程序可以正常运
 例如验证加法函数plus(1,1)返回的函数值是否为预期结果2，可以写成：<br>
 assert( plus(1,1) );<br>
 如果程序正常运行，说明函数正常。<br/></p>
-<h2 id="2-不常见运算符">2. 不常见运算符</h2>
+<h2 id="2-运算符">2. 运算符</h2>
 <p>有几个运算符比较少见，简单记录一下：</p>
 <pre><code class="language-c++">&lt;&lt;=：左移且赋值运算符。c&lt;&lt;=2等同于c=c&lt;&lt;2；
 &gt;&gt;=：左移且赋值运算符。c&gt;&gt;=2等同于c=c&gt;&gt;2；
@@ -128,6 +128,19 @@ assert( plus(1,1) );<br>
 m-(m&gt;&gt;n&lt;&lt;n);  //对2^n取余
 </code></pre>
 <p>这种方法取余要比%取余效率更高，主要用在对性能要求很高的场合。大学一个室友曾在一个实验室呆过，这个实验室主要负责图像处理方向。他们开发用的语言是C，理由是C++速度不够快（python之类就更不用提了），甚至取余都是用这种方法来代替%。</p>
+<p>**关于运算符：**一般来说，一元运算符优先级高于二元运算符</p>
+<h2 id="3-注释的注意事项">3. 注释的注意事项</h2>
+<ul>
+<li>
+<p>好的代码和注释本身就是最好的注释。如果代码很清楚，那么不需要注释；</p>
+</li>
+<li>
+<p>在重要代码处，最好先写注释再写代码，有利于思路清晰和保证代码注释一致性；</p>
+</li>
+<li>
+<p>注释不是越多越好，它是对代码的提示，要写就要写清楚，并且需要保持代码和注释的一致性，更新代码也要更新注释。</p>
+</li>
+</ul>
 
             </div>
             
