@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613889726829">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613890119783">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1613889726829" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1613890119783" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -132,40 +132,46 @@ for (int index = 0; index &lt;= 9; index++)
 <br/>
 <h2 id="2-二维数组访问">2. 二维数组访问</h2>
 <p>因为cpu会将经常访问的内容放入cache，根据这个原理，在短时间内应该尽量访问相邻的空间。这就是为什么一般不会跨行访问（即外层循环行，内层循环列）。</p>
-<p>此外，一般也将长的循环放在内层、短的循环放在内层。这样可以缩短cpu跨切循环层的次数。</p>
+<p>此外，一般也将长的循环放在内层、短的循环放在内层。这样可以缩短cpu跨切循环层的次数。<br>
+<br/></p>
 <h2 id="3-vector">3. vector</h2>
 <p>vector是<strong>面向对象</strong>方式的<strong>动态</strong>数组。<br>
-通过capacity和size函数，可以分别获取数组的容量（下次申请空间前，最多可以存储几个元素）和存储的元素个数（当前数组中有几个元素）。</p>
+通过capacity和size函数，可以分别获取数组的容量（下次申请空间前，最多可以存储几个元素）和存储的元素个数（当前数组中有几个元素）。<br>
+<br/></p>
 <h2 id="4-字符集">4. 字符集</h2>
 <p>unicode是字符集，解决了自然字符数字化的问题；<br>
 UTF-8是编码方式，解决了数字字符在计算机中传播、存储的问题。</p>
-<p>出现乱码的原因在于编码和解码方式的不统一。HTML、XML等文件能够被广泛传播的原因在于，他们文件一开头就指明了编码方式。而传统的文件并没有考虑到这点（但开头可能有big endian、BOM标记等）。</p>
+<p>出现乱码的原因在于编码和解码方式的不统一。HTML、XML等文件能够被广泛传播的原因在于，他们文件一开头就指明了编码方式。而传统的文件并没有考虑到这点（但开头可能有big endian、BOM标记等）。<br>
+<br/></p>
 <h2 id="5-字符串的数组表示和字符指针表示">5. 字符串的数组表示和字符指针表示</h2>
 <p>对于下面这段代码，尽管他们都表示字符串“helloworld”，但底层原理并不相同。</p>
-<pre><code>char strHelloWorld[11] = { &quot;helloworld&quot; };     // 字符串的数组表示
+<pre><code>//第一行是字符串的数组表示、第二第三行是字符串的指针表示。
+char strHelloWorld[11] = { &quot;helloworld&quot; };     // 字符串的数组表示
 char* pStrHelloWrold = &quot;helloworld&quot;;     //pStrHelloWrold第一次赋值
 pStrHelloWrold = strHelloWorld;            //pStrHelloWrold第二次赋值
 
 </code></pre>
-<p>第一行是字符串的数组表示、第二第三行是字符串的指针表示。<br>
-执行下面代码对各元素进行+1</p>
-<pre><code>// 通过数组变量遍历修改数组中的元素值
+<p>执行下面代码对各元素进行+1</p>
+<pre><code>
+//strHelloWorld = pStrHelloWrold;  错误，strHelloWorld作为数组不可改变
+// 通过数组变量遍历修改数组中的元素值
 	 for (int index = 0; index &lt;  strlen(strHelloWorld); ++index)
 	 {
 	 	strHelloWorld[index] += 1;
 	 	std::cout &lt;&lt; strHelloWorld[index] &lt;&lt; std::endl;
 	 }
 
-	 // 通过指针变量遍历修改数组中的元素值
+	 // 通过指针变量遍历修改数组中的元素值，pStrHelloWrold赋值前后运行结果不同
 	 for (int index = 0; index &lt; strlen(strHelloWorld); ++index)
 	 {
 	 	pStrHelloWrold[index] += 1;
 	 	std::cout &lt;&lt; pStrHelloWrold[index] &lt;&lt; std::endl;
 	 }
 </code></pre>
-<p>数组strHelloWorld将里面每个元素值+1。而尽管pStrHelloWrold一直是字符指针，但是对于它的两个不同的值，+1操作的结果是不同的。<br>
-<strong>当pStrHelloWrold指向&quot;helloworld&quot;，此时该指针指向字符串常量，对它的字符进行+1操作会引发写入访问权限错误；<br>
-当pStrHelloWrold指向strHelloWorld，此时该指针指向字符串变量，进行+1操作可以和数组strHelloWorld一样，将各字母增大1。</strong></p>
+<p>数组strHelloWorld将里面每个元素值+1。而尽管pStrHelloWrold一直是字符指针，但是对于它的两个不同的值，+1操作的结果是不同的。<br/><br>
+<strong>当pStrHelloWrold指向&quot;helloworld&quot;，此时该指针指向字符串常量区域，对它的字符进行+1操作会引发写入访问权限错误；<br>
+当pStrHelloWrold指向strHelloWorld，此时该指针指向字符串变量区域，进行+1操作可以和数组strHelloWorld一样，将各字母再次增大1。</strong></p>
+<figure data-type="image" tabindex="1"><img src="https://444494.xyz/post-images/1613889952320.png" alt="" loading="lazy"></figure>
 
             </div>
             
