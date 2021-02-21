@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613878004418">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613883992326">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -26,7 +26,7 @@
 计算“满足x&gt;=16且x&lt;=37的x有多少个”时，容易计算成37-16=21个。
 由于差一错误（off-by-one error），遍历序列容器、解决问题时最好使用数学上的左闭右开[a,b)的区间。
 问..." />
-    <meta name="keywords" content="" />
+    <meta name="keywords" content="重学c++ 重构你的C++知识体系" />
   </head>
   <body>
     <div id="app" class="main">
@@ -35,7 +35,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1613878004418" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1613883992326" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -129,8 +129,23 @@ for (int index = 0; index &lt;= 9; index++)
 <li>上界永远取不到值，能避免数组越界。</li>
 </ul>
 <p>另外，我注意到C++中其他很多地方也是贯穿了这个原则，例如vector的begin()、end()函数，begin()是下界、可以取到，end()是上界、取不到。因此，和C++语言保持一致，统一用这种方式也更加便利。</p>
+<br/>
+<h2 id="2-二维数组访问">2. 二维数组访问</h2>
+<p>因为cpu会将经常访问的内容放入cache，根据这个原理，在短时间内应该尽量访问相邻的空间。这就是为什么一般不会跨行访问（即外层循环行，内层循环列）。</p>
+<p>此外，一般也将长的循环放在内层、短的循环放在内层。这样可以缩短cpu跨切循环层的次数。</p>
+<h2 id="3-vector">3. vector</h2>
+<p>vector是<strong>面向对象</strong>方式的<strong>动态</strong>数组。<br>
+通过capacity和size函数，可以分别获取数组的容量（下次申请空间前，最多可以存储几个元素）和存储的元素个数（当前数组中有几个元素）。</p>
 
             </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/mrdnf0nfF/" class="tag">
+                    重学c++ 重构你的C++知识体系
+                  </a>
+                
+              </div>
             
             
               <div class="next-post">
