@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>leetcode | Nome</title>
+<title>4. C++基础容器 | Nome</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -22,7 +22,11 @@
 
 
 
-    <meta name="description" content="Break a leg.">
+    <meta name="description" content="1.数组下标非对称的原则
+计算“满足x&gt;=16且x&lt;=37的x有多少个”时，容易计算成37-16=21个。
+由于差一错误（off-by-one error），遍历序列容器、解决问题时最好使用数学上的左闭右开[a,b)的区间。
+问..." />
+    <meta name="keywords" content="" />
   </head>
   <body>
     <div id="app" class="main">
@@ -98,43 +102,50 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: leetcode</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://444494.xyz/jian-zhi-offer-5/">
-                  <h2 class="post-title">力扣×剑O #05. 替换空格</h2>
-                </a>
-                <div class="post-date">
-                  2020-11-14
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://444494.xyz/jian-zhi-offer-3-shu-zu-zhong-chong-fu-de-shu-zi/">
-                  <h2 class="post-title">力扣×剑O #3. 数组中重复的数字</h2>
-                </a>
-                <div class="post-date">
-                  2020-11-14
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
+          <div class="post-detail">
+            <h2 class="post-title">4. C++基础容器</h2>
+            <div class="post-date">2021-02-21</div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="1数组下标非对称的原则">1.数组下标非对称的原则</h2>
+<p>计算“满足x&gt;=16且x&lt;=37的x有多少个”时，容易计算成37-16=21个。<br>
+由于差一错误（off-by-one error），遍历序列容器、解决问题时最好使用数学上的左闭右开[a,b)的区间。<br>
+问题可以转换为：“满足x&gt;=16且x&lt;38的x有多少个”，此时计算得38-16=22个。<br>
+<strong>应该尽量全部转换为左闭右开[a,b)的区间，保证问题和解题的统一性，避免出错。</strong></p>
+<pre><code>//推荐方式
+for (int index = 0; index &lt; 10; ++index)
+    cout &lt;&lt; a[index] &lt;&lt; &quot; &quot;;
+cout &lt;&lt; endl;
 
-          <div class="pagination-container">
-  
-  
-</div>
+//不推荐方式：没有统一左闭右开[a,b)的区间、后置++降低了性能
+for (int index = 0; index &lt;= 9; index++)
+    cout &lt;&lt; a[index] &lt;&lt; &quot; &quot;;
+</code></pre>
+<p><img src="https://444494.xyz/post-images/1613876628448.png" alt="" loading="lazy"><br>
+好处是：</p>
+<ul>
+<li>上界永远&gt;=下界；</li>
+<li>便于计算 容量=上界-下界；</li>
+<li>上界永远取不到值，能避免数组越界。</li>
+</ul>
+<p>另外，我注意到C++中其他很多地方也是贯穿了这个原则，例如vector的begin()、end()函数，begin()是下界、可以取到，end()是上界、取不到。因此，和C++语言保持一致，统一用这种方式也更加便利。</p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/qi-ta/">
+                  <h3 class="post-title">
+                    github page加速
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
 
         </div>
       </div>
