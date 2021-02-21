@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613893130079">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613895008767">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1613893130079" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1613895008767" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -136,7 +136,8 @@ for (int index = 0; index &lt;= 9; index++)
 <br/></p>
 <h2 id="3-vector">3. vector</h2>
 <p>vector是<strong>面向对象</strong>方式的<strong>动态</strong>数组。<br>
-通过capacity和size函数，可以分别获取数组的容量（下次申请空间前，最多可以存储几个元素）和存储的元素个数（当前数组中有几个元素）。<br>
+通过capacity和size函数，可以分别获取数组的容量（下次申请空间前，最多可以存储几个元素）和存储的元素个数（当前数组中有几个元素）。</p>
+<p>string和vector类似，也有这两个函数，并且功能相同。另外还有一个和size函数功能相同的length函数。<br>
 <br/></p>
 <h2 id="4-字符集">4. 字符集</h2>
 <p>unicode是字符集，解决了自然字符数字化的问题；<br>
@@ -173,7 +174,7 @@ pStrHelloWrold = strHelloWorld;            //pStrHelloWrold第二次赋值
 当pStrHelloWrold指向strHelloWorld，此时该指针指向字符串变量区域，进行+1操作可以和数组strHelloWorld一样，将各字母再次增大1。</strong></p>
 <figure data-type="image" tabindex="1"><img src="https://444494.xyz/post-images/1613889952320.png" alt="" loading="lazy"></figure>
 <br/>
-<h2 id="6-字符串函数与缓冲区溢出">6. 字符串函数与缓冲区溢出</h2>
+<h2 id="6-c字符串函数与缓冲区溢出">6. C字符串函数与缓冲区溢出</h2>
 <p>传统的strcpy、strcat等函数并不会在操作前对字符串长度进行越界检查，这就导致可能会出现缓冲区溢出，产生安全漏洞。</p>
 <p>为了避免这种问题，应该尽量使用strnlen_s，strcpy_s，strncpy_s，strcat_s等API函数，更加安全。</p>
 <figure data-type="image" tabindex="2"><img src="https://444494.xyz/post-images/1613892934793.png" alt="" loading="lazy"></figure>
