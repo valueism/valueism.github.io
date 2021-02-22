@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614005811350">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614006796719">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -39,7 +39,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614005811350" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614006796719" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -188,14 +188,24 @@ char** cpp = &amp;cp;	//&amp;cp右值
 
 char ch2 = *cp;		//*cp此时当右值，取变量ch存储的值
 
-//*cp + 1 = 'a';	//*cp+1左值不合法的位置。为了和1相加，*cp转换为了右值（变量ch存储的值），两个右值相加结果也是右值
+//*cp + 1 = 'a';	
+//*cp+1左值，不合法的位置。
+//为了和1相加，*cp转换为了右值（变量ch存储的值），两个右值相加结果也是右值
 
 ch2 = *cp + 1;		//*cp+1右值取到的字符做ASCII码+1操作
 
 *(cp + 1) = 'a';	//*(cp+1)左值语法上合法，取ch后面位置的值。但可能会非法访问。
 ch2 = *(cp + 1);	//*(cp+1)右值语法上合法，取ch后面位置的值。但可能会非法访问。
 </code></pre>
+<h3 id="和-运算符">++和--运算符</h3>
+<pre><code>//++,--操作符
+char* cp2 = ++cp;        //++指针cp，只能做右值，取cp存储的地址+1的地址
+char* cp3 = cp++;        //同样返回cp存储的地址+1的地址，仅作为右值
+char* cp4 = --cp;
+char* cp5 = cp--;
+</code></pre>
 <br/>
+<h2 id="6">6.</h2>
 
             </div>
             
