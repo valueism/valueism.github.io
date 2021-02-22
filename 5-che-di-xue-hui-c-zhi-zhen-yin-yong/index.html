@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614006796719">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614007133567">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -39,7 +39,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614006796719" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614007133567" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -205,7 +205,14 @@ char* cp4 = --cp;
 char* cp5 = cp--;
 </code></pre>
 <br/>
-<h2 id="6">6.</h2>
+<h2 id="6-和组合运算符">6. *和++组合运算符</h2>
+<p>注意：<strong>注意：++操作符的优先级高于取间接*操作符的优先级。</strong></p>
+<pre><code>//*++,++*
+*++cp2 = 98;           //取cp2指向地址的后面空间，是左值
+char ch3 =  *++cp2;           //类似上面，但是左值充当了右值，取cp2指向地址的后面空间存储的数值
+*cp2++ = 98;           //取cp2指向地址，是左值
+char ch4 = *cp2++;           ////类似上面，但是左值充当了右值，取cp2指向地址中存储的数值
+</code></pre>
 
             </div>
             
