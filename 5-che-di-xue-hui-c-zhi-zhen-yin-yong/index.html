@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614001806554">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614002815006">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -39,7 +39,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614001806554" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614002815006" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -128,15 +128,29 @@ char* pStrHelloWorld = &quot;helloworld&quot;;
 pStrHelloWrold = strHelloWorld;	//指针变量的值允许改变
 strHelloWorld = pStrHelloWrold;	//strHelloWorld是右值，代表字符串的值，不可以被赋值等
 </code></pre>
-<h2 id="2-指针">2. 指针</h2>
+<h2 id="2-指针和数组">2. 指针和数组</h2>
 <p>指针的数组(array of pointers)与数组的指针(a pointer to an array):<br>
 指针的数组T* t[]<br>
 数组的指针 T(*t) []</p>
 <pre><code>int* a[4];  //注意：[]优先级比较高，没有小括号时，a优先和[]结合，表明是数组；
 int (*b)[4];	 //优先和()结合，*表明b是指针；
 </code></pre>
-<figure data-type="image" tabindex="1"><img src="https://444494.xyz/post-images/1614001600913.png" alt="" loading="lazy"></figure>
+<h2 id="3-指针和const">3. 指针和const</h2>
+<p>除了指针和数组容易混淆外，指针也容易和const混淆。<br>
+<img src="https://444494.xyz/post-images/1614001600913.png" alt="" loading="lazy"></p>
 <center>const和指针</center>
+<h2 id="4-原始指针">4. 原始指针</h2>
+<ul>
+<li>
+<p>野指针：</p>
+<p>int *a;<br>
+*a=12;  //出错，</p>
+</li>
+<li>
+<p>空指针：<br>
+int *a = NULL;</p>
+</li>
+</ul>
 
             </div>
             
