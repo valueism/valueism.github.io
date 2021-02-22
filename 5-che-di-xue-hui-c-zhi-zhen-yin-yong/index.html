@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>剑指offer | Nome</title>
+<title>《重学C++》5. 彻底学会 C++ 指针，引用 | Nome</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -22,7 +22,16 @@
 
 
 
-    <meta name="description" content="Break a leg.">
+    <meta name="description" content="左值和右值
+概念:
+
+一般说法，编译器为左值单独分配了一块存储空间，可以取其地址的，左值可以放在赋值运算符左边；
+右值指的是数据本身；不能取到其自身地址，右值智能赋值运算右边；
+
+举例：
+左值最常见的情况如函数和数据成员的名字；
+右值是没有..." />
+    <meta name="keywords" content="" />
   </head>
   <body>
     <div id="app" class="main">
@@ -98,43 +107,40 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: 剑指offer</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://444494.xyz/jian-zhi-offer-5/">
-                  <h2 class="post-title">力扣×剑O #05. 替换空格</h2>
-                </a>
-                <div class="post-date">
-                  2020-11-14
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://444494.xyz/jian-zhi-offer-3-shu-zu-zhong-chong-fu-de-shu-zi/">
-                  <h2 class="post-title">力扣×剑O #3. 数组中重复的数字</h2>
-                </a>
-                <div class="post-date">
-                  2020-11-14
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
+          <div class="post-detail">
+            <h2 class="post-title">《重学C++》5. 彻底学会 C++ 指针，引用</h2>
+            <div class="post-date">2021-02-22</div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="左值和右值">左值和右值</h2>
+<h3 id="概念">概念:</h3>
+<blockquote>
+<p>一般说法，编译器为左值单独分配了一块存储空间，可以取其地址的，左值可以放在赋值运算符左边；<br>
+右值指的是数据本身；不能取到其自身地址，右值智能赋值运算右边；</p>
+</blockquote>
+<p>举例：<br>
+左值最常见的情况如函数和数据成员的名字；<br>
+右值是没有标识符、不可以取地址的表达式，一般也称之为“临时对象”。比如：</p>
+<pre><code> a = b + c;
+</code></pre>
+<p>&amp;a是允许的操作，而&amp;(b+c)不能通过编译，因此a是一个左值，而(b+c)是一个右值。</p>
 
-          <div class="pagination-container">
-  
-  
-</div>
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/lesslessqi-huo-yu-qi-quan-greatergreater-14-yan-sheng-pin-li-shi/">
+                  <h3 class="post-title">
+                    《期货与期权》1. 导论
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
 
         </div>
       </div>
