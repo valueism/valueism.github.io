@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://444494.xyz</id>
     <title>Nome</title>
-    <updated>2021-02-21T16:25:24.795Z</updated>
+    <updated>2021-02-22T02:19:42.881Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://444494.xyz"/>
     <link rel="self" href="https://444494.xyz/atom.xml"/>
@@ -11,7 +11,7 @@
     <icon>https://444494.xyz/favicon.ico</icon>
     <rights>All rights reserved 2021, Nome</rights>
     <entry>
-        <title type="html"><![CDATA[《期货与期权》第一章]]></title>
+        <title type="html"><![CDATA[《期货与期权》1. 导论]]></title>
         <id>https://444494.xyz/lesslessqi-huo-yu-qi-quan-greatergreater-14-yan-sheng-pin-li-shi/</id>
         <link href="https://444494.xyz/lesslessqi-huo-yu-qi-quan-greatergreater-14-yan-sheng-pin-li-shi/">
         </link>
