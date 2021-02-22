@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614002815006">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614005685248">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -28,8 +28,8 @@
 一般说法，编译器为左值单独分配了一块存储空间，可以取其地址。左值可以放在赋值运算符左边也可以在右边；
 右值指的是数据本身；不能取到其自身地址，右值只能赋值运算右边；
 
-左值最常见的情况如函数和数据成员的名字；
-右..." />
+左值代表地址单元,右值代表数据本身。
+左值最..." />
     <meta name="keywords" content="慕课网《重学C++ 重构你的C++知识体系》" />
   </head>
   <body>
@@ -39,7 +39,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614002815006" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614005685248" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -117,6 +117,7 @@
 <p>一般说法，<strong>编译器为左值单独分配了一块存储空间，可以取其地址</strong>。左值可以放在赋值运算符左边也可以在右边；<br>
 <strong>右值指的是数据本身；不能取到其自身地址</strong>，右值只能赋值运算右边；</p>
 </blockquote>
+<p>左值代表地址单元,右值代表数据本身。</p>
 <p>左值最常见的情况如函数和数据成员的名字；<br>
 右值是没有标识符、不可以取地址的表达式，一般也称之为“临时对象”。</p>
 <p>比如：</p>
@@ -141,16 +142,51 @@ int (*b)[4];	 //优先和()结合，*表明b是指针；
 <center>const和指针</center>
 <h2 id="4-原始指针">4. 原始指针</h2>
 <ul>
-<li>
-<p>野指针：</p>
-<p>int *a;<br>
-*a=12;  //出错，</p>
-</li>
-<li>
-<p>空指针：<br>
-int *a = NULL;</p>
-</li>
+<li>野指针：</li>
 </ul>
+<pre><code>    int *a;
+    *a=12;  //出错，
+</code></pre>
+<p>一般有三种情况：</p>
+<ol>
+<li>指针变量没有初始化；</li>
+<li>已经释放不用的指针没有置NULL，如delete和free之后的指针；</li>
+<li>指针操作超越了变量的作用范围；</li>
+</ol>
+<ul>
+<li>空指针：</li>
+</ul>
+<pre><code>    int *a = NULL;
+</code></pre>
+<p>空指针表明了该指针目前没有指向任何位置。</p>
+<br/>
+指针要么被初始化为一个地址，要么就应该被置为NULL。（尽量避免野指针，使用空指针）
+同样，在使用一个指针前，要先判断其是否是NULL。
+<h2 id="5-指针和左值右值">5. 指针和左值右值</h2>
+<h3 id="一元取地址符-拿一个左值作为参数并且生成一个右值">一元取地址符 ‘<strong>&amp;</strong>’ 拿一个左值作为参数并且生成一个右值：</h3>
+<pre><code>char ch = 'a';char* cP = &amp;ch;
+
+char* cp = &amp;ch;		//&amp;ch作为右值正确
+//&amp;cp = 97;			//&amp;cp左值不合法
+char** cpp = &amp;cp;	//&amp;cp右值
+</code></pre>
+<p>上面的例子中，&amp;ch和&amp;cp都是只能作为右值而不是左值。<br>
+在取地址时，编译器记录变量的地址，并将其数值保存在临时变量中。而<strong>所有临时变量（它们均由编译器管理）只能取到数值，是右值的一种</strong>。<br>
+这里要想让&amp;ch和&amp;cp作为左值，只能手动将其保存为一个程序员管理的变量（而不是编译器内部管理的临时变量）。<br>
+<br></p>
+<h3 id="一元运算符解引用拿一个右值作为参数而产生一个左值作为结果">一元运算符‘<strong>*</strong>’（解引用）拿一个右值作为参数而产生一个左值作为结果：</h3>
+<p>*p会取到指针p的空间作为左值。由于左值可以作为右值使用，*p作为右值时取p指向的空间里的数值。</p>
+<pre><code>*cp = 'a';			//*cp左值取变量ch位置
+
+char ch2 = *cp;		//*cp此时当右值，取变量ch存储的值
+
+//*cp + 1 = 'a';	//*cp+1左值不合法的位置。为了和1相加，*cp转换为了右值（变量ch存储的值），两个右值相加结果也是右值
+
+ch2 = *cp + 1;		//*cp+1右值取到的字符做ASCII码+1操作
+
+*(cp + 1) = 'a';	//*(cp+1)左值语法上合法，取ch后面位置的值。但可能会非法访问。
+ch2 = *(cp + 1);	//*(cp+1)右值语法上合法，取ch后面位置的值。但可能会非法访问。
+</code></pre>
 
             </div>
             
