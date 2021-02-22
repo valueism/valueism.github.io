@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613965965691">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613965997516">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1613965965691" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1613965997516" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -169,8 +169,8 @@ pStrHelloWrold = strHelloWorld;            //pStrHelloWrold第二次赋值
 	 	std::cout &lt;&lt; pStrHelloWrold[index] &lt;&lt; std::endl;
 	 }
 </code></pre>
-<p>StrHelloWorld不可变，strHelloWorld[index]的值可变；<br>
-pStrHelloWrold可变，pStrHelloWrold[index]的值可变不可变<strong>取决于所指区间的存储区域是否可变</strong>;</p>
+<p>字符数组StrHelloWorld不可变，strHelloWorld[index]的值可变；<br>
+字符指针pStrHelloWrold可变，pStrHelloWrold[index]的值可变不可变<strong>取决于所指区间的存储区域是否可变</strong>;</p>
 <p>数组strHelloWorld将里面每个元素值+1。而尽管pStrHelloWrold一直是字符指针，但是对于它的两个不同的值，+1操作的结果是不同的。<br/><br>
 <strong>当pStrHelloWrold指向&quot;helloworld&quot;，此时该指针指向字符串常量区域，对它的字符进行+1操作会引发写入访问权限错误；<br>
 当pStrHelloWrold指向strHelloWorld，此时该指针指向字符串变量区域，进行+1操作可以和数组strHelloWorld一样，将各字母再次增大1。</strong></p>
