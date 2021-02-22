@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613972891128">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614001806554">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -23,15 +23,13 @@
 
 
     <meta name="description" content="
-
+指针引用和引用指针
 
 int i= 42;
 int *p;
-int *&amp;r=p;
+int *&amp;r=p;  
 
-
-
-要理解r的类型到底是什么，最简单的办法是从右向左阅读r的定义。离变量名最近的符号（此例中是&amp;r的符号&amp;）对变量的类型有最直接的影响，因此r是一个..." />
+要理解r的类型到底是什么，最简单的办法是从右向左阅读r的定义。离变量名最近的符号（此例中是&amp;r的符号&amp;）对变量的类型有最直接的..." />
     <meta name="keywords" content="C++" />
   </head>
   <body>
@@ -41,7 +39,7 @@ int *&amp;r=p;
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1613972891128" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614001806554" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -114,19 +112,25 @@ int *&amp;r=p;
             
             <div class="post-content" v-pre>
               <ol>
-<li>
-<blockquote>
-<p>int i= 42;<br>
-int *p;<br>
-int *&amp;r=p;</p>
-</blockquote>
-</li>
+<li>指针引用和引用指针</li>
 </ol>
+<pre><code>int i= 42;
+int *p;
+int *&amp;r=p;  
+</code></pre>
 <p>要理解r的类型到底是什么，最简单的办法是从右向左阅读r的定义。离变量名最近的符号（此例中是&amp;r的符号&amp;）对变量的类型有最直接的影响，因此r是一个引用。声明符的其余部分用以确定r引用的类型是什么，此例中的符号*说明r引用的是一个指针。最后，声明的基本数据类型部分指出r引用的是一个int指针。<br>
 <strong>r是对int指针p的引用</strong></p>
-<ol start="2">
-<li></li>
-</ol>
+<p>2.数组指针和指针数组</p>
+<pre><code>int* a[4];  //注意：[]优先级比较高，没有小括号时，a优先和[]结合，其次是*；
+int (*b)[4];	  
+</code></pre>
+<p>类似上面第一个，同样从右向左阅读定义：</p>
+<ul>
+<li>a附近没有()，它首先和[4]结合，指明a是一个容量是4的数组。然后左侧修饰符*号说明这个数组中元素的变量类型是指针，也就是说它是一个指针数组，最终这些指针的数据类型由int指明。所以，a是一个int类型的指针数组；</li>
+<li>由于有优先级更高的()的存在，b首先结合变成 (*b)，这说明b是一个指针。其次右侧[4]说明该指针指向有4个元素的数组，这四个元素的类型由int表明。所以，b是指向存储着4个int类型元素的数组。</li>
+</ul>
+<p>3.const和指针、引用相关的变量类型<br>
+详见《修饰符const总结》</p>
 
             </div>
             
