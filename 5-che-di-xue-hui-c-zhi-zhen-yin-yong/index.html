@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613966661419">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1613972891128">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -25,12 +25,11 @@
     <meta name="description" content="左值和右值
 概念:
 
-一般说法，编译器为左值单独分配了一块存储空间，可以取其地址的，左值可以放在赋值运算符左边；
-右值指的是数据本身；不能取到其自身地址，右值智能赋值运算右边；
+一般说法，编译器为左值单独分配了一块存储空间，可以取其地址。左值可以放在赋值运算符左边也可以在右边；
+右值指的是数据本身；不能取到其自身地址，右值只能赋值运算右边；
 
-举例：
 左值最常见的情况如函数和数据成员的名字；
-右值是没有..." />
+右值是没..." />
     <meta name="keywords" content="慕课网《重学C++ 重构你的C++知识体系》" />
   </head>
   <body>
@@ -40,7 +39,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1613966661419" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1613972891128" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -115,15 +114,20 @@
               <h2 id="左值和右值">左值和右值</h2>
 <h3 id="概念">概念:</h3>
 <blockquote>
-<p>一般说法，编译器为左值单独分配了一块存储空间，可以取其地址的，左值可以放在赋值运算符左边；<br>
-右值指的是数据本身；不能取到其自身地址，右值智能赋值运算右边；</p>
+<p>一般说法，<strong>编译器为左值单独分配了一块存储空间，可以取其地址</strong>。左值可以放在赋值运算符左边也可以在右边；<br>
+<strong>右值指的是数据本身；不能取到其自身地址</strong>，右值只能赋值运算右边；</p>
 </blockquote>
-<p>举例：<br>
-左值最常见的情况如函数和数据成员的名字；<br>
-右值是没有标识符、不可以取地址的表达式，一般也称之为“临时对象”。比如：</p>
+<p>左值最常见的情况如函数和数据成员的名字；<br>
+右值是没有标识符、不可以取地址的表达式，一般也称之为“临时对象”。</p>
+<p>比如：</p>
 <pre><code> a = b + c;
 </code></pre>
 <p>&amp;a是允许的操作，而&amp;(b+c)不能通过编译，因此a是一个左值，而(b+c)是一个右值。</p>
+<pre><code>char strHelloWorld[] = {&quot;helloworld&quot;};
+char* pStrHelloWorld = &quot;helloworld&quot;;
+pStrHelloWrold = strHelloWorld;	//指针变量的值允许改变
+strHelloWorld = pStrHelloWrold;	//strHelloWorld是右值，代表字符串的值，不可以被赋值等
+</code></pre>
 
             </div>
             
