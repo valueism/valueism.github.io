@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614005685248">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614005811350">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -39,7 +39,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614005685248" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614005811350" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -129,6 +129,11 @@ char* pStrHelloWorld = &quot;helloworld&quot;;
 pStrHelloWrold = strHelloWorld;	//指针变量的值允许改变
 strHelloWorld = pStrHelloWrold;	//strHelloWorld是右值，代表字符串的值，不可以被赋值等
 </code></pre>
+<blockquote>
+<p>理解C和C++中的左值和右值<br>
+https://blog.csdn.net/xuwqiang1994/article/details/79924310</p>
+</blockquote>
+<br/>
 <h2 id="2-指针和数组">2. 指针和数组</h2>
 <p>指针的数组(array of pointers)与数组的指针(a pointer to an array):<br>
 指针的数组T* t[]<br>
@@ -136,10 +141,12 @@ strHelloWorld = pStrHelloWrold;	//strHelloWorld是右值，代表字符串的值
 <pre><code>int* a[4];  //注意：[]优先级比较高，没有小括号时，a优先和[]结合，表明是数组；
 int (*b)[4];	 //优先和()结合，*表明b是指针；
 </code></pre>
+<br/>
 <h2 id="3-指针和const">3. 指针和const</h2>
 <p>除了指针和数组容易混淆外，指针也容易和const混淆。<br>
 <img src="https://444494.xyz/post-images/1614001600913.png" alt="" loading="lazy"></p>
 <center>const和指针</center>
+<br/>
 <h2 id="4-原始指针">4. 原始指针</h2>
 <ul>
 <li>野指针：</li>
@@ -162,6 +169,7 @@ int (*b)[4];	 //优先和()结合，*表明b是指针；
 <br/>
 指针要么被初始化为一个地址，要么就应该被置为NULL。（尽量避免野指针，使用空指针）
 同样，在使用一个指针前，要先判断其是否是NULL。
+<br/>
 <h2 id="5-指针和左值右值">5. 指针和左值右值</h2>
 <h3 id="一元取地址符-拿一个左值作为参数并且生成一个右值">一元取地址符 ‘<strong>&amp;</strong>’ 拿一个左值作为参数并且生成一个右值：</h3>
 <pre><code>char ch = 'a';char* cP = &amp;ch;
@@ -187,6 +195,7 @@ ch2 = *cp + 1;		//*cp+1右值取到的字符做ASCII码+1操作
 *(cp + 1) = 'a';	//*(cp+1)左值语法上合法，取ch后面位置的值。但可能会非法访问。
 ch2 = *(cp + 1);	//*(cp+1)右值语法上合法，取ch后面位置的值。但可能会非法访问。
 </code></pre>
+<br/>
 
             </div>
             
