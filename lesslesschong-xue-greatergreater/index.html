@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614070999323">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614071359297">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614070999323" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614071359297" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -120,7 +120,7 @@
 <blockquote>
 <p>空指针的表示方法：原始版本中，用指针值<strong>NULL</strong>代表空指针。但是由于<strong>NULL</strong>不仅可以赋值给指针，还可以赋值给int等类型的元素，因此存在歧义。后来<strong>引入nullptr，用于代表空指针。</strong></p>
 </blockquote>
-<h3 id="1-auto_ptrc-17中移除">(1). auto_ptr（C++ 17中移除）</h3>
+<h3 id="1-auto_ptrc-17中移除">(1) auto_ptr（C++ 17中移除）</h3>
 <p>auto_ptr：一种拥有严格对象所有权语义的智能指针。<br>
 特点：</p>
 <ol>
@@ -167,7 +167,7 @@
 	return 0; 
 }
 </code></pre>
-<h3 id="2-unique_ptr">(2). unique_ptr</h3>
+<h3 id="2-unique_ptr">(2) unique_ptr</h3>
 <p>特点：</p>
 <ol>
 <li>指针超出作用域/生命周期结束之后，指向的空间会被自动释放（防止内存泄露）</li>
@@ -194,7 +194,15 @@
 	cout &lt;&lt; ((w2.get() != nullptr) ? (*w2.get()) : -1) &lt;&lt; endl;   // 10
 }
 </code></pre>
-<h3 id="3-shared_ptr和weak_ptr">(3). shared_ptr和weak_ptr</h3>
+<p>所有智能指针的创建方法都有两种，以unique_ptr为例，下面两种方法都可以创建unique_ptr指针：</p>
+<pre><code>auto upw1(std::make_unique&lt;Widget&gt;());    
+std::unique_ptr&lt;Widget&gt; upw2(new Widget); 
+</code></pre>
+<blockquote>
+<p>c++ 之智能指针：尽量使用std::make_unique和std::make_shared而不直接使用new<br>
+https://blog.csdn.net/p942005405/article/details/84635673</p>
+</blockquote>
+<h3 id="3-shared_ptr和weak_ptr">(3) shared_ptr和weak_ptr</h3>
 <p>为了解决auto_ptr在对象所有权上的局限性，在使用引用计数的机制上提供了可以共享所有权的智能指针shared_ptr（当然这需要额外的开销）。</p>
 <p>shared_ptr特点：</p>
 <ol>
