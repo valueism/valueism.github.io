@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614075292164">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614075356291">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -27,9 +27,10 @@
 
 int i= 42;
 int *p;
-int *&amp;r=p;  
+int *&amp;r = p;  //正确，r是对指针p的引用，变量类型也是指针
+int &amp;*s = p;  //错误，不可以生成引用类型的指针（因为引用不是变量）
 
-要理解r的类型到底是什么，最简单的办法是从右向左阅读r的定义。离变量名最近的符号（此例中是&amp;r的符号&amp;）对变量的类型有最直接的..." />
+..." />
     <meta name="keywords" content="C++" />
   </head>
   <body>
@@ -39,7 +40,7 @@ int *&amp;r=p;
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614075292164" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614075356291" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -116,7 +117,8 @@ int *&amp;r=p;
 </ol>
 <pre><code>int i= 42;
 int *p;
-int *&amp;r=p;  
+int *&amp;r = p;  //正确，r是对指针p的引用，变量类型也是指针
+int &amp;*s = p;  //错误，不可以生成引用类型的指针（因为引用不是变量）
 </code></pre>
 <p>要理解r的类型到底是什么，最简单的办法是从右向左阅读r的定义。离变量名最近的符号（此例中是&amp;r的符号&amp;）对变量的类型有最直接的影响，因此r是一个引用。声明符的其余部分用以确定r引用的类型是什么，此例中的符号*说明r引用的是一个指针。最后，声明的基本数据类型部分指出r引用的是一个int指针。<br>
 <strong>r是对int指针p的引用</strong></p>
