@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" >
 
-<title>《期货与期权》1. 导论 | Nome</title>
+<title>《期货与期权》1. 导论（一） | Nome</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614095567832">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614095937499">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614095567832" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614095937499" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -104,7 +104,7 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">《期货与期权》1. 导论</h2>
+            <h2 class="post-title">《期货与期权》1. 导论（一）</h2>
             <div class="post-date">2021-02-21</div>
             
             <div class="post-content" v-pre>
@@ -265,97 +265,6 @@
 <figure data-type="image" tabindex="2"><img src="https://444494.xyz/post-images/1613923581186.png" alt="" loading="lazy"></figure>
 <center>不违约的情况下，做市商的收益-汇率曲线图</center>
 <p>可以看到，由于这是零和博弈，所以<strong>一方赚的钱就是另一方亏损的钱</strong>，他们的收益曲线是相反的。</p>
-<br/>
-<hr>
-<br/>
-<h1 id="110-ndf和远期利率协议">1.10 NDF和远期利率协议</h1>
-<h2 id="无本金交割远期外汇交易non-deliverable-forwardsndf">无本金交割远期外汇交易(Non-deliverable Forwards，NDF）</h2>
-<blockquote>
-<p><strong>NDF(Non-deliverable forward)</strong>:NDF is an outright forward in which counterparties settle the difference between the contracted NDF price or rate and the prevailing spot price or rate on an agreed notional amount.<br>
-NDF是一种直接的远期合约，交易对手根据约定的名义金额结算NDF合约价格或汇率与现行现货价格或汇率之间的差额。</p>
-</blockquote>
-<p>简单来说就是类似于汇率远期合约，但是并没有现金交割，只用硬通货结算差额。比如上一节的买英镑远期合约，但是最后到期时只能得到交割时汇率和约定汇率的差额（只能赚到/赔掉差额的部分钱）。<br>
-在一些禁止远期外汇交易的国家，NDF很流行，因为它是作为一种避免汇率风险的手段。</p>
-<p>为什么要用硬通货结算差额？<br>
-因为有的货币不够“硬”，要这些货币也没什么用，不如用美元结算差额，这些多余的钱以美元的形式还可以花出去。</p>
-<h2 id="远期利率协议fra">远期利率协议（FRA）</h2>
-<blockquote>
-<p>FRA is a forward contract, an over-the-counter contract between parties that determines the rate of interest to bepaid or received on an obligation beginning at a future start date. The contract will determine the rates to beused along with the termination date and notional value.<br>
-远期利率合约（FRA）是一种场外交易，这种交易约定在将来某一段时间交易的一方将以某一利率借入或借出固定数量的资金。合同将决定使用的价格，以及终止日期和<strong>名义价值</strong>。</p>
-</blockquote>
-<p>类似于NDF用来规避汇率风险，FRA被各大公司用来规避汇率风险。而且本金只用于计算利率，并不交割本金，也被称为名义本金。</p>
-<p>合同双方会约定一个的未来时间作为生效日（effective date）并约定固定的合同利率（contracted rate），并在一段时间间隔（interval）出借/借入资金，这段时间里浮动的利率是参考利率（reference rate），最终在未来的终点（terminal）结束。<strong>结算日并不是在结束点，而是在生效日折算（discount）价格。</strong></p>
-<p>协议记法为：生效月数×到期月数。例如一个FRA1个月后生效、有效期为3个月，那么记作1×4.</p>
-<p>特点：</p>
-<ul>
-<li>未来某一时间（certain time）</li>
-<li>间隔（interval）</li>
-</ul>
-<figure data-type="image" tabindex="3"><img src="https://444494.xyz/post-images/1614092739390.png" alt="" loading="lazy"></figure>
-<center>远期利率协议</center>
-<p>术语：</p>
-<ul>
-<li>在FRA合约中，借人和借出资金的利率常常设为LIBOR；</li>
-<li>用来规避汇率上涨风险的一方被称作买方buyer(payer)；</li>
-<li>用来规避汇率下降风险的一方被称作卖方seller(receiver)；</li>
-<li>合同中签订一个固定利率contracted rate</li>
-<li>间隔中的浮动的参考利率reference rate</li>
-<li>计算利率用到名义本金notional</li>
-<li>α=间隔月数/一年=月数/12，如3个月是0.25</li>
-</ul>
-<p>payer支付固定利率，收到浮动利率；而receiver相反。</p>
-<figure data-type="image" tabindex="4"><img src="https://444494.xyz/post-images/1614086139609.png" alt="" loading="lazy"></figure>
-<center>payer支付价格payment</center>
-<blockquote>
-<p>【例43】假定一家公司进入一个FRA合约，在合约中这家公司将在3年后收入3个月期限4%的固定利率的现金流。在FRA中，公司要支付IBOR，同时收入4%的固定利率，期限为3个月。FRA的本金为1亿美元。如果在3年后，3个月期限 LIBOR为4.5%，那么对于资金借出方而言（即这家公司），在3.25年时现金流为？<br/>在3.25年时现金流为-123609。</p>
-</blockquote>
-<br/>
-<hr>
-<br/>
-<h1 id="114-期权">1.14 期权</h1>
-<p>和三大类的其他衍生品不同，<br>
-期货/远期/交换给持有者一种<strong>义务</strong>，让他以一个固定的价格去买/卖一个标的资产，并且只能履约；<br>
-而期权给持有者一种<strong>权利</strong>，这种权利给他一个是否&quot;以一个固定的价格（<strong>执行价格</strong>）买入/卖出资产&quot;的选择，可以不履约。</p>
-<p>期权的买方有权利、无义务，而期权的卖方有义务、无权利。但是买方自愿为了获得权利付出<strong>权利金</strong>、而卖方也愿意牺牲权利换取权利金，因此期权是一个<strong>不对称但公平</strong>的交易。<br>
-例如：50万卖给其他人去从事危险工作（如矿工等）的权利，也就是&quot;重赏之下必有勇夫&quot;、“一个愿打一个愿挨”。</p>
-<ul>
-<li>
-<p>看涨期权/认购期权：一个买入的权利，给期权持有者在将来一个时刻以一定价格买入资产的权利。</p>
-</li>
-<li>
-<p>看跌期权/认沽期权：一个卖出的权利，给期权持有者在将来一个时刻以一定价格卖出资产的权利。</p>
-</li>
-<li>
-<p>欧式期权：只能在到期日实施权利；</p>
-</li>
-<li>
-<p>美式期权：权利有效期内可以无限实施，美式期权更贵、更难分析、数量也略多一点；</p>
-</li>
-<li>
-<p>最优实施的价格就在到期日时，两种期权的价格相等。</p>
-</li>
-</ul>
-<p>2个方向（买入卖出）、不同的有效期期限、不同的执行价格，导致期权有非常多品种。</p>
-<p>不管是期货还是期权，持有者都可以不执行权利，而是选择在市场上提前卖出。这是因为市场存在着流动性，而这些流动性很大程度上来自于做市商、投机者（最终没有平仓进入期权到期日的交易者只有5%）。<br>
-但是到了到期日，还没有平仓的期权持有者将会被交易所随机配对为对手。因为不对称，卖方只有卖出权利换取保证金的义务，而买方有选择是否用权利金买入权利的权利。所以最终是否成交取决于买方是否行使权力进行买入。</p>
-<blockquote>
-<p>考虑某投资者买入执行价格为100美元的100股股票的看涨期权。<br>
-假定当前股票的市场价格为98美元，期权的到期日为4个月，购买一股股票的期权价格为5美元。持有者的最初投资为500美元。因为期权为欧式，持有者只能在到期日才能行使期权。如果在到期日，股票价格小于100美元，很明显投资者不会行使期权（没有必要以100美元的价格买入市场价格低于100美元的股票）。因此投资者会损失全部500美元的最初投资；如果在到期日，股票价格大于100美元，期权将会被行使。假定在到期日股票价格为115美元。通过行使期权，期权持有人可以每股100美元的价格买入100股股票，如果投资者马上将股票变卖，每股可以赚入15美元。忽略交易费用，投资者可以挣得1500美元。将最初的期权费用考虑在内，投资者的盈利为1000美元。</p>
-</blockquote>
-<br/>
-<hr>
-<br/>
-<h1 id="115-交易者分类">1.15 交易者分类</h1>
-<p>交易者分类：</p>
-<ul>
-<li>套期保值（套保）者</li>
-<li>投机者</li>
-<li>套利者</li>
-</ul>
-<p>以套期保值为例：一个买了微软股票的人为了确保股价平稳，可以购买一定价格卖出股票的期权，避免以后股价下跌太多。如果到期日股价相比现在跌了，按照期权卖出股票，如果涨了，可以放弃权利。<br>
-不考虑期权费用的话，最终这些股票会有一个保底价格。</p>
-<figure data-type="image" tabindex="5"><img src="https://444494.xyz/post-images/1614092166219.png" alt="" loading="lazy"></figure>
-<center>买入期权后，最终这些股票会有一个保底价格</center>
 <br/>
 <hr>
 <br/>
