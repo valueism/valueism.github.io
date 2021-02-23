@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>《重学C++》5. 彻底学会 C++ 指针，引用（三）智能指针 | Nome</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614070999323">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="1. 智能指针——指针更安全的解决方案（一）
+指针的功能比较强大，但单独使用指针存在一些问题，可能会导致野指针、内存泄露。
+因此应该尽量使用两种方法，更加安全地使用指针：
+
+使用更安全的指针——智能指针；
+不使用指针，使用更安全的方式——引..." />
+    <meta name="keywords" content="慕课网《重学C++ 重构你的C++知识体系》" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1614070999323" class="site-logo">
+        <h1 class="site-title">Nome</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">《重学C++》5. 彻底学会 C++ 指针，引用（三）智能指针</h2>
+            <div class="post-date">2021-02-23</div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="1-智能指针指针更安全的解决方案一">1. 智能指针——指针更安全的解决方案（一）</h2>
+<p>指针的功能比较强大，但单独使用指针存在一些问题，可能会导致野指针、内存泄露。<br>
+因此应该尽量使用两种方法，更加安全地使用指针：</p>
+<ol>
+<li>使用更安全的指针——<strong>智能指针</strong>；</li>
+<li>不使用指针，使用更安全的方式——<strong>引用</strong>；</li>
+</ol>
+<p>智能指针需要使用头文件memory。</p>
+<blockquote>
+<p>空指针的表示方法：原始版本中，用指针值<strong>NULL</strong>代表空指针。但是由于<strong>NULL</strong>不仅可以赋值给指针，还可以赋值给int等类型的元素，因此存在歧义。后来<strong>引入nullptr，用于代表空指针。</strong></p>
+</blockquote>
+<h3 id="1-auto_ptrc-17中移除">(1). auto_ptr（C++ 17中移除）</h3>
+<p>auto_ptr：一种拥有严格对象所有权语义的智能指针。<br>
+特点：</p>
+<ol>
+<li>指针超出作用域/生命周期结束之后，指向的空间会被自动释放（防止内存泄露）；</li>
+<li>对其他元素赋值/拷贝时，会发生所有权转移，剥夺原指针的控制权（变为nullptr）。</li>
+</ol>
+<p>auto_ptr原理：在拷贝 / 赋值过程中，直接剥夺原对象对内存的控制权，转交给新对象，然后再将原对象指针置为nullptr（早期：NULL）。这种做法也叫管理权转移。<br>
+他的缺点不言而喻，当我们再次去访问原对象时，程序就会报错，所以auto_ptr可以说实现的不好，很多企业在其库内也是要求不准使用auto_ptr。</p>
+<pre><code>int main()
+{
+	{// 特点一：确定auto_ptr失效的范围，该括号外pl失效，同时指向的空间也被回收
+		// 对int使用
+		auto_ptr&lt;int&gt; pI(new int(10));
+		cout &lt;&lt; *pI &lt;&lt; endl;                // 10 
+
+
+		auto_ptr&lt;string&gt; languages[5] = {
+			auto_ptr&lt;string&gt;(new string(&quot;C&quot;)),
+			auto_ptr&lt;string&gt;(new string(&quot;Java&quot;)),
+			auto_ptr&lt;string&gt;(new string(&quot;C++&quot;)),
+			auto_ptr&lt;string&gt;(new string(&quot;Python&quot;)),
+			auto_ptr&lt;string&gt;(new string(&quot;Rust&quot;))
+		};
+		cout &lt;&lt; &quot;There are some computer languages here first time: \n&quot;;
+		for (int i = 0; i &lt; 5; ++i)
+		{
+			cout &lt;&lt; *languages[i] &lt;&lt; endl;
+		}
+		auto_ptr&lt;string&gt; pC;
+		pC = languages[2]; // 特点二：languges[2] loses ownership. 将所有权从languges[2]转让给pC，
+		//特点二：此时languges[2]不再引用该字符串从而变成空指针
+		cout &lt;&lt; &quot;There are some computer languages here second time: \n&quot;;
+		for (int i = 0; i &lt; 2; ++i)
+		{
+				cout &lt;&lt; *languages[i] &lt;&lt; endl;
+		}
+		cout &lt;&lt; &quot;The winner is &quot; &lt;&lt; *pC &lt;&lt; endl;
+		//cout &lt;&lt; &quot;There are some computer languages here third time: \n&quot;;
+		//for (int i = 0; i &lt; 5; ++i)
+		//{
+		//	cout &lt;&lt; *languages[i] &lt;&lt; endl;
+		//}
+	}
+	return 0; 
+}
+</code></pre>
+<h3 id="2-unique_ptr">(2). unique_ptr</h3>
+<p>特点：</p>
+<ol>
+<li>指针超出作用域/生命周期结束之后，指向的空间会被自动释放（防止内存泄露）</li>
+<li>unique_ptr是一块内存的专属指针，一般不允许被赋值和复制</li>
+<li>可以通过move函数进行所有权转移，解决其他指针需要访问的问题。</li>
+</ol>
+<pre><code>int main()
+{
+    // 特点一：在这个范围之外，unique_ptr指向的空间被自动释放
+	{
+		auto i = unique_ptr&lt;int&gt;(new int(10));
+		cout &lt;&lt; *i &lt;&lt; endl;
+	}
+
+	// unique_ptr
+	auto w = std::make_unique&lt;int&gt;(10);
+	cout &lt;&lt; *(w.get()) &lt;&lt; endl;                             // 10
+	//auto w2 = w; // 特点二：编译错误，如果想要把 w 复制给 w2, 是不可以的。
+	//  因为复制从语义上来说，两个对象将共享同一块内存。
+
+	// 特点三：unique_ptr只 支持移动语义, 即如下
+	auto w2 = std::move(w); // w2 获得内存所有权，w 此时等于 nullptr
+	cout &lt;&lt; ((w.get() != nullptr) ? (*w.get()) : -1) &lt;&lt; endl;       // -1
+	cout &lt;&lt; ((w2.get() != nullptr) ? (*w2.get()) : -1) &lt;&lt; endl;   // 10
+}
+</code></pre>
+<h3 id="3-shared_ptr和weak_ptr">(3). shared_ptr和weak_ptr</h3>
+<p>为了解决auto_ptr在对象所有权上的局限性，在使用引用计数的机制上提供了可以共享所有权的智能指针shared_ptr（当然这需要额外的开销）。</p>
+<p>shared_ptr特点：</p>
+<ol>
+<li>使用引用计数表示访问空间的指针数量。</li>
+<li>通过引用计数和对象共享所有权（引用计数会记录共享的数量）。</li>
+<li>当引用计数=0，表示没有指针使用，开始析构并释放空间。</li>
+</ol>
+<p>此外，shared_ptr也支持move函数来转移所有权、也会在超出作用域/生命周期结束之后，自动释放指向的空间</p>
+<pre><code>int main()
+{
+	// shared_ptr 的生命范围，超出后自动释放空间
+	{
+		//shared_ptr 代表的是共享所有权，即多个 shared_ptr 可以共享同一块内存。
+		auto wA = shared_ptr&lt;int&gt;(new int(20));
+		{
+			auto wA2 = wA;       //wA2也是shared_ptr，和wA共享使用权
+			cout &lt;&lt; ((wA2.get() != nullptr) ? (*wA2.get()) : -1) &lt;&lt; endl;// 20  
+			cout &lt;&lt; ((wA.get() != nullptr) ? (*wA.get()) : -1) &lt;&lt; endl;  // 20   
+			cout &lt;&lt; wA2.use_count() &lt;&lt; endl;    // 引用计数，2
+			cout &lt;&lt; wA.use_count() &lt;&lt; endl;      // 引用计数，2                                          
+		}
+		//cout &lt;&lt; wA2.use_count() &lt;&lt; endl;                                               
+		cout &lt;&lt; wA.use_count() &lt;&lt; endl;                                                    // 1
+		cout &lt;&lt; ((wA.get() != nullptr) ? (*wA.get()) : -1) &lt;&lt; endl;               // 20
+		//shared_ptr 内部是利用引用计数来实现内存的自动管理，每当复制一个 shared_ptr，
+		//	引用计数会 + 1。当一个 shared_ptr 离开作用域时，引用计数会 - 1。
+		//	当引用计数为 0 的时候，则 delete 内存。
+	}
+
+	// shared_ptr的move 语法
+	auto wAA = std::make_shared&lt;int&gt;(30);
+	auto wAA2 = std::move(wAA); // 此时 wAA 等于 nullptr，wAA2.use_count() 等于 1
+	cout &lt;&lt; ((wAA.get() != nullptr) ? (*wAA.get()) : -1) &lt;&lt; endl;   // -1
+	cout &lt;&lt; ((wAA2.get() != nullptr) ? (*wAA2.get()) : -1) &lt;&lt; endl;    // 30
+	cout &lt;&lt; wAA.use_count() &lt;&lt; endl;   // 0
+	cout &lt;&lt; wAA2.use_count() &lt;&lt; endl;   // 1
+	//将 wAA 对象 move 给 wAA2，意味着 wAA 放弃了对内存的所有权和管理，此时 wAA对象等于 nullptr。
+	//而 wAA2 获得了对象所有权，但因为此时 wAA 已不再持有对象，因此 wAA2 的引用计数为 1。
+
+    return 0;
+}
+</code></pre>
+<p>但shared_ptr同时产生了问题：<strong>循环引用</strong><br>
+<img src="https://444494.xyz/post-images/1614067156188.png" alt="" loading="lazy"></p>
+<center>共享指针循环引用</center>
+<p>于是引入指针weak_ptr，依附于shared_ptr，和它一起协同工作，采用一种观察者的模式（不会对shared_ptr造成直接影响），<strong>两者地位并不对等</strong>。</p>
+<p>weak_ptr特点：</p>
+<ol>
+<li>像“粉丝”一样只进行观察，不对shared_ptr造成直接影响；</li>
+<li>只对shared_ptr进行引用，并且不改变其计数；</li>
+<li>当shared_ptr失效后，对应的weak_ptr也失效。</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://444494.xyz/post-images/1614067369097.png" alt="" loading="lazy"></figure>
+<center>weak_ptr解决循环引用的问题</center>
+<pre><code>
+struct B;  //先声明，这样struct A中才可以定义该类型成员
+struct A {
+	shared_ptr&lt;B&gt; pb;
+	~A(){cout &lt;&lt; &quot;~A()&quot; &lt;&lt; endl;}
+};
+struct B {
+	shared_ptr&lt;A&gt; pa;
+	~B(){cout &lt;&lt; &quot;~B()&quot; &lt;&lt; endl;}
+};
+
+// pa 和 pb 存在着循环引用，根据 shared_ptr 引用计数的原理，pa 和 pb 都无法被正常的释放。
+// weak_ptr 是为了解决 shared_ptr 双向引用的问题。
+struct BW;   //先声明，这样struct AW中才可以定义该类型成员
+struct AW
+{
+	shared_ptr&lt;BW&gt; pb;
+	~AW(){cout &lt;&lt; &quot;~AW()&quot; &lt;&lt; endl;}
+};
+struct BW
+{
+	weak_ptr&lt;AW&gt; pa;
+	~BW(){cout &lt;&lt; &quot;~BW()&quot; &lt;&lt; endl;}
+};
+
+
+//产生循环引用
+void Test()
+{
+	cout &lt;&lt; &quot;Test shared_ptr and shared_ptr:  &quot; &lt;&lt; endl;
+	shared_ptr&lt;A&gt; tA(new A());    // 1
+	shared_ptr&lt;B&gt; tB(new B());    // 1
+	cout &lt;&lt; tA.use_count() &lt;&lt; endl;
+	cout &lt;&lt; tB.use_count() &lt;&lt; endl;
+	tA-&gt;pb = tB;
+	tB-&gt;pa = tA;
+	cout &lt;&lt; tA.use_count() &lt;&lt; endl;    // 2
+	cout &lt;&lt; tB.use_count() &lt;&lt; endl;    // 2
+}
+
+
+//解决了循环引用
+void Test2()
+{
+	cout &lt;&lt; &quot;Test weak_ptr and shared_ptr:  &quot; &lt;&lt; endl;
+	shared_ptr&lt;AW&gt; tA(new AW());
+	shared_ptr&lt;BW&gt; tB(new BW());
+	cout &lt;&lt; tA.use_count() &lt;&lt; endl;                                        // 1
+	cout &lt;&lt; tB.use_count() &lt;&lt; endl;                                        // 1
+	tA-&gt;pb = tB;
+	tB-&gt;pa = tA;
+	cout &lt;&lt; tA.use_count() &lt;&lt; endl;                                        // 1
+	cout &lt;&lt; tB.use_count() &lt;&lt; endl;                                        // 2
+}
+
+int main()
+{
+	Test();
+	Test2();
+
+
+    return 0;
+}
+</code></pre>
+<h2 id="2-引用指针更安全的解决方案二">2. 引用——指针更安全的解决方案（二）</h2>
+<p>引用本质是一种<strong>不允许修改指向的指针</strong>，变量的引用可以认为是变量的别名。<br>
+Java中貌似没有指针，但实际上如果没有指针，它的功能会大大削弱。Java实际上是通过引用来间接使用指针的。从某种角度上来说，Java是介于C和C++之间的语言。</p>
+<p>使用指针有哪些坑：</p>
+<ul>
+<li>空指针</li>
+<li>野指针</li>
+<li>不知不觉改变了指针的值，却继续使用；</li>
+</ul>
+<p>使用引用，则可以：</p>
+<ul>
+<li>不存在空引用；</li>
+<li>必须初始化；</li>
+<li>一个引用永远指向它初始化的那个对象；</li>
+</ul>
+<blockquote>
+<p><strong>有了指针为什么还需要引用？</strong><br>
+Bjarne Stroustrup(C++之父)的解释：<br>
+为了支持函数运算符重载；<br/><br>
+<strong>有了引用为什么还需要指针？</strong><br>
+Bjarne Stroustrup(C++之父)的解释：<br>
+为了兼容C语言；<br>
+注意：C语言完全用指针，JAVA语言完全用引用。</p>
+</blockquote>
+<h3 id="补充">补充</h3>
+<p>关于函数传递参数类型的说明：</p>
+<ul>
+<li>对<strong>内置基础类型</strong>(如int，double等)而言，在函数中传递<strong>pass by value</strong>更高效；</li>
+<li>对OO面向对象中<strong>自定义类型</strong>而言，在函数中传递时<strong>pass by reference to const</strong>更高效。</li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/va-k-XPwc/" class="tag">
+                    慕课网《重学C++ 重构你的C++知识体系》
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/lesslesschong-xue-cgreatergreater-5-che-di-xue-hui-c-zhi-zhen-yin-yong-er/">
+                  <h3 class="post-title">
+                    《重学C++》5. 彻底学会 C++ 指针，引用（二）内存资源
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
