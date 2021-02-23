@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614072188900">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614072730953">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614072188900" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614072730953" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -225,15 +225,17 @@ https://blog.csdn.net/p942005405/article/details/84635673</p>
 			cout &lt;&lt; ((wA2.get() != nullptr) ? (*wA2.get()) : -1) &lt;&lt; endl;// 20  
 			cout &lt;&lt; ((wA.get() != nullptr) ? (*wA.get()) : -1) &lt;&lt; endl;  // 20   
 			cout &lt;&lt; wA2.use_count() &lt;&lt; endl;    // 引用计数，2
-			cout &lt;&lt; wA.use_count() &lt;&lt; endl;      // 引用计数，2                                          
+			cout &lt;&lt; wA.use_count() &lt;&lt; endl;      // 引用计数，2             
 		}
-		//cout &lt;&lt; wA2.use_count() &lt;&lt; endl;                                               
-		cout &lt;&lt; wA.use_count() &lt;&lt; endl;                                                    // 1
-		cout &lt;&lt; ((wA.get() != nullptr) ? (*wA.get()) : -1) &lt;&lt; endl;               // 20
+
+		//cout &lt;&lt; wA2.use_count() &lt;&lt; endl;  //wA2的声明周期已结束，指向的空间也已释放                                         
+		cout &lt;&lt; wA.use_count() &lt;&lt; endl;  // 1
+		cout &lt;&lt; ((wA.get() != nullptr) ? (*wA.get()) : -1) &lt;&lt; endl;  // 20
 		//shared_ptr 内部是利用引用计数来实现内存的自动管理，每当复制一个 shared_ptr，
 		//	引用计数会 + 1。当一个 shared_ptr 离开作用域时，引用计数会 - 1。
 		//	当引用计数为 0 的时候，则 delete 内存。
 	}
+
 
 	// shared_ptr的move 语法
 	auto wAA = std::make_shared&lt;int&gt;(30);
@@ -290,14 +292,14 @@ struct BW
 void Test()
 {
 	cout &lt;&lt; &quot;Test shared_ptr and shared_ptr:  &quot; &lt;&lt; endl;
-	shared_ptr&lt;A&gt; tA(new A());    // 1
-	shared_ptr&lt;B&gt; tB(new B());    // 1
-	cout &lt;&lt; tA.use_count() &lt;&lt; endl;
-	cout &lt;&lt; tB.use_count() &lt;&lt; endl;
-	tA-&gt;pb = tB;
-	tB-&gt;pa = tA;
-	cout &lt;&lt; tA.use_count() &lt;&lt; endl;    // 2
-	cout &lt;&lt; tB.use_count() &lt;&lt; endl;    // 2
+	shared_ptr&lt;A&gt; tA(new A());    //生成一个指针指向结构体A，结构体内部有一个B的指针
+	shared_ptr&lt;B&gt; tB(new B());     //生成一个指针指向结构体B，结构体内部有一个A的指针
+	cout &lt;&lt; tA.use_count() &lt;&lt; endl;  // 1
+	cout &lt;&lt; tB.use_count() &lt;&lt; endl;  // 1
+	tA-&gt;pb = tB;  //tA指向结构体A，A内部的指针指向B
+	tB-&gt;pa = tA;  //tB指向结构体B，B内部的指针指向A
+	cout &lt;&lt; tA.use_count() &lt;&lt; endl;    // 2    除了tA外，tB-&gt;pa也指向A
+	cout &lt;&lt; tB.use_count() &lt;&lt; endl;    // 2     除了tB外，tA-&gt;pb也指向B
 }
 
 
@@ -307,12 +309,12 @@ void Test2()
 	cout &lt;&lt; &quot;Test weak_ptr and shared_ptr:  &quot; &lt;&lt; endl;
 	shared_ptr&lt;AW&gt; tA(new AW());
 	shared_ptr&lt;BW&gt; tB(new BW());
-	cout &lt;&lt; tA.use_count() &lt;&lt; endl;                                        // 1
-	cout &lt;&lt; tB.use_count() &lt;&lt; endl;                                        // 1
+	cout &lt;&lt; tA.use_count() &lt;&lt; endl;  // 1
+	cout &lt;&lt; tB.use_count() &lt;&lt; endl;  // 1
 	tA-&gt;pb = tB;
 	tB-&gt;pa = tA;
-	cout &lt;&lt; tA.use_count() &lt;&lt; endl;                                        // 1
-	cout &lt;&lt; tB.use_count() &lt;&lt; endl;                                        // 2
+	cout &lt;&lt; tA.use_count() &lt;&lt; endl;  // 1，因为weak_ptr不被计数
+	cout &lt;&lt; tB.use_count() &lt;&lt; endl;  // 2
 }
 
 int main()
@@ -324,6 +326,7 @@ int main()
     return 0;
 }
 </code></pre>
+<p>最终会看到，只有结构体AW、BW执行了析构函数，因为循环引用导致了无法自动释放空间。</p>
 <br/>
 <h2 id="2-引用指针更安全的解决方案二">2. 引用——指针更安全的解决方案（二）</h2>
 <p>引用本质是一种<strong>不允许修改指向的指针</strong>，变量的引用可以认为是变量的别名。<br>
