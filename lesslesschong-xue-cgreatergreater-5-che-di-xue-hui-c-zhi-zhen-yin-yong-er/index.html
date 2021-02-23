@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614055872911">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614064883245">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -38,7 +38,7 @@ int main()				//(text)代码区
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614055872911" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614064883245" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -199,7 +199,7 @@ int main()				//(text)代码区
 </tr>
 </tbody>
 </table>
-<p><font color=red >不应该通过栈做负荷量大的工作，而是应该用堆</font>，因为栈容量小。更严重的是调试时未必会出错，因为当时工作量可能并不大。</p>
+<p><strong>不应该通过栈做负荷量大的工作，而是应该用堆</strong>，因为栈容量小。更严重的是调试时未必会出错，因为当时工作量可能并不大。</p>
 <h3 id="全局静态存储区-vs-变量存储区">全局静态存储区 VS 变量存储区</h3>
 <table>
 <thead>
@@ -228,6 +228,72 @@ int main()				//(text)代码区
 </tbody>
 </table>
 <br/>
+<h2 id="5-内存泄漏">5. 内存泄漏</h2>
+<p>什么是内存泄漏问题：<br>
+指程序中已动态分配的堆内存由于某种原因程序未释放或无法释放，造成系统内存的浪费，导致程序运行速度减慢甚至系统崩溃等严重后果。</p>
+<p>我们平时程序运行时间很短，结束后就会释放内存，那<strong>为什么内存泄露会造成严重的资源浪费？</strong><br>
+因为服务器程序不同于个人电脑中的程序，它需要很长时间运行而且不能轻易关闭/重启。内存泄漏每次可能只浪费一点点，但由于服务器程序的特点，会导致内存长时间泄露+无法归还，导致最终会造成严重后果。</p>
+<p>内存泄漏发生原因和排查方式：<br>
+内存泄漏主要发生在<strong>堆内存分配方式</strong>中，即&quot;配置了内存后，所有指向该内存的指针都遗失了&quot;。若缺乏java语言这样的垃圾回收机制，这样的内存片就无法归还系统。<br>
+因为内存泄漏属于程序运行中的问题，无法通过编译识别，所以<strong>只能在程序运行过程中来判断和诊断</strong>。</p>
+<br/>
+<h2 id="6-智能指针">6. 智能指针</h2>
+<p>空指针的表示方法：原始版本中，用指针值<strong>NULL</strong>代表空指针。但是由于<strong>NULL</strong>不仅可以赋值给指针，还可以赋值给int等类型的元素，因此存在歧义。<strong>后来引入nullptr，用于赋值给指针代表空指针。</strong></p>
+<h3 id="auto_ptr已删除">auto_ptr（已删除）</h3>
+<p>特点：</p>
+<ul>
+<li>
+<ol>
+<li>生命周期结束/在作用域外时，自己结束的同时删除指向的空间；</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>堆其他元素赋值/拷贝时，会发生所有权转移，剥夺原指针的控制权（变为nullptr）。</li>
+</ol>
+</li>
+</ul>
+<p>auto_ptr（C++ 17中移除）：拥有严格对象所有权语义的智能指针<br>
+auto_ptr<strong>原理</strong>：在拷贝 / 赋值过程中，直接剥夺原对象对内存的控制权，转交给新对象，然后再将原对象指针置为nullptr（早期：NULL）。这种做法也叫管理权转移。<br>
+他的缺点不言而喻，当我们再次去访问原对象时，程序就会报错，所以auto_ptr可以说实现的不好，很多企业在其库内也是要求不准使用auto_ptr。</p>
+<pre><code>int main()
+{
+	{// 特点一：确定auto_ptr失效的范围，该括号外pl失效，同时指向的空间也被回收
+		// 对int使用
+		auto_ptr&lt;int&gt; pI(new int(10));
+		cout &lt;&lt; *pI &lt;&lt; endl;                // 10 
+
+
+		auto_ptr&lt;string&gt; languages[5] = {
+			auto_ptr&lt;string&gt;(new string(&quot;C&quot;)),
+			auto_ptr&lt;string&gt;(new string(&quot;Java&quot;)),
+			auto_ptr&lt;string&gt;(new string(&quot;C++&quot;)),
+			auto_ptr&lt;string&gt;(new string(&quot;Python&quot;)),
+			auto_ptr&lt;string&gt;(new string(&quot;Rust&quot;))
+		};
+		cout &lt;&lt; &quot;There are some computer languages here first time: \n&quot;;
+		for (int i = 0; i &lt; 5; ++i)
+		{
+			cout &lt;&lt; *languages[i] &lt;&lt; endl;
+		}
+		auto_ptr&lt;string&gt; pC;
+		pC = languages[2]; // 特点二：languges[2] loses ownership. 将所有权从languges[2]转让给pC，
+		//特点二：此时languges[2]不再引用该字符串从而变成空指针
+		cout &lt;&lt; &quot;There are some computer languages here second time: \n&quot;;
+		for (int i = 0; i &lt; 2; ++i)
+		{
+				cout &lt;&lt; *languages[i] &lt;&lt; endl;
+		}
+		cout &lt;&lt; &quot;The winner is &quot; &lt;&lt; *pC &lt;&lt; endl;
+		//cout &lt;&lt; &quot;There are some computer languages here third time: \n&quot;;
+		//for (int i = 0; i &lt; 5; ++i)
+		//{
+		//	cout &lt;&lt; *languages[i] &lt;&lt; endl;
+		//}
+	}
+	return 0; 
+}
+</code></pre>
 
             </div>
             
