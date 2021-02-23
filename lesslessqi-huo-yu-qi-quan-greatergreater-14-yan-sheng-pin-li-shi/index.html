@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614095212715">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614095567832">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614095212715" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614095567832" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -261,9 +261,9 @@
 </ul>
 <p>举例：一家公司和做市商现在签订协议，约定6个月后以1.61的价格用美元买入1百万英镑。<br>
 <img src="https://444494.xyz/post-images/1613923484160.png" alt="" loading="lazy"></p>
-<center>不违约的情况下，公司的收益-汇率曲线图<center>
+<center>不违约的情况下，公司的收益-汇率曲线图</center>
 <figure data-type="image" tabindex="2"><img src="https://444494.xyz/post-images/1613923581186.png" alt="" loading="lazy"></figure>
-<center>不违约的情况下，做市商的收益-汇率曲线图<center>
+<center>不违约的情况下，做市商的收益-汇率曲线图</center>
 <p>可以看到，由于这是零和博弈，所以<strong>一方赚的钱就是另一方亏损的钱</strong>，他们的收益曲线是相反的。</p>
 <br/>
 <hr>
@@ -315,8 +315,8 @@ NDF是一种直接的远期合约，交易对手根据约定的名义金额结�
 <h1 id="114-期权">1.14 期权</h1>
 <p>和三大类的其他衍生品不同，<br>
 期货/远期/交换给持有者一种<strong>义务</strong>，让他以一个固定的价格去买/卖一个标的资产，并且只能履约；<br>
-而期权给持有者一种<strong>权利</strong>，这种权利给他一个是否&quot;以一个固定的价格买入/卖出资产&quot;的选择，可以不履约。</p>
-<p>期权的买方有权利、无义务，而期权的卖方有义务、无权利。但是买方自愿为了获得权利付出权利金、而卖方也愿意牺牲权利换取权利金，因此期权是一个<strong>不对称但公平</strong>的交易。<br>
+而期权给持有者一种<strong>权利</strong>，这种权利给他一个是否&quot;以一个固定的价格（<strong>执行价格</strong>）买入/卖出资产&quot;的选择，可以不履约。</p>
+<p>期权的买方有权利、无义务，而期权的卖方有义务、无权利。但是买方自愿为了获得权利付出<strong>权利金</strong>、而卖方也愿意牺牲权利换取权利金，因此期权是一个<strong>不对称但公平</strong>的交易。<br>
 例如：50万卖给其他人去从事危险工作（如矿工等）的权利，也就是&quot;重赏之下必有勇夫&quot;、“一个愿打一个愿挨”。</p>
 <ul>
 <li>
@@ -338,6 +338,10 @@ NDF是一种直接的远期合约，交易对手根据约定的名义金额结�
 <p>2个方向（买入卖出）、不同的有效期期限、不同的执行价格，导致期权有非常多品种。</p>
 <p>不管是期货还是期权，持有者都可以不执行权利，而是选择在市场上提前卖出。这是因为市场存在着流动性，而这些流动性很大程度上来自于做市商、投机者（最终没有平仓进入期权到期日的交易者只有5%）。<br>
 但是到了到期日，还没有平仓的期权持有者将会被交易所随机配对为对手。因为不对称，卖方只有卖出权利换取保证金的义务，而买方有选择是否用权利金买入权利的权利。所以最终是否成交取决于买方是否行使权力进行买入。</p>
+<blockquote>
+<p>考虑某投资者买入执行价格为100美元的100股股票的看涨期权。<br>
+假定当前股票的市场价格为98美元，期权的到期日为4个月，购买一股股票的期权价格为5美元。持有者的最初投资为500美元。因为期权为欧式，持有者只能在到期日才能行使期权。如果在到期日，股票价格小于100美元，很明显投资者不会行使期权（没有必要以100美元的价格买入市场价格低于100美元的股票）。因此投资者会损失全部500美元的最初投资；如果在到期日，股票价格大于100美元，期权将会被行使。假定在到期日股票价格为115美元。通过行使期权，期权持有人可以每股100美元的价格买入100股股票，如果投资者马上将股票变卖，每股可以赚入15美元。忽略交易费用，投资者可以挣得1500美元。将最初的期权费用考虑在内，投资者的盈利为1000美元。</p>
+</blockquote>
 <br/>
 <hr>
 <br/>
