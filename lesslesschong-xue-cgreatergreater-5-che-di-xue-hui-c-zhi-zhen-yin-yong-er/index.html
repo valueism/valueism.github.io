@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614068628891">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614069568361">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -38,7 +38,7 @@ int main()				//(text)代码区
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614068628891" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614069568361" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -439,6 +439,36 @@ int main()
     return 0;
 }
 </code></pre>
+<h2 id="7-引用指针更安全的解决方案二">7. 引用——指针更安全的解决方案（二）</h2>
+<p>引用本质是一种<strong>不允许修改指向的指针</strong>，变量的引用可以认为是变量的别名。<br>
+Java中貌似没有指针，但实际上如果没有指针，它的功能会大大削弱。Java实际上是通过引用来间接使用指针的。从某种角度上来说，Java是介于C和C++之间的语言。</p>
+<p>使用指针有哪些坑：</p>
+<ul>
+<li>空指针</li>
+<li>野指针</li>
+<li>不知不觉改变了指针的值，却继续使用；</li>
+</ul>
+<p>使用引用，则可以：</p>
+<ul>
+<li>不存在空引用；</li>
+<li>必须初始化；</li>
+<li>一个引用永远指向它初始化的那个对象；</li>
+</ul>
+<blockquote>
+<p><strong>有了指针为什么还需要引用？</strong><br>
+Bjarne Stroustrup(C++之父)的解释：<br>
+为了支持函数运算符重载；<br/><br>
+<strong>有了引用为什么还需要指针？</strong><br>
+Bjarne Stroustrup(C++之父)的解释：<br>
+为了兼容C语言；<br>
+注意：C语言完全用指针，JAVA语言完全用引用。</p>
+</blockquote>
+<h3 id="补充">补充</h3>
+<p>关于函数传递参数类型的说明：</p>
+<ul>
+<li>对<strong>内置基础类型</strong>(如int，double等)而言，在函数中传递<strong>pass by value</strong>更高效；</li>
+<li>对OO面向对象中<strong>自定义类型</strong>而言，在函数中传递时<strong>pass by reference to const</strong>更高效。</li>
+</ul>
 
             </div>
             
