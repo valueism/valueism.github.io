@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://444494.xyz</id>
     <title>Nome</title>
-    <updated>2021-02-23T03:33:43.986Z</updated>
+    <updated>2021-02-23T04:52:02.546Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://444494.xyz"/>
     <link rel="self" href="https://444494.xyz/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://444494.xyz/images/avatar.png</logo>
     <icon>https://444494.xyz/favicon.ico</icon>
     <rights>All rights reserved 2021, Nome</rights>
+    <entry>
+        <title type="html"><![CDATA[《重学C++》5. 彻底学会 C++ 指针，引用（二）]]></title>
+        <id>https://444494.xyz/lesslesschong-xue-cgreatergreater-5-che-di-xue-hui-c-zhi-zhen-yin-yong-er/</id>
+        <link href="https://444494.xyz/lesslesschong-xue-cgreatergreater-5-che-di-xue-hui-c-zhi-zhen-yin-yong-er/">
+        </link>
+        <updated>2021-02-23T01:54:02.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[《重学C++》5. 彻底学会 C++ 指针，引用（一）]]></title>
         <id>https://444494.xyz/5-che-di-xue-hui-c-zhi-zhen-yin-yong/</id>
@@ -72,12 +79,5 @@
         <link href="https://444494.xyz/const/">
         </link>
         <updated>2021-02-15T09:13:02.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[C++变量类型]]></title>
-        <id>https://444494.xyz/cbian-liang-lei-xing/</id>
-        <link href="https://444494.xyz/cbian-liang-lei-xing/">
-        </link>
-        <updated>2021-02-15T08:59:24.000Z</updated>
     </entry>
 </feed>
