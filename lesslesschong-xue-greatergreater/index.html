@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614072955761">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614073389083">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -37,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614072955761" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614073389083" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -253,15 +253,17 @@ https://blog.csdn.net/p942005405/article/details/84635673</p>
 <p>但shared_ptr同时产生了问题：<strong>循环引用</strong><br>
 <img src="https://444494.xyz/post-images/1614067156188.png" alt="" loading="lazy"></p>
 <center>共享指针循环引用</center>
-<p>于是引入指针weak_ptr，依附于shared_ptr，和它一起协同工作，采用一种观察者的模式（不会对shared_ptr造成直接影响），<strong>两者地位并不对等</strong>。</p>
+<br/>
+<p>于是引入指针<strong>weak_ptr</strong>，依附于shared_ptr，和它一起协同工作，采用一种观察者的模式（不会对shared_ptr造成直接影响），<strong>两者地位并不对等</strong>。</p>
 <p>weak_ptr特点：</p>
 <ol>
 <li>像“粉丝”一样只进行观察，不对shared_ptr造成直接影响；</li>
-<li>只对shared_ptr进行引用，并且不改变其计数；</li>
+<li>只能对shared_ptr进行引用；</li>
 <li>当shared_ptr失效后，对应的weak_ptr也失效。</li>
 </ol>
 <figure data-type="image" tabindex="1"><img src="https://444494.xyz/post-images/1614067369097.png" alt="" loading="lazy"></figure>
 <center>weak_ptr解决循环引用的问题</center>
+<br/>
 <pre><code>
 struct B;  //先声明，这样struct A中才可以定义该类型成员
 struct A {
