@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614064883245">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614068628891">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -38,7 +38,7 @@ int main()				//(text)代码区
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614064883245" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614068628891" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -237,22 +237,23 @@ int main()				//(text)代码区
 内存泄漏主要发生在<strong>堆内存分配方式</strong>中，即&quot;配置了内存后，所有指向该内存的指针都遗失了&quot;。若缺乏java语言这样的垃圾回收机制，这样的内存片就无法归还系统。<br>
 因为内存泄漏属于程序运行中的问题，无法通过编译识别，所以<strong>只能在程序运行过程中来判断和诊断</strong>。</p>
 <br/>
-<h2 id="6-智能指针">6. 智能指针</h2>
+<h2 id="6-智能指针指针更安全的解决方案一">6. 智能指针——指针更安全的解决方案（一）</h2>
+<p>指针的功能比较强大，但单独使用指针存在一些问题，可能会导致野指针、内存泄露。<br>
+因此应该尽量使用两种方法，更加安全地使用指针：</p>
+<ol>
+<li>使用更安全的指针——<strong>智能指针</strong>；</li>
+<li>不使用指针，使用更安全的方式——<strong>引用</strong>；</li>
+</ol>
+<p>智能指针需要使用头文件memory。</p>
+<blockquote>
 <p>空指针的表示方法：原始版本中，用指针值<strong>NULL</strong>代表空指针。但是由于<strong>NULL</strong>不仅可以赋值给指针，还可以赋值给int等类型的元素，因此存在歧义。<strong>后来引入nullptr，用于赋值给指针代表空指针。</strong></p>
+</blockquote>
 <h3 id="auto_ptr已删除">auto_ptr（已删除）</h3>
 <p>特点：</p>
-<ul>
-<li>
 <ol>
-<li>生命周期结束/在作用域外时，自己结束的同时删除指向的空间；</li>
-</ol>
-</li>
-<li>
-<ol start="2">
+<li>指针超出作用域/生命周期结束之后，指向的空间会被自动释放（防止内存泄露）；</li>
 <li>堆其他元素赋值/拷贝时，会发生所有权转移，剥夺原指针的控制权（变为nullptr）。</li>
 </ol>
-</li>
-</ul>
 <p>auto_ptr（C++ 17中移除）：拥有严格对象所有权语义的智能指针<br>
 auto_ptr<strong>原理</strong>：在拷贝 / 赋值过程中，直接剥夺原对象对内存的控制权，转交给新对象，然后再将原对象指针置为nullptr（早期：NULL）。这种做法也叫管理权转移。<br>
 他的缺点不言而喻，当我们再次去访问原对象时，程序就会报错，所以auto_ptr可以说实现的不好，很多企业在其库内也是要求不准使用auto_ptr。</p>
@@ -292,6 +293,150 @@ auto_ptr<strong>原理</strong>：在拷贝 / 赋值过程中，直接剥夺原�
 		//}
 	}
 	return 0; 
+}
+</code></pre>
+<h3 id="unique_ptr">unique_ptr</h3>
+<p>特点：</p>
+<ol>
+<li>指针超出作用域/生命周期结束之后，指向的空间会被自动释放（防止内存泄露）</li>
+<li>unique_ptr是一块内存的专属指针，一般不允许被赋值和复制</li>
+<li>可以通过move函数进行所有权转移，解决其他指针需要访问的问题。</li>
+</ol>
+<pre><code>    // 特点一：在这个范围之外，unique_ptr指向的空间被自动释放
+	{
+		auto i = unique_ptr&lt;int&gt;(new int(10));
+		cout &lt;&lt; *i &lt;&lt; endl;
+	}
+
+	// unique_ptr
+	auto w = std::make_unique&lt;int&gt;(10);
+	cout &lt;&lt; *(w.get()) &lt;&lt; endl;                             // 10
+	//auto w2 = w; // 特点二：编译错误，如果想要把 w 复制给 w2, 是不可以的。
+	//  因为复制从语义上来说，两个对象将共享同一块内存。
+
+	// 特点三：unique_ptr只 支持移动语义, 即如下
+	auto w2 = std::move(w); // w2 获得内存所有权，w 此时等于 nullptr
+	cout &lt;&lt; ((w.get() != nullptr) ? (*w.get()) : -1) &lt;&lt; endl;       // -1
+	cout &lt;&lt; ((w2.get() != nullptr) ? (*w2.get()) : -1) &lt;&lt; endl;   // 10
+
+</code></pre>
+<h3 id="shared_ptr和weak_ptr">shared_ptr和weak_ptr</h3>
+<p>为了解决auto_ptr在对象所有权上的局限性，在使用引用计数的机制上提供了可以共享所有权的智能指针shared_ptr（当然这需要额外的开销）。</p>
+<p>shared_ptr特点：</p>
+<ol>
+<li>使用引用计数表示访问空间的指针数量。</li>
+<li>通过引用计数和对象共享所有权（引用计数会记录共享的数量）。</li>
+<li>当引用计数=0，表示没有指针使用，开始析构并释放空间。<br>
+此外，shared_ptr也支持move函数来转移所有权、也会在超出作用域/生命周期结束之后，自动释放指向的空间</li>
+</ol>
+<pre><code>int main()
+{
+	// shared_ptr 的生命范围，超出后自动释放空间
+	{
+		//shared_ptr 代表的是共享所有权，即多个 shared_ptr 可以共享同一块内存。
+		auto wA = shared_ptr&lt;int&gt;(new int(20));
+		{
+			auto wA2 = wA;       //wA2也是shared_ptr，和wA共享使用权
+			cout &lt;&lt; ((wA2.get() != nullptr) ? (*wA2.get()) : -1) &lt;&lt; endl;// 20  
+			cout &lt;&lt; ((wA.get() != nullptr) ? (*wA.get()) : -1) &lt;&lt; endl;  // 20   
+			cout &lt;&lt; wA2.use_count() &lt;&lt; endl;    // 引用计数，2
+			cout &lt;&lt; wA.use_count() &lt;&lt; endl;      // 引用计数，2                                          
+		}
+		//cout &lt;&lt; wA2.use_count() &lt;&lt; endl;                                               
+		cout &lt;&lt; wA.use_count() &lt;&lt; endl;                                                    // 1
+		cout &lt;&lt; ((wA.get() != nullptr) ? (*wA.get()) : -1) &lt;&lt; endl;               // 20
+		//shared_ptr 内部是利用引用计数来实现内存的自动管理，每当复制一个 shared_ptr，
+		//	引用计数会 + 1。当一个 shared_ptr 离开作用域时，引用计数会 - 1。
+		//	当引用计数为 0 的时候，则 delete 内存。
+	}
+
+	// shared_ptr的move 语法
+	auto wAA = std::make_shared&lt;int&gt;(30);
+	auto wAA2 = std::move(wAA); // 此时 wAA 等于 nullptr，wAA2.use_count() 等于 1
+	cout &lt;&lt; ((wAA.get() != nullptr) ? (*wAA.get()) : -1) &lt;&lt; endl;   // -1
+	cout &lt;&lt; ((wAA2.get() != nullptr) ? (*wAA2.get()) : -1) &lt;&lt; endl;    // 30
+	cout &lt;&lt; wAA.use_count() &lt;&lt; endl;   // 0
+	cout &lt;&lt; wAA2.use_count() &lt;&lt; endl;   // 1
+	//将 wAA 对象 move 给 wAA2，意味着 wAA 放弃了对内存的所有权和管理，此时 wAA对象等于 nullptr。
+	//而 wAA2 获得了对象所有权，但因为此时 wAA 已不再持有对象，因此 wAA2 的引用计数为 1。
+
+    return 0;
+}
+</code></pre>
+<p>但shared_ptr同时产生了问题：<strong>循环引用</strong><br>
+<img src="https://444494.xyz/post-images/1614067156188.png" alt="" loading="lazy"></p>
+<center>共享指针循环引用</center>
+<p>于是引入指针weak_ptr，依附于shared_ptr，和它一起协同工作，采用一种观察者的模式（不会对shared_ptr造成直接影响），<strong>两者地位并不对等</strong>。</p>
+<p>weak_ptr特点：</p>
+<ol>
+<li>像“粉丝”一样只进行观察，不对shared_ptr造成直接影响；</li>
+<li>只对shared_ptr进行引用，并且不改变其计数；</li>
+<li>当shared_ptr失效后，对应的weak_ptr也失效。</li>
+</ol>
+<figure data-type="image" tabindex="2"><img src="https://444494.xyz/post-images/1614067369097.png" alt="" loading="lazy"></figure>
+<center>weak_ptr解决循环引用的问题</center>
+<pre><code>
+struct B;  //先声明，这样struct A中才可以定义该类型成员
+struct A {
+	shared_ptr&lt;B&gt; pb;
+	~A(){cout &lt;&lt; &quot;~A()&quot; &lt;&lt; endl;}
+};
+struct B {
+	shared_ptr&lt;A&gt; pa;
+	~B(){cout &lt;&lt; &quot;~B()&quot; &lt;&lt; endl;}
+};
+
+// pa 和 pb 存在着循环引用，根据 shared_ptr 引用计数的原理，pa 和 pb 都无法被正常的释放。
+// weak_ptr 是为了解决 shared_ptr 双向引用的问题。
+struct BW;   //先声明，这样struct AW中才可以定义该类型成员
+struct AW
+{
+	shared_ptr&lt;BW&gt; pb;
+	~AW(){cout &lt;&lt; &quot;~AW()&quot; &lt;&lt; endl;}
+};
+struct BW
+{
+	weak_ptr&lt;AW&gt; pa;
+	~BW(){cout &lt;&lt; &quot;~BW()&quot; &lt;&lt; endl;}
+};
+
+
+//产生循环引用
+void Test()
+{
+	cout &lt;&lt; &quot;Test shared_ptr and shared_ptr:  &quot; &lt;&lt; endl;
+	shared_ptr&lt;A&gt; tA(new A());    // 1
+	shared_ptr&lt;B&gt; tB(new B());    // 1
+	cout &lt;&lt; tA.use_count() &lt;&lt; endl;
+	cout &lt;&lt; tB.use_count() &lt;&lt; endl;
+	tA-&gt;pb = tB;
+	tB-&gt;pa = tA;
+	cout &lt;&lt; tA.use_count() &lt;&lt; endl;    // 2
+	cout &lt;&lt; tB.use_count() &lt;&lt; endl;    // 2
+}
+
+
+//解决了循环引用
+void Test2()
+{
+	cout &lt;&lt; &quot;Test weak_ptr and shared_ptr:  &quot; &lt;&lt; endl;
+	shared_ptr&lt;AW&gt; tA(new AW());
+	shared_ptr&lt;BW&gt; tB(new BW());
+	cout &lt;&lt; tA.use_count() &lt;&lt; endl;                                        // 1
+	cout &lt;&lt; tB.use_count() &lt;&lt; endl;                                        // 1
+	tA-&gt;pb = tB;
+	tB-&gt;pa = tA;
+	cout &lt;&lt; tA.use_count() &lt;&lt; endl;                                        // 1
+	cout &lt;&lt; tB.use_count() &lt;&lt; endl;                                        // 2
+}
+
+int main()
+{
+	Test();
+	Test2();
+
+
+    return 0;
 }
 </code></pre>
 
