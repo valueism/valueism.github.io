@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614076419714">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614094467115">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614076419714" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614094467115" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -248,7 +248,8 @@
 <br/>
 <hr>
 <br/>
-<h1 id="19外汇远期">1.9外汇远期</h1>
+<h1 id="19-外汇远期">1.9 外汇远期</h1>
+<p>课程中衍生品先从远期合约学起。由于涉及到定价困难的问题，所以期权是最难的，最后学。</p>
 <blockquote>
 <p>Forward agreements are agreement to buy or sell an asset for a certain price at a certain time except that they trade in the over-the-counter market.<br>
 远期和约是一个在未来特定时间以一定价格买入或卖出一个资产的协议。</p>
@@ -264,6 +265,80 @@
 <figure data-type="image" tabindex="2"><img src="https://444494.xyz/post-images/1613923581186.png" alt="" loading="lazy"></figure>
 <center>不违约的情况下，做市商的收益-汇率曲线图<center>
 <p>可以看到，由于这是零和博弈，所以<strong>一方赚的钱就是另一方亏损的钱</strong>，他们的收益曲线是相反的。</p>
+<br/>
+<hr>
+<br/>
+<h1 id="110-ndf和远期利率协议">1.10 NDF和远期利率协议</h1>
+<h2 id="无本金交割远期外汇交易non-deliverable-forwardsndf">无本金交割远期外汇交易(Non-deliverable Forwards，NDF）</h2>
+<blockquote>
+<p><strong>NDF(Non-deliverable forward)</strong>:NDF is an outright forward in which counterparties settle the difference between the contracted NDF price or rate and the prevailing spot price or rate on an agreed notional amount.<br>
+NDF是一种直接的远期合约，交易对手根据约定的名义金额结算NDF合约价格或汇率与现行现货价格或汇率之间的差额。</p>
+</blockquote>
+<p>简单来说就是类似于汇率远期合约，但是并没有现金交割，只用硬通货结算差额。比如上一节的买英镑远期合约，但是最后到期时只能得到交割时汇率和约定汇率的差额（只能赚到/赔掉差额的部分钱）。<br>
+在一些禁止远期外汇交易的国家，NDF很流行，因为它是作为一种避免汇率风险的手段。</p>
+<p>为什么要用硬通货结算差额？<br>
+因为有的货币不够“硬”，要这些货币也没什么用，不如用美元结算差额，这些多余的钱以美元的形式还可以花出去。</p>
+<h2 id="远期利率协议fra">远期利率协议（FRA）</h2>
+<blockquote>
+<p>FRA is a forward contract, an over-the-counter contract between parties that determines the rate of interest to bepaid or received on an obligation beginning at a future start date. The contract will determine the rates to beused along with the termination date and notional value.<br>
+远期利率合约（FRA）是一种场外交易，这种交易约定在将来某一段时间交易的一方将以某一利率借入或借出固定数量的资金。合同将决定使用的价格，以及终止日期和<strong>名义价值</strong>。</p>
+</blockquote>
+<p>类似于NDF用来规避汇率风险，FRA被各大公司用来规避汇率风险。而且本金只用于计算利率，并不交割本金，也被称为名义本金。</p>
+<p>合同双方会约定一个的未来时间作为生效日（effective date）并约定固定的合同利率（contracted rate），并在一段时间间隔（interval）出借/借入资金，这段时间里浮动的利率是参考利率（reference rate），最终在未来的终点（terminal）结束。<strong>结算日并不是在结束点，而是在生效日折算（discount）价格。</strong></p>
+<p>协议记法为：生效月数×到期月数。例如一个FRA1个月后生效、有效期为3个月，那么记作1×4.</p>
+<p>特点：</p>
+<ul>
+<li>未来某一时间（certain time）</li>
+<li>间隔（interval）</li>
+</ul>
+<figure data-type="image" tabindex="3"><img src="https://444494.xyz/post-images/1614092739390.png" alt="" loading="lazy"></figure>
+<center>远期利率协议</center>
+<p>术语：</p>
+<ul>
+<li>在FRA合约中，借人和借出资金的利率常常设为LIBOR；</li>
+<li>用来规避汇率上涨风险的一方被称作买方buyer(payer)；</li>
+<li>用来规避汇率下降风险的一方被称作卖方seller(receiver)；</li>
+<li>合同中签订一个固定利率contracted rate</li>
+<li>间隔中的浮动的参考利率reference rate</li>
+<li>计算利率用到名义本金notional</li>
+<li>α=间隔月数/一年=月数/12，如3个月是0.25</li>
+</ul>
+<p>payer支付固定利率，收到浮动利率；而receiver相反。</p>
+<figure data-type="image" tabindex="4"><img src="https://444494.xyz/post-images/1614086139609.png" alt="" loading="lazy"></figure>
+<center>payer支付价格payment</center>
+<blockquote>
+<p>【例43】假定一家公司进入一个FRA合约，在合约中这家公司将在3年后收入3个月期限4%的固定利率的现金流。在FRA中，公司要支付IBOR，同时收入4%的固定利率，期限为3个月。FRA的本金为1亿美元。如果在3年后，3个月期限 LIBOR为4.5%，那么对于资金借出方而言（即这家公司），在3.25年时现金流为？<br/>在3.25年时现金流为-123609。</p>
+</blockquote>
+<br/>
+<hr>
+<br/>
+<h1 id="114-期权">1.14 期权</h1>
+<p>和三大类的其他衍生品不同，<br>
+期货/远期/交换给持有者一种<strong>义务</strong>，让他以一个固定的价格去买/卖一个标的资产，并且只能履约；<br>
+而期权给持有者一种<strong>权利</strong>，这种权利给他一个是否&quot;以一个固定的价格买入/卖出资产&quot;的选择，可以不履约。</p>
+<p>期权的买方有权利、无义务，而期权的卖方有义务、无权利。期权是一个<strong>不对称但公平</strong>的交易。<br>
+例如：50万卖给其他人去从事危险工作（如矿工等）的权利，也就是&quot;重赏之下必有勇夫&quot;、“一个愿打一个愿挨”。</p>
+<p>看涨期权/认购期权：一个买入的权利，给期权持有者在将来一个时刻以一定价格买入资产的权利。<br>
+看跌期权/认沽期权：一个卖出的权利，给期权持有者在将来一个时刻以一定价格卖出资产的权利。</p>
+<p>欧式期权：只能在到期日实施权利；<br>
+美式期权：权利有效期内可以无限实施，美式期权更贵、更难分析、数量也略多一点；<br>
+最优实施的价格就在到期日时，两种期权的价格相等。</p>
+<p>2个方向（买入卖出）、不同的有效期期限、不同的执行价格，导致期权有非常多品种。</p>
+<p>不管是期货还是期权，持有者都可以不执行权利，而是选择在市场上提前卖出。这是因为市场存在着流动性。</p>
+<br/>
+<hr>
+<br/>
+<h1 id="115-交易者分类">1.15 交易者分类</h1>
+<p>交易者分类：</p>
+<ul>
+<li>套期保值（套保）者</li>
+<li>投机者</li>
+<li>套利者</li>
+</ul>
+<p>以套期保值为例：一个买了微软股票的人为了确保股价平稳，可以购买一定价格卖出股票的期权，避免以后股价下跌太多。如果到期日股价相比现在跌了，按照期权卖出股票，如果涨了，可以放弃权利。<br>
+不考虑期权费用的话，最终这些股票会有一个保底价格。</p>
+<figure data-type="image" tabindex="5"><img src="https://444494.xyz/post-images/1614092166219.png" alt="" loading="lazy"></figure>
+<center>买入期权后，最终这些股票会有一个保底价格</center>
 <br/>
 <hr>
 <br/>
