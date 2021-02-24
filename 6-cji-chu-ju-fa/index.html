@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>中财《期货与期权》 | Nome</title>
+<title>《重学C++》6. C++基础句法 | Nome</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -22,7 +22,13 @@
 
 
 
-    <meta name="description" content="Break a leg.">
+    <meta name="description" content="1. 枚举enum
+定义时类似于结构体：
+enum wT{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
+wT week;
+week = monday;
+we..." />
+    <meta name="keywords" content="" />
   </head>
   <body>
     <div id="app" class="main">
@@ -98,43 +104,57 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: 中财《期货与期权》</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://444494.xyz/lesslessqi-huo-yu-qi-quan-greatergreater-14-yan-sheng-pin-li-shi/">
-                  <h2 class="post-title">《期货与期权》1. 导论（一）</h2>
-                </a>
-                <div class="post-date">
-                  2021-02-21
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://444494.xyz/10-ke-cheng-jie-shao/">
-                  <h2 class="post-title">中央财经大学《期货与期权》</h2>
-                </a>
-                <div class="post-date">
-                  2021-02-21
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
+          <div class="post-detail">
+            <h2 class="post-title">《重学C++》6. C++基础句法</h2>
+            <div class="post-date">2021-02-24</div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="1-枚举enum">1. 枚举enum</h2>
+<p>定义时类似于结构体：</p>
+<pre><code>enum wT{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
+wT week;
+week = monday;
+week = Tuesday;
+</code></pre>
+<p>枚举变量可以给其他变量赋值，但其他变量不能赋值给枚举变量</p>
+<pre><code>int a = 1;
+// week = a;   错误，其他变量不能赋值给枚举变量
+a = week;
+</code></pre>
+<p>枚举变量内部其实是通过int整型数字实现的，内部的第一个变量默认为0（也可指定为某数字），之后依次加一。</p>
+<pre><code>week = wT(1);    //一定要转换类型才能赋值，这里转换为tuesday
+week = wednesday;
+cout&lt;&lt; week  &lt;&lt;endl;    //输出2，即wednesday
+</code></pre>
+<h2 id="2-联合体和结构体内存">2. 联合体和结构体内存</h2>
+<p>联合体中的所有数据共用一块数据，因此<strong>联合体的大小是其中最大元素的大小</strong>。</p>
+<p>而结构体的大小是其中所有数据的大小之和，但涉及到内存对齐的问题。<br>
+（为了节省空间，应该尽量把小的数据元素放到一起）<br>
+<img src="https://444494.xyz/post-images/1614135596674.png" alt="" loading="lazy"></p>
+<p>此外，结构体内存大小还应当是最大元素的整数倍。</p>
+<figure data-type="image" tabindex="1"><img src="https://444494.xyz/post-images/1614135737974.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://444494.xyz/post-images/1614135805065.png" alt="" loading="lazy"></figure>
+<p><strong>这部分内容面试题经常考到。</strong></p>
+<blockquote>
+<p>结构体大小的计算https://www.runoob.com/w3cnote/struct-size.html</p>
+</blockquote>
 
-          <div class="pagination-container">
-  
-  
-</div>
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/lessless/">
+                  <h3 class="post-title">
+                    《期货与期权》1. 导论（二）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
 
         </div>
       </div>

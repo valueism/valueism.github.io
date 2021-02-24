@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://444494.xyz</id>
     <title>Nome</title>
-    <updated>2021-02-24T03:10:14.888Z</updated>
+    <updated>2021-02-24T04:02:23.150Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://444494.xyz"/>
     <link rel="self" href="https://444494.xyz/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://444494.xyz/images/avatar.png</logo>
     <icon>https://444494.xyz/favicon.ico</icon>
     <rights>All rights reserved 2021, Nome</rights>
+    <entry>
+        <title type="html"><![CDATA[《重学C++》6. C++基础句法]]></title>
+        <id>https://444494.xyz/6-cji-chu-ju-fa/</id>
+        <link href="https://444494.xyz/6-cji-chu-ju-fa/">
+        </link>
+        <updated>2021-02-24T02:40:03.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[《期货与期权》1. 导论（二）]]></title>
         <id>https://444494.xyz/lessless/</id>
@@ -72,12 +79,5 @@
         <link href="https://444494.xyz/3-cde-yun-suan-fu-yu-biao-da-shi/">
         </link>
         <updated>2021-02-20T03:57:45.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[《重学C++》2. C++基础语法]]></title>
-        <id>https://444494.xyz/2cji-chu-yu-fa/</id>
-        <link href="https://444494.xyz/2cji-chu-yu-fa/">
-        </link>
-        <updated>2021-02-20T02:32:40.000Z</updated>
     </entry>
 </feed>
