@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614142863427">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614144710650">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -37,7 +37,7 @@ we..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614142863427" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614144710650" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -128,15 +128,17 @@ cout&lt;&lt; week  &lt;&lt;endl;    //输出2，即wednesday
 </code></pre>
 <h2 id="2-联合体和结构体内存">2. 联合体和结构体内存</h2>
 <p>联合体中的所有数据共用一块数据，因此<strong>联合体的大小是其中最大元素的大小</strong>。</p>
-<p>而结构体的大小是其中所有数据的大小之和，但涉及到内存对齐的问题。<br>
+<p>而结构体的大小是其中所有数据的大小之和，但涉及到内存对齐的问题。32位机器中，每4Byte作为一个整体，元素即使小于4Byte也要单独占据这块空间（除非和其他变量共占）。<br>
 （为了节省空间，应该尽量把小的数据元素放到一起）<br>
 <img src="https://444494.xyz/post-images/1614135596674.png" alt="" loading="lazy"></p>
-<p>此外，结构体内存大小还应当是最大元素的整数倍。</p>
+<center>元素即使小于4Byte也要单独在其中存放</center>
+此外，结构体内存大小还应当是最大元素的整数倍。
 <figure data-type="image" tabindex="1"><img src="https://444494.xyz/post-images/1614135737974.png" alt="" loading="lazy"></figure>
 <figure data-type="image" tabindex="2"><img src="https://444494.xyz/post-images/1614135805065.png" alt="" loading="lazy"></figure>
-<p><strong>这部分内容面试题经常考到。</strong></p>
+<p><strong>面试题经常考到这部分内容。</strong></p>
 <blockquote>
-<p>结构体大小的计算https://www.runoob.com/w3cnote/struct-size.html</p>
+<p>结构体大小的计算<br>
+https://www.runoob.com/w3cnote/struct-size.html</p>
 </blockquote>
 
             </div>
