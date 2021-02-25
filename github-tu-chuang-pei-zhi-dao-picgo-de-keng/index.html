@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614237228828">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614237832555">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -22,8 +22,8 @@
 
 
 
-    <meta name="description" content="本来是用的sm.ms图床，但是后来发现上传时候后图片无法显示，以为是图床的问题，所以换成Github图床（后来Github图床也是这种情况，测试后发现很可能是墙导致的）。
-简单来说只需要两步：1.创建用作图床的公开仓库 2.配置PicGo。..." />
+    <meta name="description" content="本来是用的sm.ms图床，但是后来发现上传之后图片无法显示，以为是图床的问题，所以换成Github图床（后来Github图床也是这种情况，测试后发现很可能是墙导致的）。
+简单来说只需要两步：1.创建用作图床的公开仓库并生成token； 2...." />
     <meta name="keywords" content="博客" />
   </head>
   <body>
@@ -33,7 +33,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614237228828" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614237832555" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -105,9 +105,9 @@
             <div class="post-date">2021-02-25</div>
             
             <div class="post-content" v-pre>
-              <p>本来是用的sm.ms图床，但是后来发现上传时候后图片无法显示，以为是图床的问题，所以换成Github图床（后来Github图床也是这种情况，测试后发现很可能是墙导致的）。</p>
-<p>简单来说只需要两步：1.创建用作图床的<strong>公开仓库</strong> 2.配置PicGo。即使<a href="https://picgo.github.io/PicGo-Doc/zh/guide/config.html#github%E5%9B%BE%E5%BA%8A">官方指南</a>和很多文章都给出了教程，但这简单的两步里面有挺多坑。</p>
-<h4 id="我的经历中主要遇到了以下这些问题">我的经历中主要遇到了以下这些问题：</h4>
+              <p>本来是用的sm.ms图床，但是后来发现上传之后图片无法显示，以为是图床的问题，所以换成Github图床（后来Github图床也是这种情况，测试后发现很可能是墙导致的）。</p>
+<p>简单来说只需要两步：1.创建用作图床的<strong>公开仓库</strong>并生成token； 2.配置PicGo。即使<a href="https://picgo.github.io/PicGo-Doc/zh/guide/config.html#github%E5%9B%BE%E5%BA%8A">官方指南</a>和很多文章都给出了教程，但这简单的两步里面有挺多坑。</p>
+<p>我在配置过程中主要遇到了以下这些问题：</p>
 <ol>
 <li>仓库可见性（visibility）<br>
 创建仓库时一定要选Public，创建<strong>公开仓库</strong>。</li>
@@ -123,7 +123,7 @@
 <br/>
 <p>还有网上提到的一些错误，但我没有遇到过：</p>
 <ol>
-<li>文件名里不能有 ‘+’ 、空格等符号，有就上传不成功。</li>
+<li>文件名里不能有'+' 、空格等符号，有就上传不成功。</li>
 <li>图片后缀png上传不了，jpg可以。</li>
 </ol>
 <br/>
