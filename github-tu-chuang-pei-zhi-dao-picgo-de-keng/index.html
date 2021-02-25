@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614235792006">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614236597411">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -22,8 +22,8 @@
 
 
 
-    <meta name="description" content="本来是用的sm.ms图床，但是后来发现上传时候后图片无法显示，以为是图床的问题，所以换成Github（后来Github图床也是这种情况，怀疑并不是图床的问题，而是墙导致的）。
-简单来说只需要两步：1.创建用作图床的公开仓库 2.配置PicG..." />
+    <meta name="description" content="本来是用的sm.ms图床，但是后来发现上传时候后图片无法显示，以为是图床的问题，所以换成Github图床（后来Github图床也是这种情况，测试后发现很可能是墙导致的）。
+简单来说只需要两步：1.创建用作图床的公开仓库 2.配置PicGo。..." />
     <meta name="keywords" content="博客" />
   </head>
   <body>
@@ -33,7 +33,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614235792006" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614236597411" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -105,9 +105,9 @@
             <div class="post-date">2021-02-25</div>
             
             <div class="post-content" v-pre>
-              <p>本来是用的sm.ms图床，但是后来发现上传时候后图片无法显示，以为是图床的问题，所以换成Github（后来Github图床也是这种情况，怀疑并不是图床的问题，而是墙导致的）。</p>
+              <p>本来是用的sm.ms图床，但是后来发现上传时候后图片无法显示，以为是图床的问题，所以换成Github图床（后来Github图床也是这种情况，测试后发现很可能是墙导致的）。</p>
 <p>简单来说只需要两步：1.创建用作图床的<strong>公开</strong>仓库 2.配置PicGo。即使<a href="https://picgo.github.io/PicGo-Doc/zh/guide/config.html#github%E5%9B%BE%E5%BA%8A">官方指南</a>和很多文章都给出了教程，但这简单的两步里面有挺多坑。</p>
-<h3 id="主要有以下这些问题">主要有以下这些问题：</h3>
+<h3 id="我的经历中主要遇到了以下这些问题">我的经历中主要遇到了以下这些问题：</h3>
 <ol>
 <li>自定义域名<br>
 采用固定格式“https://raw.githubusercontent.com/用户名/仓库名/分支名”填写，不要像我一样傻乎乎看完网上教程的配置就直接拿过来填了。</li>
@@ -116,18 +116,22 @@
 <li>分支名<br>
 这里比较坑，我按照网上的教程排查了半天错误，才发现分支名不对。实际上除了<a href="https://picgo.github.io/PicGo-Doc/zh/guide/config.html#github%E5%9B%BE%E5%BA%8A">官方指南</a>上写到“分支名，默认是main”之外，我看过的网上的文章都写默认分支名是“master”（因为没有更新）。实际上由于黑命贵的一些运动，<strong><a href="https://github.com/github/renaming">Github已经把默认分支名改为了main</a></strong>。这个问题的教训就是：<strong>不管干啥，尽量还是去翻阅官方文档，这样更靠谱</strong>。</li>
 <li>服务器错误<br>
-配置好后上传图片，提示服务器出错。在设置里依次点击 &quot;设置日志文件&quot;-&quot;点击打开&quot;，翻到最下面可以看到“RequestError: Error: Client network socket disconnected before secure TLS connection was established”。结果设置中把“设置server”里的开关关掉就可以了。（搞不懂既然会导致失败，为什么这个开关默认开启，还写着“如果你不知道server的作用，请阅读文档，或者不用修改配置”。不过也可能只是个别情况默认配置才会出错。）</li>
+配置好后上传图片，提示服务器出错。在设置里依次点击 &quot;设置日志文件&quot;-&quot;点击打开&quot;，翻到最下面可以看到“RequestError: Error: Client network socket disconnected before secure TLS connection was established”。结果设置中把“设置server”里的开关切换一下就可以了，还不行就再重启应用。（测试后发现，这个和梯子有关。）。</li>
 </ol>
-<p>还有网上提到的一些错误，但我没有：</p>
+<p>还有网上提到的一些错误，但我没有遇到过：</p>
 <ol>
-<li>文件名里不能有 ‘+’ 号，有 ‘+’ 就上传不成功。、</li>
+<li>文件名里不能有 ‘+’ 号，有 ‘+’ 就上传不成功。</li>
 <li>图片后缀png上传不了，jpg可以。</li>
 </ol>
+<br/>
+<br/>
 <p>参考文章：</p>
 <blockquote>
 <p>PicGo+Github图床配置，以及服务端出错及上传失败的一些坑！<br>
 https://blog.csdn.net/twodogbanana/article/details/95609760</p>
 </blockquote>
+<p>PicGo踩坑记（上传失败，服务端出错，请重试）<br>
+https://blog.csdn.net/TalesOV/article/details/104450037?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.channel_param&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.channel_param</p>
 
             </div>
             
