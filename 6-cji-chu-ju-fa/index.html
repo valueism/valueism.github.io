@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614237832555">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614267221898">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -37,7 +37,7 @@ we..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614237832555" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614267221898" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -140,6 +140,7 @@ cout&lt;&lt; week  &lt;&lt;endl;    //输出2，即wednesday
 <p>结构体大小的计算<br>
 https://www.runoob.com/w3cnote/struct-size.html</p>
 </blockquote>
+<br/>
 <h2 id="2-函数">2. 函数</h2>
 <p>函数是一段封装好的代码，便于复用。<br>
 可以去使用一些比较好的公开库函数，可以节省开发成本，提高效率。但是有些场合对软件要求比较高，此时使用库函数可能不够高效而不能满足要求。</p>
@@ -168,6 +169,7 @@ cout &lt;&lt;  constNum &lt;&lt; endl;
 cout &lt;&lt; ( test() == 1 )&lt;&lt; endl;
 </code></pre>
 <p>在实际使用中，可能需要在.h头文件中声明、.cpp文件中定义命名空间，最后在另一个.cpp文件中使用命名空间。</p>
+<br/>
 <h2 id="3-函数体hack过程">3. 函数体hack过程</h2>
 <h3 id=""></h3>
 <p>函数调用过程中，默认会<strong>从右向左</strong>，先压入后面的参数、再压入前面的参数。</p>
@@ -178,6 +180,94 @@ cout &lt;&lt; ( test() == 1 )&lt;&lt; endl;
 <figure data-type="image" tabindex="3"><img src="https://i.loli.net/2021/02/24/ZRDJeBarbuNg1qQ.png" alt="Snipaste_2021-02-24_15-43-46.png" loading="lazy"></figure>
 <center>先压入后面的参数、再压入前面的参数</center>
 <figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/562c11dfa9ec8a13f30dec3efb03918fa1ecc0dd.jpg" alt="" loading="lazy"></figure>
+<br/>
+<h2 id="4-递归">4. 递归</h2>
+<p>递归是一种重要的编程思想：</p>
+<ol>
+<li>很多重要的算法都包含递归的思想；</li>
+<li>递归最大的缺陷：
+<ol>
+<li>空间上需要开辟大量的栈空间；</li>
+<li>时间上可能需要有大量重复运算；</li>
+</ol>
+</li>
+</ol>
+<p>递归的优化：</p>
+<ol>
+<li>尾递归：所有递归形式的调用都出现在函数的末尾；</li>
+<li>使用循环替代；</li>
+<li>使用动态规划，空间换时间；</li>
+</ol>
+<p>下面以斐波那契数列为例，列举优化后的方法。</p>
+<h3 id="循环优化递归">循环优化递归</h3>
+<p>这种方法是以循环代替递归调用函数。</p>
+<pre><code>int Fib(int n)
+{
+	if(n &lt;2)
+	{
+		return n;
+	}
+	int n0 = 0,n1 = 1;
+	int temp;
+	for(int i = 2;i &lt;= n;++i)
+	{
+		temp = n0;
+		n0 = n1;
+		n1 = temp+n1;
+	}
+	return n1;
+}
+
+</code></pre>
+<h3 id="尾递归">尾递归</h3>
+<p>尾递归：所有递归形式的调用都出现在函数的末尾，并且只能直接返回递归函数的值（不能有加法等运算）。</p>
+<blockquote>
+<p>什么是尾递归？ - 龙枪的回答 - 知乎<br>
+https://www.zhihu.com/question/20761771/answer/106426743</p>
+</blockquote>
+<pre><code>    //不是尾递归，因为存在加法
+     return Fib(n-1}+Fib(n-2);
+    //return Fib(n-1}+2; 这种方式也不是尾递归
+
+    //是尾递归
+    return Fib(n-1,ret1,ret0+ret1);
+</code></pre>
+<p>优化后的代码：</p>
+<pre><code>int Fib(int n,int ret0,int ret1)
+{
+	if(n == 0)
+	{
+		return ret0;
+	}else if(n == 1){
+		return ret1;
+	}
+	return Fib(n-1,ret1,ret0+ret1);
+}
+</code></pre>
+<p>尾递归每次只需要保存一个递归信息，普通的递归每次需要保存两个函数的递归信息。长此以往是一个很大的开销。</p>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20201113181206825.png" alt="" loading="lazy"></figure>
+<center>没有尾递归优化时的调用过程</center>
+<p>当有尾递归优化时，每次只调用一个递归函数，然后这个函数再向下调用一个（特点是直上直下、没有分支，类似于从头到尾访问一个链表）。这样的好处是，每次调用不会“分叉”，每轮永远只调用一个函数。从而节省了大量栈空间和重复计算的时间。</p>
+<p><strong>尾递归的优化：</strong><br>
+在编译器中C/C+±&gt;优化-&gt;优化-&gt;使大小最小化(/O1)<br>
+C/C+±&gt;代码生成-&gt;基本运行时检查-&gt;默认值</p>
+<h3 id="动态规划">动态规划</h3>
+<p>动态规划思路是将每个计算过的数值存储起来，后期如果需要可以直接拿出来，不需要再次计算（空间换时间）。</p>
+<p>这里就是用一个数组存储各个斐波那契的数值。</p>
+<pre><code>#include&lt;assert.h&gt;
+int a[1000];	//全局数组
+int Fib(int n)
+{
+	a[0] = 0;
+	a[1] = 1;
+	for(int i &lt;=2;i &lt;= n;++i)
+	{
+		a[i] = a[i-1]+a[i-2];
+	}  
+	return a[n];
+}
+assert(Fib(10)==55);
+</code></pre>
 
             </div>
             
