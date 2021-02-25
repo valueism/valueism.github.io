@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Github Pages加速 | Nome</title>
+<title>Github图床配置到PicGo的坑 | Nome</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -22,8 +22,8 @@
 
 
 
-    <meta name="description" content="本网站是我使用Github Pages+Gridea搭建的静态博客，域名当初买了趁着搞活动41元买了10年，计划长期使用，然而使用过程中发现这套配置唯一的短板就是国内访问速度太慢，因此收藏几个可以加速访问的方法。
-加速Github Page..." />
+    <meta name="description" content="本来是用的sm.ms图床，但是后来发现上传时候后图片无法显示，以为是图床的问题，所以换成Github（后来Github图床也是这种情况，怀疑并不是图床的问题，而是墙导致的）。
+简单来说只需要两步：1.创建用作图床的公开仓库 2.配置PicG..." />
     <meta name="keywords" content="博客" />
   </head>
   <body>
@@ -101,59 +101,33 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Github Pages加速</h2>
-            <div class="post-date">2021-02-20</div>
+            <h2 class="post-title">Github图床配置到PicGo的坑</h2>
+            <div class="post-date">2021-02-25</div>
             
             <div class="post-content" v-pre>
-              <p>本网站是我使用Github Pages+Gridea搭建的静态博客，域名当初买了趁着搞活动41元买了10年，计划长期使用，然而使用过程中发现这套配置唯一的短板就是国内访问速度太慢，因此收藏几个可以加速访问的方法。</p>
-<p>加速Github Pages:</p>
-<ul>
-<li>
+              <p>本来是用的sm.ms图床，但是后来发现上传时候后图片无法显示，以为是图床的问题，所以换成Github（后来Github图床也是这种情况，怀疑并不是图床的问题，而是墙导致的）。</p>
+<p>简单来说只需要两步：1.创建用作图床的<strong>公开</strong>仓库 2.配置PicGo。即使<a href="https://picgo.github.io/PicGo-Doc/zh/guide/config.html#github%E5%9B%BE%E5%BA%8A">官方指南</a>和很多文章都给出了教程，但这简单的两步里面有挺多坑。</p>
+<h3 id="主要有以下这些问题">主要有以下这些问题：</h3>
+<ol>
+<li>自定义域名<br>
+采用固定格式“https://raw.githubusercontent.com/用户名/仓库名/分支名”填写，不要像我一样傻乎乎看完网上教程的配置就直接拿过来填了。</li>
+<li>仓库名<br>
+仓库名类似自定义域名的最后一部分，是按照“账户名/仓库名”的格式填写，但是<strong>名称中空格用‘-’代替</strong>。</li>
+<li>分支名<br>
+这里比较坑，我按照网上的教程排查了半天错误，才发现分支名不对。实际上除了<a href="https://picgo.github.io/PicGo-Doc/zh/guide/config.html#github%E5%9B%BE%E5%BA%8A">官方指南</a>上写到“分支名，默认是main”之外，我看过的网上的文章都写默认分支名是“master”（因为没有更新）。实际上由于黑命贵的一些运动，<strong><a href="https://github.com/github/renaming">Github已经把默认分支名改为了main</a></strong>。这个问题的教训就是：<strong>不管干啥，尽量还是去翻阅官方文档，这样更靠谱</strong>。</li>
+<li>服务器错误<br>
+配置好后上传图片，提示服务器出错。在设置里依次点击 &quot;设置日志文件&quot;-&quot;点击打开&quot;，翻到最下面可以看到“RequestError: Error: Client network socket disconnected before secure TLS connection was established”。结果设置中把“设置server”里的开关关掉就可以了。（搞不懂既然会导致失败，为什么这个开关默认开启，还写着“如果你不知道server的作用，请阅读文档，或者不用修改配置”。不过也可能只是个别情况默认配置才会出错。）</li>
+</ol>
+<p>还有网上提到的一些错误，但我没有：</p>
+<ol>
+<li>文件名里不能有 ‘+’ 号，有 ‘+’ 就上传不成功。、</li>
+<li>图片后缀png上传不了，jpg可以。</li>
+</ol>
+<p>参考文章：</p>
 <blockquote>
-<p>Github Pages访问太慢？通过Netlify免费加速。<br>
-https://www.shuzhiduo.com/A/LPdovX1O53/</p>
+<p>PicGo+Github图床配置，以及服务端出错及上传失败的一些坑！<br>
+https://blog.csdn.net/twodogbanana/article/details/95609760</p>
 </blockquote>
-</li>
-</ul>
-<p>免费，以前用过一段时间，速度还是不错的，但也有一些问题：<br>
-一是经常会出现点击登录之后就发生错误，导致无法登录，累觉不爱；其次用了一段时间后打开博客发现网速好慢，感觉效果可能不太行了。（后面我是在家里访问，也许是因为这边网络比较差。）</p>
-<br/>
-<ul>
-<li>
-<blockquote>
-<p>优雅的使用Vercel加速GitHub Pages<br>
-https://www.iaia.cc/posts/2418998582.html<br/><br>
-vercel是什么神仙网站？<br>
-https://www.jianshu.com/p/9f67ff433d8e</p>
-</blockquote>
-</li>
-</ul>
-<p>免费，加速效果还是不错的，免费还要啥自行车。印象中之前Netlify配置好后速度和Vercel一样挺快。<br>
-前几次弄好后发现不但没有加速，反而博客打不开了。最后看了邮件，原来也一定要加入另外两条解析记录。<br>
-第二篇文章中更深入介绍了vercel的功能，它甚至能构建动态网站是我没想到的。</p>
-<figure data-type="image" tabindex="1"><img src="https://444494.xyz/post-images/1613891243147.png" alt="" loading="lazy"></figure>
-<br/>
-<ul>
-<li>
-<blockquote>
-<p>hexo+github+coding双线部署（加快博客访问速度）<br>
-https://leflacon.top/b61b079a/</p>
-</blockquote>
-</li>
-</ul>
-<p>coding是国内的网站，可以同时部署博客在它上面，类似的好像还有码云等。这种方法原理大概和Github Pages一样，只是服务器在国内，不经过墙，所以速度快点。可以设置墙外访问Github Pages，墙内访问coding。<br>
-免费，但是考虑到要往上面上传文件、代码等，想想是国内网站还是算了😅（一是不信任，二是部署网站好像要实名认证/备案）。不过相比于其他几种方法，这种方法的好处应该在于它能够让博客被百度收录，详见<a href="https://zhuanlan.zhihu.com/p/111773896">如何让百度收录 GitHub Pages 个人博客</a>。</p>
-<br/>
-<ul>
-<li>
-<blockquote>
-<p>使用国内CDN加速<br>
-https://www.cnblogs.com/geraint/p/13115459.html</p>
-</blockquote>
-</li>
-</ul>
-<p>国内CDN主要是腾讯云、阿里云等这些国内互联网公司提供的服务。<br>
-收费，不过腾讯云会送新人一些流量，够用好几个月了。但我不想&amp;懒得备案域名，所以没用过。</p>
 
             </div>
             
@@ -168,9 +142,9 @@ https://www.cnblogs.com/geraint/p/13115459.html</p>
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://444494.xyz/3-cde-yun-suan-fu-yu-biao-da-shi/">
+                <a href="https://444494.xyz/6-cji-chu-ju-fa/">
                   <h3 class="post-title">
-                    《重学C++》3. C++的运算符与表达式
+                    《重学C++》6. C++基础句法
                   </h3>
                 </a>
               </div>
