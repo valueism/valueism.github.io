@@ -8,8 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614144710650">
-<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico?v=1614230318427">
+<link rel="stylesheet" href="http://localhost:4000/styles/main.css">
 
 
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
@@ -36,8 +36,8 @@
       <div class="sidebar" :class="{ 'full-height': menuVisible }">
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
-      <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614144710650" class="site-logo">
+      <a class="site-title-container" href="http://localhost:4000">
+        <img src="http://localhost:4000/images/avatar.png?v=1614230318427" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -96,7 +96,7 @@
       Break a leg.
     </div>
     <div class="site-footer">
-       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+       | <a class="rss" href="http://localhost:4000/atom.xml" target="_blank">RSS</a>
     </div>
   </div>
 </div>
@@ -251,7 +251,7 @@ https://blog.csdn.net/p942005405/article/details/84635673</p>
 }
 </code></pre>
 <p>但shared_ptr同时产生了问题：<strong>循环引用</strong><br>
-<img src="https://444494.xyz/post-images/1614067156188.png" alt="" loading="lazy"></p>
+<img src="http://localhost:4000/post-images/1614067156188.png" alt="" loading="lazy"></p>
 <center>共享指针循环引用</center>
 <br/>
 <p>于是引入指针<strong>weak_ptr</strong>，依附于shared_ptr，和它一起协同工作，采用一种观察者的模式（不会对shared_ptr造成直接影响），<strong>两者地位并不对等</strong>。</p>
@@ -261,7 +261,7 @@ https://blog.csdn.net/p942005405/article/details/84635673</p>
 <li>只能对shared_ptr进行引用；</li>
 <li>当shared_ptr失效后，对应的weak_ptr也失效。</li>
 </ol>
-<figure data-type="image" tabindex="1"><img src="https://444494.xyz/post-images/1614067369097.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="http://localhost:4000/post-images/1614067369097.png" alt="" loading="lazy"></figure>
 <center>weak_ptr解决循环引用的问题</center>
 <br/>
 <pre><code>
@@ -365,7 +365,7 @@ Bjarne Stroustrup(C++之父)的解释：<br>
             
               <div class="tag-container">
                 
-                  <a href="https://444494.xyz/tag/va-k-XPwc/" class="tag">
+                  <a href="http://localhost:4000/tag/va-k-XPwc/" class="tag">
                     慕课网《重学C++ 重构你的C++知识体系》
                   </a>
                 
@@ -374,7 +374,7 @@ Bjarne Stroustrup(C++之父)的解释：<br>
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://444494.xyz/lesslesschong-xue-cgreatergreater-5-che-di-xue-hui-c-zhi-zhen-yin-yong-er/">
+                <a href="http://localhost:4000/lesslesschong-xue-cgreatergreater-5-che-di-xue-hui-c-zhi-zhen-yin-yong-er/">
                   <h3 class="post-title">
                     《重学C++》5. 彻底学会 C++ 指针，引用（二）内存资源
                   </h3>
