@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614267221898">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614267639327">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -37,7 +37,7 @@ we..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614267221898" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614267639327" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -172,14 +172,15 @@ cout &lt;&lt; ( test() == 1 )&lt;&lt; endl;
 <br/>
 <h2 id="3-函数体hack过程">3. 函数体hack过程</h2>
 <h3 id=""></h3>
-<p>函数调用过程中，默认会<strong>从右向左</strong>，先压入后面的参数、再压入前面的参数。</p>
-<p>参数传递顺序<br>
+<p>函数调用过程中，默认会<strong>从右向左</strong>，先压入后面的参数、再压入前面的参数。<br>
+VS默认采取了__cdecl的调用约定方式，从右向左传递参数。这也是为什么只能给右边的函数参数加默认参数。</p>
+<blockquote>
+<p>调用约定（调用惯例）的参数传递顺序<br>
 1.从右到左依次入栈：__stdcall，__cdecl，__thiscall，__fastcall<br>
 2.从左到右依次入栈：__pascal</p>
-<p>VS默认采取了__cdecl的方式，从右向左传递参数。这也是为什么只能给右边的函数参数加默认参数。</p>
+</blockquote>
 <figure data-type="image" tabindex="3"><img src="https://i.loli.net/2021/02/24/ZRDJeBarbuNg1qQ.png" alt="Snipaste_2021-02-24_15-43-46.png" loading="lazy"></figure>
 <center>先压入后面的参数、再压入前面的参数</center>
-<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/562c11dfa9ec8a13f30dec3efb03918fa1ecc0dd.jpg" alt="" loading="lazy"></figure>
 <br/>
 <h2 id="4-递归">4. 递归</h2>
 <p>递归是一种重要的编程思想：</p>
@@ -219,6 +220,23 @@ cout &lt;&lt; ( test() == 1 )&lt;&lt; endl;
 }
 
 </code></pre>
+<h3 id="动态规划">动态规划</h3>
+<p>动态规划思路是将每个计算过的数值存储起来，后期如果需要可以直接拿出来，不需要再次计算（空间换时间）。</p>
+<p>这里就是用一个数组存储各个斐波那契的数值。</p>
+<pre><code>#include&lt;assert.h&gt;
+int a[1000];	//全局数组
+int Fib(int n)
+{
+	a[0] = 0;
+	a[1] = 1;
+	for(int i &lt;=2;i &lt;= n;++i)
+	{
+		a[i] = a[i-1]+a[i-2];
+	}  
+	return a[n];
+}
+assert(Fib(10)==55);
+</code></pre>
 <h3 id="尾递归">尾递归</h3>
 <p>尾递归：所有递归形式的调用都出现在函数的末尾，并且只能直接返回递归函数的值（不能有加法等运算）。</p>
 <blockquote>
@@ -245,29 +263,14 @@ https://www.zhihu.com/question/20761771/answer/106426743</p>
 }
 </code></pre>
 <p>尾递归每次只需要保存一个递归信息，普通的递归每次需要保存两个函数的递归信息。长此以往是一个很大的开销。</p>
-<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20201113181206825.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20201113181206825.png" alt="" loading="lazy"></figure>
 <center>没有尾递归优化时的调用过程</center>
 <p>当有尾递归优化时，每次只调用一个递归函数，然后这个函数再向下调用一个（特点是直上直下、没有分支，类似于从头到尾访问一个链表）。这样的好处是，每次调用不会“分叉”，每轮永远只调用一个函数。从而节省了大量栈空间和重复计算的时间。</p>
+<blockquote>
 <p><strong>尾递归的优化：</strong><br>
 在编译器中C/C+±&gt;优化-&gt;优化-&gt;使大小最小化(/O1)<br>
 C/C+±&gt;代码生成-&gt;基本运行时检查-&gt;默认值</p>
-<h3 id="动态规划">动态规划</h3>
-<p>动态规划思路是将每个计算过的数值存储起来，后期如果需要可以直接拿出来，不需要再次计算（空间换时间）。</p>
-<p>这里就是用一个数组存储各个斐波那契的数值。</p>
-<pre><code>#include&lt;assert.h&gt;
-int a[1000];	//全局数组
-int Fib(int n)
-{
-	a[0] = 0;
-	a[1] = 1;
-	for(int i &lt;=2;i &lt;= n;++i)
-	{
-		a[i] = a[i-1]+a[i-2];
-	}  
-	return a[n];
-}
-assert(Fib(10)==55);
-</code></pre>
+</blockquote>
 
             </div>
             
