@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://444494.xyz</id>
     <title>Nome</title>
-    <updated>2021-02-27T02:35:39.458Z</updated>
+    <updated>2021-02-27T03:31:13.461Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://444494.xyz"/>
     <link rel="self" href="https://444494.xyz/atom.xml"/>
@@ -11,7 +11,21 @@
     <icon>https://444494.xyz/favicon.ico</icon>
     <rights>All rights reserved 2021, Nome</rights>
     <entry>
-        <title type="html"><![CDATA[华北电力大学《证券投资学》]]></title>
+        <title type="html"><![CDATA[《证券投资学》3. 证券市场走一圈，投资战场游一遍]]></title>
+        <id>https://444494.xyz/lesslesszheng-quan-tou-zi-xue-greatergreater-3-zheng-quan-shi-chang-zou-yi-quan-tou-zi-zhan-chang-you-yi-bian/</id>
+        <link href="https://444494.xyz/lesslesszheng-quan-tou-zi-xue-greatergreater-3-zheng-quan-shi-chang-zou-yi-quan-tou-zi-zhan-chang-you-yi-bian/">
+        </link>
+        <updated>2021-02-27T03:04:50.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[《证券投资学》2. 证券家族四兄弟]]></title>
+        <id>https://444494.xyz/lesslesszheng-quan-tou-zi-xue-greatergreater-2-zheng-quan-jia-zu-4-xiong-di/</id>
+        <link href="https://444494.xyz/lesslesszheng-quan-tou-zi-xue-greatergreater-2-zheng-quan-jia-zu-4-xiong-di/">
+        </link>
+        <updated>2021-02-27T02:43:39.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[华北电力大学《证券投资学》（第五次）]]></title>
         <id>https://444494.xyz/hua-bei-dian-li-da-xue-lesslesszheng-quan-tou-zi-xue-greatergreater/</id>
         <link href="https://444494.xyz/hua-bei-dian-li-da-xue-lesslesszheng-quan-tou-zi-xue-greatergreater/">
         </link>
@@ -65,19 +79,5 @@
         <link href="https://444494.xyz/lesslessqi-huo-yu-qi-quan-greatergreater-14-yan-sheng-pin-li-shi/">
         </link>
         <updated>2021-02-21T12:43:02.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[中央财经大学《期货与期权》]]></title>
-        <id>https://444494.xyz/10-ke-cheng-jie-shao/</id>
-        <link href="https://444494.xyz/10-ke-cheng-jie-shao/">
-        </link>
-        <updated>2021-02-21T11:28:43.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[《重学C++》4. C++基础容器]]></title>
-        <id>https://444494.xyz/4-cji-chu-rong-qi/</id>
-        <link href="https://444494.xyz/4-cji-chu-rong-qi/">
-        </link>
-        <updated>2021-02-21T02:59:13.000Z</updated>
     </entry>
 </feed>
