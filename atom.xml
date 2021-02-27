@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://444494.xyz</id>
     <title>Nome</title>
-    <updated>2021-02-25T15:41:52.013Z</updated>
+    <updated>2021-02-27T02:35:39.458Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://444494.xyz"/>
     <link rel="self" href="https://444494.xyz/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://444494.xyz/images/avatar.png</logo>
     <icon>https://444494.xyz/favicon.ico</icon>
     <rights>All rights reserved 2021, Nome</rights>
+    <entry>
+        <title type="html"><![CDATA[华北电力大学《证券投资学》]]></title>
+        <id>https://444494.xyz/hua-bei-dian-li-da-xue-lesslesszheng-quan-tou-zi-xue-greatergreater/</id>
+        <link href="https://444494.xyz/hua-bei-dian-li-da-xue-lesslesszheng-quan-tou-zi-xue-greatergreater/">
+        </link>
+        <updated>2021-02-27T02:26:08.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[PicGo配置Github图床的坑]]></title>
         <id>https://444494.xyz/github-tu-chuang-pei-zhi-dao-picgo-de-keng/</id>
@@ -72,12 +79,5 @@
         <link href="https://444494.xyz/4-cji-chu-rong-qi/">
         </link>
         <updated>2021-02-21T02:59:13.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Github Pages加速]]></title>
-        <id>https://444494.xyz/qi-ta/</id>
-        <link href="https://444494.xyz/qi-ta/">
-        </link>
-        <updated>2021-02-20T14:58:05.000Z</updated>
     </entry>
 </feed>
