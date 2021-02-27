@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614417251906">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614419526276">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@ NDF(Non-deliverable forward):NDF is an outright forward in wh..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614417251906" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614419526276" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -124,9 +124,9 @@ NDF是一种直接的远期合约，交易对手根据约定的名义金额结�
 <p>FRA is a forward contract, an over-the-counter contract between parties that determines the rate of interest to bepaid or received on an obligation beginning at a future start date. The contract will determine the rates to beused along with the termination date and notional value.<br>
 远期利率合约（FRA）是一种场外交易，这种交易约定在将来某一段时间交易的一方将以某一利率借入或借出固定数量的资金。合同将决定使用的价格，以及终止日期和<strong>名义价值</strong>。</p>
 </blockquote>
-<p>类似于NDF用来规避汇率风险，FRA被各大公司用来规避汇率风险。而且本金只用于计算利率，并不交割本金，也被称为名义本金。</p>
-<p>合同双方会约定一个的未来时间作为生效日（effective date）并约定固定的合同利率（contracted rate），并在一段时间间隔（interval）出借/借入资金，这段时间里浮动的利率是参考利率（reference rate），最终在未来的终点（terminal）结束。<strong>结算日并不是在结束点，而是在生效日折算（discount）价格。</strong></p>
-<p>协议记法为：生效月数×到期月数。例如一个FRA1个月后生效、有效期为3个月，那么记作1×4.</p>
+<p>类似于NDF用来规避汇率风险，FRA被各大公司用来规避汇率风险。而且本金只用于计算利率（并不涉及实际借贷），也被称为名义本金。</p>
+<p>合同双方会约定一个的未来时间作为生效日（effective date）并约定固定的合同利率（contracted rate），并在一段时间间隔（interval）出借/借入资金，这段时间里浮动的利率是参考利率（reference rate），最终在未来的终点（terminal）结束。合约只在结算日一次性按照利息的差额进行结算，需要注意的是：<strong>FRA结算日并不是在结束日，而是在生效日折算（discount）价格。</strong></p>
+<p>协议记法为：生效月数×到期月数。例如一个FRA1个月后生效、有效期为3个月，那么记作1×4。在一个月后的生效日一次性结算利率差额。</p>
 <p>特点：</p>
 <ul>
 <li>未来某一时间（certain time）</li>
@@ -213,6 +213,11 @@ NDF是一种直接的远期合约，交易对手根据约定的名义金额结�
 <br/>
 <hr>
 <br/>
+<h1 id="116-利率互换">1.16 利率互换</h1>
+<blockquote>
+<p>对比“远期利率协议”、“利率期货”、“利率互换”？ - 知乎<br>
+https://www.zhihu.com/question/277618631/answer/394515630</p>
+</blockquote>
 
             </div>
             

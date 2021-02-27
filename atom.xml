@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://444494.xyz</id>
     <title>Nome</title>
-    <updated>2021-02-27T09:14:39.678Z</updated>
+    <updated>2021-02-27T09:53:08.457Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://444494.xyz"/>
     <link rel="self" href="https://444494.xyz/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://444494.xyz/images/avatar.png</logo>
     <icon>https://444494.xyz/favicon.ico</icon>
     <rights>All rights reserved 2021, Nome</rights>
+    <entry>
+        <title type="html"><![CDATA[《证券投资学》估值方法]]></title>
+        <id>https://444494.xyz/lesslesszheng-quan-tou-zi-xue-greatergreater-gu-zhi-fang-fa/</id>
+        <link href="https://444494.xyz/lesslesszheng-quan-tou-zi-xue-greatergreater-gu-zhi-fang-fa/">
+        </link>
+        <updated>2021-02-27T09:44:27.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[《证券投资学》5. 证券技术分析]]></title>
         <id>https://444494.xyz/5-ji-shu-fen-xi/</id>
@@ -72,12 +79,5 @@
         <link href="https://444494.xyz/lesslesschong-xue-greatergreater/">
         </link>
         <updated>2021-02-23T09:01:08.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[《重学C++》5. 彻底学会 C++ 指针，引用（二）内存资源]]></title>
-        <id>https://444494.xyz/lesslesschong-xue-cgreatergreater-5-che-di-xue-hui-c-zhi-zhen-yin-yong-er/</id>
-        <link href="https://444494.xyz/lesslesschong-xue-cgreatergreater-5-che-di-xue-hui-c-zhi-zhen-yin-yong-er/">
-        </link>
-        <updated>2021-02-23T01:54:02.000Z</updated>
     </entry>
 </feed>
