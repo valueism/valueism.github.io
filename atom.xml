@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://444494.xyz</id>
     <title>Nome</title>
-    <updated>2021-02-27T11:47:25.820Z</updated>
+    <updated>2021-02-27T16:00:47.060Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://444494.xyz"/>
     <link rel="self" href="https://444494.xyz/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://444494.xyz/images/avatar.png</logo>
     <icon>https://444494.xyz/favicon.ico</icon>
     <rights>All rights reserved 2021, Nome</rights>
+    <entry>
+        <title type="html"><![CDATA[《重学C++》7. C++高级语法]]></title>
+        <id>https://444494.xyz/lesslessgreatergreater-7/</id>
+        <link href="https://444494.xyz/lesslessgreatergreater-7/">
+        </link>
+        <updated>2021-02-27T15:05:13.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[《证券投资学》估值方法]]></title>
         <id>https://444494.xyz/lesslesszheng-quan-tou-zi-xue-greatergreater-gu-zhi-fang-fa/</id>
@@ -72,12 +79,5 @@
         <link href="https://444494.xyz/lessless/">
         </link>
         <updated>2021-02-23T15:57:11.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[《重学C++》5. 彻底学会 C++ 指针，引用（三）智能指针]]></title>
-        <id>https://444494.xyz/lesslesschong-xue-greatergreater/</id>
-        <link href="https://444494.xyz/lesslesschong-xue-greatergreater/">
-        </link>
-        <updated>2021-02-23T09:01:08.000Z</updated>
     </entry>
 </feed>
