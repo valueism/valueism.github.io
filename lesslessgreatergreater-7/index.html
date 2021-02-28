@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614518065049">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614520856543">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -33,7 +33,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614518065049" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614520856543" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -119,7 +119,7 @@
 <p>最后，在另外的.cpp文件（记得引入头文件）中的main函数中进行对象的创建。</p>
 <br/>
 <h1 id="3-虚数类的具体实现">3. 虚数类的具体实现</h1>
-<h2 id="运算符重载实现加法和赋值">运算符重载，实现加法和赋值</h2>
+<h2 id="1-运算符重载实现加法和赋值">(1) 运算符重载，实现加法和赋值</h2>
 <figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228174306.png" alt="" loading="lazy"></figure>
 <p>为了实现虚数的加法操作并对对象进行赋值(红框内部分)，分别对运算符+和运算符=进行重载：</p>
 <pre><code>//重载运算符+
@@ -147,7 +147,7 @@ Complex&amp; Complex::operator= (const Complex&amp; x)
 </code></pre>
 <p>运行结果：<br>
 <img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228172722.png" alt="4个构造函数却有5个析构函数" loading="lazy"></p>
-<h2 id="拷贝构造函数">拷贝构造函数</h2>
+<h2 id="2-拷贝构造函数">(2) 拷贝构造函数</h2>
 <p>但是从上面的图可以看出存在几个问题：程序中声明了4个对象（a、b、c和tmp），却有4个构造函数和5个析构函数的调用，哪里多出了一个Complex对象？并且为什么构造和析构数量不一致？最后，tmp是局部变量，函数体外它会消亡，但是为什么重载+的函数可以返回这个变量并将其作为重载=的函数参数？（<font color=red>问题1</font>）</p>
 <p>进行调试，发现实参tmp和形参x地址不一致，但是返回值c和*this地址一致：<br>
 <img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228135132.png" alt="" loading="lazy"></p>
@@ -172,6 +172,7 @@ https://blog.csdn.net/pursue_my_life/article/details/80462572</p>
 <center>5个构造和析构函数输出</center>
 <p>可以看到多了一个构造函数输出，就是上面的拷贝构造函数。并且返回值tmp和参数x的地址是一致的</p>
 <figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228140624.png" alt="" loading="lazy"></figure>
+<h2 id="3-临时对象优化">(3) 临时对象优化</h2>
 <p>考虑到临时变量优化（<strong>尽量避免产生临时对象</strong>）：因为重载+的函数中tmp没有必要存在，因此重载运算符+就可以将相加结果作为参数，直接返回拷贝构造函数的结果（<font color=red>优化2</font>）：</p>
 <pre><code>Complex Complex::operator+ (const Complex&amp; c) const
 {
