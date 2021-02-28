@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614504353671">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614508311809">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -33,7 +33,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614504353671" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614508311809" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -117,19 +117,22 @@
 <center>在对应.cpp文件中类的方法进行实现</center>
 <p>最后，在另外的.cpp文件（记得引入头文件）中的main函数中进行对象的创建。</p>
 <h1 id="3-虚数类的具体实现">3. 虚数类的具体实现</h1>
-<h2 id="运算符重载">运算符重载</h2>
-<h2 id="拷贝构造函数">拷贝构造函数</h2>
-<p>为了实现虚数的加法操作，对运算符+和运算符=进行重载：</p>
+<h2 id="运算符重载实现加法和赋值">运算符重载，实现加法和赋值</h2>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228174306.png" alt="" loading="lazy"></figure>
+<p>为了实现虚数的加法操作并对对象进行赋值(红框内部分)，分别对运算符+和运算符=进行重载：</p>
 <pre><code>//重载运算符+
+//返回Complex对象，输入不允许修改变量的引用作为参数，最后const指明该函数不允许修改成员变量
 Complex Complex::operator+ (const Complex&amp; x) const
 {
 	Complex tmp;
 	tmp._real = _real + x._real;
 	tmp._image = _image + x._image;
-	return tmp;
+	return tmp;   
+    //tmp是局部变量，函数体外它会消亡，但是为什么可以返回这个变量
 }
 
 //重载运算符=
+//返回Complex对象的引用，输入不允许修改变量的引用作为参数
 Complex&amp; Complex::operator= (const Complex&amp; x)
 {
     if (this != &amp;x)
@@ -140,24 +143,34 @@ Complex&amp; Complex::operator= (const Complex&amp; x)
     return *this;
 }
 </code></pre>
-<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228144605.png" alt="" loading="lazy"></figure>
-<p>但是会发现两个问题：构造/析构函数数量和对象数量不一致；（语句c = a+b中）重载+函数中变量tmp和重载=函数中参数x的变量地址不一致。</p>
-<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228135132.png" alt="" loading="lazy"></figure>
+<p>运行结果：<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228172722.png" alt="4个构造函数却有5个析构函数" loading="lazy"></p>
+<h2 id="拷贝构造函数">拷贝构造函数</h2>
+<p>但是从上面的图可以看出存在几个问题：程序中声明了4个对象（a、b、c和tmp），却有4个构造函数和5个析构函数的调用，哪里多出了一个Complex对象？并且为什么构造和析构数量不一致？最后，tmp是局部变量，函数体外它会消亡，但是为什么重载+的函数可以返回这个变量并将其作为重载=的函数参数？（<font color=red>问题1</font>）</p>
+<p>进行调试，发现实参tmp和形参x地址不一致，但是返回值c和*this地址一致：<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228135132.png" alt="" loading="lazy"></p>
 <center>tmp和参数x地址不一致，c和*this地址一致</center>
-<p>**原因是：由于局部对象生命周期有限，系统将局部对象tmp进行拷贝构造一个临时变量，然后作为参数传入重载=函数中（因此tmp和参数x地址不同）。赋值完成后的对象直接作为对象c（因此c和*this地址相同）。**这个被拷贝产生的临时参数x使得析构、构造函数均多了一个。</p>
+<p>这说明并不是tmp直接作为重载=的函数的参数，而是返回值tmp到参数x中间发生了复制，复制产生的临时对象作为参数x。</p>
+<p><strong>系统将局部对象tmp进行拷贝构造，生成一个看不见的临时对象，然后作为参数传入重载=函数中（因此tmp和参数x地址不同）。<strong>这个临时对象的拷贝构造是系统通过</strong>自动生成的拷贝构造函数</strong>来实现的，所以构造函数的输出只有4个，而不是析构函数的5个。（<font color=red>答案1</font>）</p>
 <p>应当自定义拷贝构造函数，避免系统为我们实现构造函数。<strong>因为系统实现的拷贝构造函数，容易带来深拷贝/浅拷贝的问题</strong>。</p>
-<p>编写自定义拷贝构造函数：</p>
-<pre><code>Complex::Complex(const Complex&amp; c)
+<blockquote>
+<p>c++primer学习笔记--为什么要自己写拷贝构造函数<br>
+https://blog.csdn.net/pursue_my_life/article/details/80462572</p>
+</blockquote>
+<p>编写自定义拷贝构造函数，这样需要拷贝构造时，系统就会调用自己写的这个函数（<font color=red>优化1</font>）：</p>
+<pre><code>Complex::Complex(const Complex&amp; x)
 {
-	_real = c._real;
-	_image = c._image;
-	//cout &lt;&lt; &quot;Complex::Complex(const Complex&amp; c)&quot; &lt;&lt; endl;
+	_real = x._real;
+	_image = x._image;
+	//cout &lt;&lt; &quot;Complex::Complex(const Complex&amp; x)&quot; &lt;&lt; endl;
 }
 </code></pre>
-<p>再次运行<br>
-<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228140624.png" alt="" loading="lazy"></p>
-<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228140716.png" alt="" loading="lazy"></figure>
-<p>考虑到临时变量优化（<strong>避免产生临时对象</strong>），因为重载+的函数中tmp没有必要存在，因此重载运算符+就可以写成这样：</p>
+<p>再次运行：<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228144605.png" alt="5个Complex对象" loading="lazy"></p>
+<center>5个构造和析构函数输出</center>
+<p>可以看到多了一个构造函数输出，就是上面的拷贝构造函数。并且返回值tmp和参数x的地址是一致的</p>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228140624.png" alt="" loading="lazy"></figure>
+<p>考虑到临时变量优化（<strong>尽量避免产生临时对象</strong>）：因为重载+的函数中tmp没有必要存在，因此重载运算符+就可以将相加结果作为参数，直接返回拷贝构造函数的结果（<font color=red>优化2</font>）：</p>
 <pre><code>Complex Complex::operator+ (const Complex&amp; c) const
 {
 	//Complex tmp;
@@ -165,20 +178,19 @@ Complex&amp; Complex::operator= (const Complex&amp; x)
 	//tmp._image = _image + x._image;
 	//return tmp;
 
-
-    //返回拷贝构造函数的结果
+    //将相加结果作为参数，返回拷贝构造函数的结果
 	return Complex(_real + c._real, _image + c._image);
 }
 </code></pre>
-<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228140951.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228140951.png" alt="" loading="lazy"></figure>
 <center>修改之后，少了tmp变量的构造和析构函数</center>
 <p>更好的减少临时对象的方法是，直接对对象c进行赋值时构造。</p>
 <pre><code>Complex c = a+b;   //而不是 Complex c; c= a+ b；   
 </code></pre>
 <p>这样的好处是，避免了“Complex c; ”语句中默认构造函数产生的变量，而是直接进行赋值。</p>
-<figure data-type="image" tabindex="7"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228144054.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228144054.png" alt="" loading="lazy"></figure>
 <center>最终优化到只有3个Complex对象</center>
-<p><strong>Complex对象总结：</strong></p>
+<p><strong>生成的Complex对象总结：</strong></p>
 <ol>
 <li>程序员生成的Complex对象a，由Complex(double r, double i)函数生成；</li>
 <li>程序员生成的Complex对象b，由Complex(double r, double i)函数生成；</li>
