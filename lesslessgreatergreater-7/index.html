@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614508311809">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614509692267">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -33,7 +33,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614508311809" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614509692267" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -108,6 +108,7 @@
               <h1 id="1-编程中的抽象和实际之间的关系">1. 编程中的抽象和实际之间的关系</h1>
 <p>并不是所有面向对象编程中的逻辑关系都是在物质世界中有迹可循的。例如常见的&quot;is-a&quot;的关系用来表述“继承”的概念并不完善；此外还有实际项目中，“缓冲区”类的存在也并没有现实中对应的原型。<br>
 <img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210227230504.png" alt="" loading="lazy"></p>
+<br/>
 <h1 id="2-虚数类的简单编写">2. 虚数类的简单编写</h1>
 <p>在C++编程中，可以右键项目添加类，创建.h和.cpp文件。<br>
 之后在这两个文件中进行编程。<strong>析构函数需要声明为虚函数，具体原因后面会讲。</strong></p>
@@ -116,6 +117,7 @@
 <figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210227235029.png" alt="" loading="lazy"></figure>
 <center>在对应.cpp文件中类的方法进行实现</center>
 <p>最后，在另外的.cpp文件（记得引入头文件）中的main函数中进行对象的创建。</p>
+<br/>
 <h1 id="3-虚数类的具体实现">3. 虚数类的具体实现</h1>
 <h2 id="运算符重载实现加法和赋值">运算符重载，实现加法和赋值</h2>
 <figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228174306.png" alt="" loading="lazy"></figure>
@@ -178,29 +180,37 @@ https://blog.csdn.net/pursue_my_life/article/details/80462572</p>
 	//tmp._image = _image + x._image;
 	//return tmp;
 
-    //将相加结果作为参数，返回拷贝构造函数的结果
+    //将相加结果作为参数，返回构造函数Complex(double r, double i)的结果
 	return Complex(_real + c._real, _image + c._image);
 }
 </code></pre>
 <figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228140951.png" alt="" loading="lazy"></figure>
 <center>修改之后，少了tmp变量的构造和析构函数</center>
-<p>更好的减少临时对象的方法是，直接对对象c进行赋值时构造。</p>
+<p>修改之后，相比于上次运行结果，少了tmp变量的构造和析构函数。并且构造函数Complex(double r, double i)替代了拷贝构造函数。</p>
+<p>更好的减少临时对象的方法是：直接对对象c进行赋值时构造。（<font color=red>优化3</font>）</p>
 <pre><code>Complex c = a+b;   //而不是 Complex c; c= a+ b；   
 </code></pre>
-<p>这样的好处是，避免了“Complex c; ”语句中默认构造函数产生的变量，而是直接进行赋值。</p>
+<p>这样的好处是，避免了“Complex c; ”语句中默认构造函数产生的对象，而是直接进行赋值。</p>
 <figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228144054.png" alt="" loading="lazy"></figure>
 <center>最终优化到只有3个Complex对象</center>
-<p><strong>生成的Complex对象总结：</strong></p>
+<p><strong>生成的几个Complex对象总结：</strong></p>
 <ol>
 <li>程序员生成的Complex对象a，由Complex(double r, double i)函数生成；</li>
 <li>程序员生成的Complex对象b，由Complex(double r, double i)函数生成；</li>
 <li>程序员生成的Complex对象c，由Complex()函数生成；<br>
-语句Complex c= a+b; 使用Complex(double r, double i)函数替代了Complex()函数；</li>
-<li>中间变量tmp，在重载+函数中由Complex()函数生成；<br>
-不使用Complex tmp;即可避免产生该对象。</li>
+第三次优化中，语句Complex c= a+b; 使用Complex(double r, double i)函数替代了Complex()函数；</li>
+<li>程序员生成的Complex对象tmp，在重载+函数中由Complex()函数生成；<br>
+第二次优化中，不使用Complex tmp;等即可避免产生该对象。</li>
 <li>中间变量，由重载+函数的返回值tmp被拷贝构造产生（然后被作为重载=函数的参数x）；<br>
-语句return Complex(_real + c._real, _image + c._image); 替代Complex tmp; 等语句，用Complex(double r, double i)函数替代了拷贝构造函数</li>
+第二次优化中，语句return Complex(_real + c._real, _image + c._image); 替代Complex tmp; 等语句，用Complex(double r, double i)函数替代了拷贝构造函数。</li>
 </ol>
+<p>第2、3小节知识点：</p>
+<ul>
+<li>利用VS“新建类”功能，实现类的分文件编写。</li>
+<li>重载运算符</li>
+<li>拷贝构造函数</li>
+<li>临时变量优化</li>
+</ul>
 <br/>
 <hr>
 <br/>
