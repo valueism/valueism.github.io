@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>拖延 | Nome</title>
+<title>6-10 二分查找 | Nome</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -22,13 +22,12 @@
 
 
 
-    <meta name="description" content="
-单纯的做事拖拉或是懒得去做，只能定义为“拖延”，也仅是一种坏习惯，改正它并不难。
+    <meta name="description" content="前言：
+为了应聘某新公司实习生，需要考C语言数据结构。现在再次刷一下PTA上的数据结构习题，顺便在博客里简单记录一下题目里面的一些坑。
 
-当“拖延”已经影响到情绪，如出现强烈自责情绪，强烈负罪感，不断的自我否定、自我贬低，伴生出焦虑症、抑郁症、强迫症等心理疾病时，才能称之为“拖延症”。
-
-拖..." />
-    <meta name="keywords" content="" />
+6-10 二分查找
+https://pintia.cn/problem-sets/15/problem..." />
+    <meta name="keywords" content="C数据结构" />
   </head>
   <body>
     <div id="app" class="main">
@@ -105,20 +104,62 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">拖延</h2>
-            <div class="post-date">2020-11-17</div>
+            <h2 class="post-title">6-10 二分查找</h2>
+            <div class="post-date">2021-03-04</div>
             
             <div class="post-content" v-pre>
-              <blockquote>
-<p>单纯的做事拖拉或是懒得去做，只能定义为“拖延”，也仅是一种坏习惯，改正它并不难。</p>
-</blockquote>
-<p>当“拖延”已经影响到情绪，如出现强烈自责情绪，强烈负罪感，不断的自我否定、自我贬低，伴生出焦虑症、抑郁症、强迫症等心理疾病时，才能称之为“拖延症”。</p>
+              <p>前言：<br>
+为了应聘某新公司实习生，需要考C语言数据结构。现在再次刷一下PTA上的数据结构习题，顺便在博客里简单记录一下题目里面的一些坑。</p>
 <blockquote>
-<p>拖延的基础，实际上是对自身很高甚至不切实际的期望。如果说完成任务是走过一块一人宽、十米长的厚木板，那么当它放在地面上时，几乎人人都可以轻松地走过。 但对结果的高期望则像是将这块木板架到了两座高楼间十层楼高的地方，于是我们会害怕掉下去，即害怕失败或害怕成功，甚至不敢向前迈上一步。而deadline则是身后的一团火，当它离我们足够近时，害怕被烧着的恐惧感战胜了对掉下去的恐惧感，于是我们一下子冲了过去，在deadline前赶完了任务，尽管质量很难说。</p>
+<p>6-10 二分查找<br>
+https://pintia.cn/problem-sets/15/problems/923</p>
 </blockquote>
+<p>经典的二分查找，做这道题的时间都用在了二分查找的几个细节上。</p>
+<pre><code>
+Position BinarySearch(List L, ElementType X) {
+	int begin= 0, end = L-&gt;Last;
+	
+	while (begin&lt;=end)
+	{
+		int mid = (begin + end) / 2;
+
+		if (L-&gt;Data[mid] == X)
+		{
+			return mid;
+		}
+		else if (L-&gt;Data[mid]&gt;X)
+		{
+			end = mid - 1;
+		}
+		else // mid &lt; X
+		{
+			begin = mid + 1;
+		}
+	}
+
+	return NotFound;
+}
+</code></pre>
 
             </div>
             
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/MSy8INJ59/" class="tag">
+                    C数据结构
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/lesslessgreatergreater/">
+                  <h3 class="post-title">
+                    《重学C++》7. C++高级语法（二）
+                  </h3>
+                </a>
+              </div>
             
 
             

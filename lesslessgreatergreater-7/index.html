@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" >
 
-<title>《重学C++》7. C++高级语法 | Nome</title>
+<title>《重学C++》7. C++高级语法（一） | Nome</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614520856543">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1614792619584">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -33,7 +33,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1614520856543" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1614792619584" class="site-logo">
         <h1 class="site-title">Nome</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -101,7 +101,7 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">《重学C++》7. C++高级语法</h2>
+            <h2 class="post-title">《重学C++》7. C++高级语法（一）</h2>
             <div class="post-date">2021-02-27</div>
             
             <div class="post-content" v-pre>
@@ -109,7 +109,7 @@
 <p>并不是所有面向对象编程中的逻辑关系都是在物质世界中有迹可循的。例如常见的&quot;is-a&quot;的关系用来表述“继承”的概念并不完善；此外还有实际项目中，“缓冲区”类的存在也并没有现实中对应的原型。<br>
 <img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210227230504.png" alt="" loading="lazy"></p>
 <br/>
-<h1 id="2-虚数类的简单编写">2. 虚数类的简单编写</h1>
+<h1 id="2-添加虚数类">2. 添加虚数类</h1>
 <p>在C++编程中，可以右键项目添加类，创建.h和.cpp文件。<br>
 之后在这两个文件中进行编程。<strong>析构函数需要声明为虚函数，具体原因后面会讲。</strong></p>
 <figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210227234803.png" alt="" loading="lazy"></figure>
@@ -118,7 +118,7 @@
 <center>在对应.cpp文件中类的方法进行实现</center>
 <p>最后，在另外的.cpp文件（记得引入头文件）中的main函数中进行对象的创建。</p>
 <br/>
-<h1 id="3-虚数类的具体实现">3. 虚数类的具体实现</h1>
+<h1 id="3-虚数类的实现重载-拷贝构造和临时对象优化">3. 虚数类的实现——重载+=、拷贝构造和临时对象优化</h1>
 <h2 id="1-运算符重载实现加法和赋值">(1) 运算符重载，实现加法和赋值</h2>
 <figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228174306.png" alt="" loading="lazy"></figure>
 <p>为了实现虚数的加法操作并对对象进行赋值(红框内部分)，分别对运算符+和运算符=进行重载：</p>
@@ -205,133 +205,13 @@ https://blog.csdn.net/pursue_my_life/article/details/80462572</p>
 <li>中间变量，由重载+函数的返回值tmp被拷贝构造产生（然后被作为重载=函数的参数x）；<br>
 第二次优化中，语句return Complex(_real + c._real, _image + c._image); 替代Complex tmp; 等语句，用Complex(double r, double i)函数替代了拷贝构造函数。</li>
 </ol>
-<p>第2、3小节知识点：</p>
+<h1 id="第2-3小节知识点">第2、3小节知识点：</h1>
 <ul>
 <li>利用VS“新建类”功能，实现类的分文件编写。</li>
 <li>重载运算符</li>
 <li>拷贝构造函数</li>
 <li>临时变量优化</li>
 </ul>
-<br/>
-<hr>
-<br/>
-<h1 id="练习题">练习题</h1>
-<h2 id="编程题编写自定义类string-的构造函数-析构函数和赋值函数">编程题：编写自定义类String 的构造函数、析构函数和赋值函数。</h2>
-<p>已知类String 的原型为：<br>
-class String<br>
-{<br>
-public:<br>
-String(const char *str = NULL);                             // 普通构造函数<br>
-String(const String &amp;other);                                  // 拷贝构造函数<br>
-String(String&amp;&amp; other);                                          // 移动构造函数<br>
-~String(void);                                                            // 析构函数<br>
-String&amp; operator= (const String&amp; other);             // 赋值函数<br>
-String&amp; operator=(String&amp;&amp; rhs)noexcept;		  // 移动赋值运算符<br>
-private:<br>
-char *m_data; // 用于保存字符串<br>
-};<br>
-请编写String 的上述几个函数。</p>
-<br/>
-<pre><code>// String 的析构函数
-String::~String(void)
-{
-	if (m_data != NULL)
-	{
-		delete[] m_data;
-	}
-}
-
-// String 的普通构造函数
-String::String(const char *str)
-{
-	if (str == NULL)
-	{
-		m_data = new char[1];
-		if (m_data != NULL)
-		{
-			*m_data = '\0';
-		}
-		else
-		{
-			exit(-1); // new有可能失败，失败后返回错误退出, 最好能有日志
-		}
-	}
-	else
-	{
-		int length = strlen(str);
-		m_data = new char[length + 1];
-		if (m_data != NULL)
-		{
-			*m_data = '\0';
-		}
-		else
-		{
-			exit(-1); // new有可能失败，失败后返回错误退出, 最好能有日志
-		}
-		strcpy(m_data, str);
-	}
-}
-// 拷贝构造函数
-String::String(const String &amp;other)
-{
-	int length = strlen(other.m_data);
-	m_data = new char[length + 1];
-	if (m_data != NULL)
-	{
-		*m_data = '\0';
-	}
-	else
-	{
-		exit(-1); // new有可能失败，失败后返回错误退出, 最好能有日志
-	}
-	strcpy(m_data, other.m_data);
-}
-
-String::String(String&amp;&amp; other)
-{
-	if (other.m_data != NULL)
-	{
-		m_data=other.m_data;
-		other.m_data = NULL;
-	}
-}
-
-
-// 赋值函数
-String&amp; String::operator= (const String &amp;other)
-{
-	// 检查自赋值
-	if (this == &amp;other)
-		return *this;
-	// 释放原有的内存资源 
-	delete[] m_data;
-	// 分配新的内存资源，并复制内容
-	int length = strlen(other.m_data);
-	m_data = new char[length + 1];
-	if (m_data != NULL)
-	{
-		*m_data = '\0';
-	}
-	else
-	{
-		exit(-1); // new有可能失败，失败后返回错误退出, 最好能有日志
-	}
-	strcpy(m_data, other.m_data);
-	//  返回本对象的引用
-	return *this;
-}
-
-String&amp; String::operator=(String&amp;&amp; rhs)noexcept
-{
-	if (this != &amp;rhs)
-	{
-		delete[] m_data;
-		m_data = rhs.m_data;
-		rhs.m_data = NULL;
-	}
-	return *this;
-}
-</code></pre>
 
             </div>
             
