@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>《iOS面试之C/C++部分》 | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1615016651294">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+iOS面试之C/C++部分
+https://edu.51cto.com/course/2306.html
+
+1. 指针
+上来几个问题:
+1.你是如何理解指针的？
+2.谈谈你对指针的理解？
+3.指针你用的多吗？
+4.那些场景必须使用指针才能..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1615016651294" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">《iOS面试之C/C++部分》</h2>
+            <div class="post-date">2021-03-06</div>
+            
+            <div class="post-content" v-pre>
+              <blockquote>
+<p>iOS面试之C/C++部分<br>
+https://edu.51cto.com/course/2306.html</p>
+</blockquote>
+<h1 id="1-指针">1. 指针</h1>
+<p>上来几个问题:<br>
+1.你是如何理解指针的？<br>
+2.谈谈你对指针的理解？<br>
+3.指针你用的多吗？<br>
+4.那些场景必须使用指针才能实现？</p>
+<h2 id="a指针的本质问题">a，指针的本质问题</h2>
+<p>指针本质上和其他变量一样，也是一种变量。不同的是它<strong>存储着变量的地址</strong>，而不是一般的数值。类似门牌号，用数字存储即可，因此<strong>指针是int类型的变量</strong>（和int一样，32位系统中，占4字节；64位系统中，占8字节）。</p>
+<pre><code>int a= 3;
+
+int *p = &amp;a;
+int q = &amp;a;     //这一行是否正确（第一处）
+int **pp = &amp;p;  
+int *qq = &amp;p;  //这一行呢？（第二处）
+int *** ppp = &amp;pp;
+</code></pre>
+<p>第一处的写法是正确的。<br>
+这种本质上是正确的，但是因为int类型变量可以保存很多值， 而且可以参与运算等等，如果直接按照第一行处存储，程序员和编译器都容易弄混，可阅读性很差，分不清q是地址还是数值，这就需要添加一个<em>号进行标记。<br>
+第二处的写法也正确。<br>
+因为指针变量p也是一种变量，所以也是可以将其地址存储到另一个指针变量qq中。但是同样因为容易混淆，可阅读性很差。所以再加一个</em>号，用于标记。</p>
+<h2 id="b-指针的变量类型作用">b. 指针的变量类型作用</h2>
+<p>面试题：定义一个结构体，所占字节为20个，请逐字节输出内存里面的值。</p>
+<p>可以随意定义如下一个结构体：</p>
+<pre><code>struct test{
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+}
+</code></pre>
+<p>那么如何将结构体中内容逐字节输出呢？<br>
+首先看几个例子</p>
+<pre><code>int a[] = {2,3};  //数组a是8个字节
+int *pa = a;
+cout&lt;&lt; *(pa+1) &lt;&lt;endl;  //输出3
+
+char b[]= {'c','d'}; //数组b是2个字节
+char *pb = b;
+cout&lt;&lt; *(pb+1) &lt;&lt;endl;  //输出d
+</code></pre>
+<p>同样经过+1之后，pa向后移动并输出了4个字节的内容， 而pb向后移动并输出了1个字节的内容。这是因为+1是指后移了sizeof(对应类型)个字节，不一定是+1个字节。对int*来讲，每次+4个字节，对char*来讲每次+1个字节。<br>
+因此，<strong>指针的类型</strong>决定了访问内存时，是以<strong>几个字节为一个单位来访问内存</strong>的。</p>
+<p>要想逐字节输出结构体内容，可以这么写：</p>
+<pre><code>struct test strTest;
+char *p = &amp;strTest;  //定义一个char*数组指向结构体对象
+for(int i= 0;i&lt;20;i++)   //逐字节输出
+    cout&lt;&lt; *(p+1) &lt;&lt;endl;
+</code></pre>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/7-3-pop-sequence/">
+                  <h3 class="post-title">
+                    7-3 Pop Sequence
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
