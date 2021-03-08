@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1615016651294">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1615191582688">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@ c..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1615016651294" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1615191582688" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -146,8 +146,9 @@ const int * const p3 = &amp;a;
 //p3 = &amp;b; //错误
 //*p3 = 100; //错误
 </code></pre>
-<p>最好的方法是从右往左读，例一中离p1最近的是*，说明这是一个指针。左侧的const int表明这个指针指向一个常量的整型对象。因此，p1是一个指向整型常量的指针（<strong>常量指针</strong>）。</p>
+<p>一个方法是从右往左读，例一中离p1最近的是*，说明这是一个指针。左侧的const int表明这个指针指向一个常量的整型对象。因此，p1是一个指向整型常量的指针（<strong>常量指针</strong>）。</p>
 <p>例二中离p2最近的是const，说明p2这个变量本身是常量，并且p2的变量类型由声明符确定。左侧的int*表明了p2的类型是整型指针。因此，p2是一个指向整型的指针，并且这个指针是常量（<strong>指针常量</strong>）。</p>
+<p>此外，还可以首先看const左侧判断修饰的对象，如果左侧没有再看右侧。</p>
 <figure data-type="image" tabindex="1"><img src="https://444494.xyz/post-images/1614001600913.png" alt="" loading="lazy"></figure>
 <center>const和指针</center>
 <h2 id="5-引用和const">5. 引用和const</h2>

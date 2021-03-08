@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1615016651294">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1615191582688">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1615016651294" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1615191582688" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -188,6 +188,12 @@ string和vector类似，也有size和capacity两个函数，并且功能相同�
 需要注意的是，<strong>即使是未初始化的空字符串，其capacity也是大于0的。</strong></p>
 <p>在对性能要求高的场所，还是需要使用C字符串，string并不是万能的。（c_str对象函数可以返回C字符串的指针）。<br>
 并且，Redis(https://redis.io/)字符串的设计对C字符串空间和时间进行了折中。</p>
+<p>另外，字符串的拼接<strong>不可以拼接两个字符串常量</strong>。</p>
+<pre><code>string str = &quot;abc&quot;;
+string str1 = str + “def&quot;;
+string str2 = &quot;abc&quot; + str;
+string str3 = &quot;abc&quot; + &quot;def&quot;;  //错误！
+</code></pre>
 
             </div>
             

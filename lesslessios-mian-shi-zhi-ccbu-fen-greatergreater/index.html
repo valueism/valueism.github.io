@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1615016651294">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1615191582688">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -32,7 +32,7 @@ https://edu.51cto.com/course/2306.html
 2.谈谈你对指针的理解？
 3.指针你用的多吗？
 4.那些场景必须使用指针才能..." />
-    <meta name="keywords" content="" />
+    <meta name="keywords" content="C++专项知识点" />
   </head>
   <body>
     <div id="app" class="main">
@@ -41,7 +41,7 @@ https://edu.51cto.com/course/2306.html
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1615016651294" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1615191582688" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -166,8 +166,86 @@ char *p = &amp;strTest;  //定义一个char*数组指向结构体对象
 for(int i= 0;i&lt;20;i++)   //逐字节输出
     cout&lt;&lt; *(p+1) &lt;&lt;endl;
 </code></pre>
+<h1 id="2-const">2. const</h1>
+<p>const变量什么时候初始化？<br>
+const变量只能在定义的时候初始化，因为它初始化之后不能再进行赋值。如果定义一个const变量不进行初始化，那么它里面的值是一个随机值，不能使用。</p>
+<pre><code>int a;
+cout &lt;&lt; a &lt;&lt;endl; //输出一个随机值
+
+//下面是等价的两种写法
+const int b = 3;
+int const c = 4;
+</code></pre>
+<h2 id="a-const和指针">a. const和指针：</h2>
+<ol>
+<li>指向常量的指针——a pointer to const——</li>
+</ol>
+<pre><code>int a = 3;
+
+//不能通过指针去修改指向空间的值
+const int * p = &amp;a;
+
+</code></pre>
+<ol start="2">
+<li>常指针——const pointer——</li>
+</ol>
+<pre><code>int a = 3;
+//不能修改指针的指向（指针不可以修改指向的变量）
+int * const pa = &amp;a;
+</code></pre>
+<ol start="3">
+<li>双const指针</li>
+</ol>
+<pre><code>int a = 3;
+//不能修改指针的指向（指针不可以修改指向的变量）
+const int * const ppa = &amp;a;
+</code></pre>
+<ol start="4">
+<li>用非pointer to const 可不可以指向一个非const变量</li>
+</ol>
+<pre><code>int b = 3;
+const int *pb  = &amp;b;    //可以
+</code></pre>
+<ol start="5">
+<li>用非pointer to const 可不可以指向一个const变量</li>
+</ol>
+<pre><code>const int cc = 3;
+ int *pcc  = &amp;c;   //不可以
+</code></pre>
+<p>这种情况下可以通过pcc修改pcc指针修改指向的const变量，因此编译器可能不会通过</p>
+<h2 id="b-const对象">b. const对象</h2>
+<p>C++和OC中，类中的权限分三种：</p>
+<ul>
+<li>private：私有的，只能在类内使用，子类和类外不可以使用</li>
+<li>protected：保护的，类内和子类可以使用，类外不可以使用</li>
+<li>public：公有的，类内和类外、子类都可以使用</li>
+</ul>
+<p>两种方式创建对象</p>
+<pre><code>//1.一般创建对象的方式
+Person person;
+
+//2.OC中，使用指针创建对象的方式
+//这种方式一定要记得用完对象删除指针
+Person *p = new person();
+delete p;
+</code></pre>
+<p>当const和对象结合</p>
+<pre><code>const Person *p = new Person();  //const对象指针
+const Person person;  //const对象
+//p-&gt;print();  错误，即使成员函数不修改数据成员（实例变量）的值，也不能调用
+</code></pre>
+<p>const对象/const对象指针只能调用const成员函数。<br>
+例如void print()const { ... };</p>
 
             </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/4SoBKkPrS/" class="tag">
+                    C++专项知识点
+                  </a>
+                
+              </div>
             
             
               <div class="next-post">
