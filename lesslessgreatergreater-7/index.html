@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1615192317614">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1615468790501">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -33,7 +33,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1615192317614" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1615468790501" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -118,7 +118,7 @@
 <center>在对应.cpp文件中类的方法进行实现</center>
 <p>最后，在另外的.cpp文件（记得引入头文件）中的main函数中进行对象的创建。</p>
 <blockquote>
-<p>类的成员函数定义有两种：类内定义和类外定义。<br/><strong>类内定义</strong>是在类的大括号内直接写类的定义，类内定义的成员函数会被优先编译为内联函数；<br/><strong>类外定义</strong>包括同文件类外定义，和分文件类外定义。它们均是在类内只写成员函数的声明，但是在同文件的类外或者单独一个.cpp文件中编写类的定义。</p>
+<p>类的成员函数定义有两种：类内定义和类外定义。<br/><strong>类内定义</strong>是在类的大括号内直接写类的定义，类内定义的成员函数会被<strong>优先编译为内联函数</strong>；<br/><strong>类外定义</strong>包括同文件类外定义，和分文件类外定义。它们均是在类内只写成员函数的声明，但是在同文件的类外或者单独一个.cpp文件中编写类的定义。</p>
 </blockquote>
 <br/>
 <h1 id="3-虚数类的实现重载-拷贝构造和临时对象优化">3. 虚数类的实现——重载+=、拷贝构造和临时对象优化</h1>
@@ -163,13 +163,17 @@ Complex&amp; Complex::operator= (const Complex&amp; x)
 https://blog.csdn.net/pursue_my_life/article/details/80462572</p>
 </blockquote>
 <p>编写自定义拷贝构造函数，这样需要拷贝构造时，系统就会调用自己写的这个函数（<font color=red>优化1</font>）：</p>
-<pre><code>Complex::Complex(const Complex&amp; x)
+<pre><code>//拷贝构造函数是一种特殊的构造函数，它的参数必须是引用，一般会加上const
+Complex::Complex(const Complex&amp; x)
 {
 	_real = x._real;
 	_image = x._image;
 	//cout &lt;&lt; &quot;Complex::Complex(const Complex&amp; x)&quot; &lt;&lt; endl;
 }
 </code></pre>
+<blockquote>
+<p>拷贝构造函数，又称复制构造函数，是一种特殊的构造函数，它由编译器调用来完成一些基于同一类的其他对象的构建及初始化。<strong>其形参必须是引用</strong>，但并不限制为const，<strong>一般普遍的会加上const</strong>限制。</p>
+</blockquote>
 <p>再次运行：<br>
 <img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228144605.png" alt="5个Complex对象" loading="lazy"></p>
 <center>5个构造和析构函数输出</center>
