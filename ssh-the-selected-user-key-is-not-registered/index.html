@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617526248121">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617526272417">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617526248121" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617526272417" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -120,7 +120,7 @@ SSH服务端的配置文件在/etc/ssh/sshd_config，检查对应参数：RSAAut
 如果root用户的公钥记录好了，并且登陆的也是root用户，但是遇到这种提示，可能是没有开启root用户登录。<br>
 SSH服务端的配置文件在/etc/ssh/sshd_config，设置PermitRootLogin后面为yes。</li>
 <li>文件(夹)权限设置<br>
-SSH对配置文件/文件夹的权限有要求，如果权限不对，就会出现未注册的情况（即使正确的公钥已经添加到authorized_keys文件了）。必须要使authorized_keys文件的权限为600、.ssh文件夹的权限为700。<br>
+SSH对配置文件/文件夹的权限有要求，如果权限不对，就会出现未注册的情况（即使正确的公钥已经添加到authorized_keys文件了）。<strong>必须要使authorized_keys文件的权限为600、.ssh文件夹的权限为700。</strong><br>
 chmod 600 authorized_keys<br>
 chmod 700 ~/.ssh</li>
 <li>密钥类型<br>
