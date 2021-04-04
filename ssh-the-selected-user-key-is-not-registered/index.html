@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>SSH-&#34;The selected user key is not registered&#34; | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617526248121">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="最近在学Linux，昨天顺便第二次白嫖了谷歌云服务器。但是和第一次一样，遇到了不能用ssh登录的问题，只能使用密码登录。虽然不影响使用，但是强迫症患者很想弄清楚到底是怎么回事。
+为了解决这个问题，查了蛮多材料，整理下可能的一些情况：
+
+登录..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1617526248121" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">SSH-&#34;The selected user key is not registered&#34;</h2>
+            <div class="post-date">2021-04-04</div>
+            
+            <div class="post-content" v-pre>
+              <p>最近在学Linux，昨天顺便第二次白嫖了谷歌云服务器。但是和第一次一样，遇到了不能用ssh登录的问题，只能使用密码登录。虽然不影响使用，但是强迫症患者很想弄清楚到底是怎么回事。<br>
+为了解决这个问题，查了蛮多材料，整理下可能的一些情况：</p>
+<ol>
+<li>登录的用户和配置的用户是否统一<br>
+SSH服务器保存的客户端公钥存放在配置文件~/.ssh/authorized_keys中。需要注意的是，服务器端可以有多个用户，每个用户都有一个家目录，但是客户端每次只是登录其中的一个。因此一定要<strong>确保自己登录的那个用户是已经配置好authorized_keys文件的那个用户</strong>。<br>
+反过来讲，如果登录不成功，可能在服务器中自己只把客户端公钥记录在了root用户的authorized_keys文件，而客户端访问的是一个叫“user”的用户。</li>
+<li>SSH是否允许密钥认证<br>
+SSH服务端的配置文件在/etc/ssh/sshd_config，检查对应参数：RSAAuthentication或PubkeyAuthentication是否设置为yes。<br>
+如果服务端没有允许密钥认证，那再怎么记录公钥当然也是没有的。</li>
+<li>SSH是否限制root用户<br>
+如果root用户的公钥记录好了，并且登陆的也是root用户，但是遇到这种提示，可能是没有开启root用户登录。<br>
+SSH服务端的配置文件在/etc/ssh/sshd_config，设置PermitRootLogin后面为yes。</li>
+<li>文件(夹)权限设置<br>
+SSH对配置文件/文件夹的权限有要求，如果权限不对，就会出现未注册的情况（即使正确的公钥已经添加到authorized_keys文件了）。必须要使authorized_keys文件的权限为600、.ssh文件夹的权限为700。<br>
+chmod 600 authorized_keys<br>
+chmod 700 ~/.ssh</li>
+<li>密钥类型<br>
+SSH在通信中采用公钥加密进行验证，可选的公钥加密算法有几种，例如RSA（默认）、DSA，不要把RSA算法的密钥当成DSA密钥，反之也是。</li>
+<li>端口问题<br>
+默认SSH通信端口是22端口，检查是否被其他程序占用、自己是否更改过（如果是，两端要改成一样的）、等等。</li>
+<li>PAM设置<br>
+修改/etc/ssh/sshd_config，将UsePAM设置为yes<br>
+我没有遇到这种情况，网上看到的，顺便记录下。</li>
+</ol>
+<blockquote>
+<p>https://blog.csdn.net/asddsaws147852/article/details/101316737<br>
+SSH客户端提示 用户密钥未在远程主机上注册</p>
+</blockquote>
+<ol start="8">
+<li>虚拟机网络设置问题（if applicable）<br>
+如果使用了虚拟机，一定要采用桥接（bridge）模式才能使虚拟机之间相互通信。<br>
+详情百度虚拟机各网络模式的区别。</li>
+<li>防火墙屏蔽问题</li>
+<li>配置更改后没有重启服务，还未生效<br>
+重启SSH服务端systemctl restart sshd，使配置生效</li>
+</ol>
+<p>以上默认服务端已经打开了SSH服务。安装SSH之后它并不会自动启动，所以也可能是连服务器SSH程序还没有启动，使用命令systemctl start sshd将SSH服务端启动。</p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/lesslessios-mian-shi-zhi-ccbu-fen-greatergreater/">
+                  <h3 class="post-title">
+                    《iOS面试之C/C++部分》
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
