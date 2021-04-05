@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617607818890">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617608102533">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617607818890" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617608102533" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -147,6 +147,11 @@ SSH客户端提示 用户密钥未在远程主机上注册</p>
 重启SSH守护进程systemctl restart sshd，使配置生效</li>
 </ol>
 <p>以上默认服务端已经打开了SSH服务。安装SSH之后它并不会自动启动，所以也可能是连服务器SSH程序还没有启动，使用命令systemctl start sshd将守护进程启动。</p>
+<p>最后，SSHD的配置文件中有很多参数，网上也有很多博客对其中一些参数进行解释，但是质量实在是参差不齐，最好还是查看官方文档，把博客当作一种补充。</p>
+<blockquote>
+<p>sshd_config — OpenSSH daemon configuration file<br>
+https://man.openbsd.org/sshd_config</p>
+</blockquote>
 
             </div>
             
