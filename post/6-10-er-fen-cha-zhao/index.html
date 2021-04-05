@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>6-10 二分查找 | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609519378">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="前言：
+为了应聘某新公司实习生，需要考C语言数据结构。现在再次刷一下PTA上的数据结构习题，顺便在博客里简单记录一下题目里面的一些坑。
+
+6-10 二分查找
+https://pintia.cn/problem-sets/15/problem..." />
+    <meta name="keywords" content="C数据结构" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1617609519378" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">6-10 二分查找</h2>
+            <div class="post-date">2021-03-04</div>
+            
+            <div class="post-content" v-pre>
+              <p>前言：<br>
+为了应聘某新公司实习生，需要考C语言数据结构。现在再次刷一下PTA上的数据结构习题，顺便在博客里简单记录一下题目里面的一些坑。</p>
+<blockquote>
+<p>6-10 二分查找<br>
+https://pintia.cn/problem-sets/15/problems/923</p>
+</blockquote>
+<p>经典的二分查找，做这道题的时间都用在了二分查找的几个细节上。</p>
+<pre><code>
+Position BinarySearch(List L, ElementType X) {
+	int begin= 0, end = L-&gt;Last;
+	
+	while (begin&lt;=end)
+	{
+		int mid = (begin + end) / 2;
+
+		if (L-&gt;Data[mid] == X)
+		{
+			return mid;
+		}
+		else if (L-&gt;Data[mid]&gt;X)
+		{
+			end = mid - 1;
+		}
+		else // mid &lt; X
+		{
+			begin = mid + 1;
+		}
+	}
+
+	return NotFound;
+}
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/MSy8INJ59/" class="tag">
+                    C数据结构
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/lesslessgreatergreater/">
+                  <h3 class="post-title">
+                    《重学C++》7. C++高级语法（二）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

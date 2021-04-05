@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>《重学C++》4. C++基础容器 | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609519378">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="1.数组下标非对称的原则
+计算“满足x&gt;=16且x&lt;=37的x有多少个”时，容易计算成37-16=21个。
+由于差一错误（off-by-one error），遍历序列容器、解决问题时最好使用数学上的左闭右开[a,b)的区间。
+问..." />
+    <meta name="keywords" content="慕课网《重学C++ 重构你的C++知识体系》" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1617609519378" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">《重学C++》4. C++基础容器</h2>
+            <div class="post-date">2021-02-21</div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="1数组下标非对称的原则">1.数组下标非对称的原则</h2>
+<p>计算“满足x&gt;=16且x&lt;=37的x有多少个”时，容易计算成37-16=21个。<br>
+由于差一错误（off-by-one error），遍历序列容器、解决问题时最好使用数学上的左闭右开[a,b)的区间。<br>
+问题可以转换为：“满足x&gt;=16且x&lt;38的x有多少个”，此时计算得38-16=22个。<br>
+<strong>应该尽量全部转换为左闭右开[a,b)的区间，保证问题和解题的统一性，避免出错。</strong></p>
+<pre><code>//推荐方式
+for (int index = 0; index &lt; 10; ++index)
+    cout &lt;&lt; a[index] &lt;&lt; &quot; &quot;;
+cout &lt;&lt; endl;
+
+//不推荐方式：没有统一左闭右开[a,b)的区间、后置++降低了性能
+for (int index = 0; index &lt;= 9; index++)
+    cout &lt;&lt; a[index] &lt;&lt; &quot; &quot;;
+</code></pre>
+<p><img src="https://444494.xyz/post-images/1613876628448.png" alt="" loading="lazy"><br>
+好处是：</p>
+<ul>
+<li>上界永远&gt;=下界；</li>
+<li>便于计算 容量=上界-下界；</li>
+<li>上界永远取不到值，能避免数组越界。</li>
+</ul>
+<p>另外，我注意到C++中其他很多地方也是贯穿了这个原则，例如vector的begin()、end()函数，begin()是下界、可以取到，end()是上界、取不到。因此，和C++语言保持一致，统一用这种方式也更加便利。</p>
+<br/>
+<h2 id="2-二维数组访问">2. 二维数组访问</h2>
+<p>因为cpu会将经常访问的内容放入cache，根据这个原理，在短时间内应该尽量访问相邻的空间。这就是为什么一般不会跨行访问（即外层循环行，内层循环列）。</p>
+<p>此外，一般也将长的循环放在内层、短的循环放在内层。这样可以缩短cpu跨切循环层的次数。<br>
+<br/></p>
+<h2 id="3-vector">3. vector</h2>
+<p>vector是<strong>面向对象</strong>方式的<strong>动态</strong>数组。<br>
+通过capacity和size函数，可以分别获取数组的容量（下次申请空间前，最多可以存储几个元素）和存储的元素个数（当前数组中有几个元素）。</p>
+<p>string和vector类似，也有这两个函数，并且功能相同。另外还有一个和size函数功能相同的length函数。<br>
+<br/></p>
+<h2 id="4-字符集">4. 字符集</h2>
+<p>unicode是字符集，解决了自然字符数字化的问题；<br>
+UTF-8是编码方式，解决了数字字符在计算机中传播、存储的问题。</p>
+<p>出现乱码的原因在于编码和解码方式的不统一。HTML、XML等文件能够被广泛传播的原因在于，他们文件一开头就指明了编码方式。而传统的文件并没有考虑到这点（但开头可能有big endian、BOM标记等）。<br>
+<br/></p>
+<h2 id="5-字符串的数组表示和字符指针表示">5. 字符串的数组表示和字符指针表示</h2>
+<p>对于下面这段代码，尽管他们都表示字符串“helloworld”，但底层原理并不相同。</p>
+<pre><code>//第一行是字符串的数组表示、第二第三行是字符串的指针表示。
+char strHelloWorld[11] = { &quot;helloworld&quot; };     // 字符串的数组表示
+char* pStrHelloWrold = &quot;helloworld&quot;;     //pStrHelloWrold第一次赋值，指针变量的值允许改变，但此时指针变量
+pStrHelloWrold = strHelloWorld;            //pStrHelloWrold第二次赋值
+
+</code></pre>
+<p>执行下面代码对各元素进行+1</p>
+<pre><code>
+//strHelloWorld = pStrHelloWrold;  错误，strHelloWorld作为数组不可改变
+// 通过数组变量遍历修改数组中的元素值
+	 for (int index = 0; index &lt;  strlen(strHelloWorld); ++index)
+	 {
+	 	strHelloWorld[index] += 1;
+	 	std::cout &lt;&lt; strHelloWorld[index] &lt;&lt; std::endl;
+	 }
+
+	 // 通过指针变量遍历修改数组中的元素值，pStrHelloWrold赋值前后运行结果不同
+	 for (int index = 0; index &lt; strlen(strHelloWorld); ++index)
+	 {
+	 	pStrHelloWrold[index] += 1;
+	 	std::cout &lt;&lt; pStrHelloWrold[index] &lt;&lt; std::endl;
+	 }
+</code></pre>
+<p>字符数组StrHelloWorld不可变，strHelloWorld[index]的值可变；<br>
+字符指针pStrHelloWrold可变，pStrHelloWrold[index]的值可变不可变<strong>取决于所指区间的存储区域是否可变</strong>;</p>
+<p>数组strHelloWorld将里面每个元素值+1。而尽管pStrHelloWrold一直是字符指针，但是对于它的两个不同的值，+1操作的结果是不同的。<br/><br>
+<strong>当pStrHelloWrold指向&quot;helloworld&quot;，此时该指针指向字符串常量区域，对它的字符进行+1操作会引发写入访问权限错误；<br>
+当pStrHelloWrold指向strHelloWorld，此时该指针指向字符串变量区域，进行+1操作可以和数组strHelloWorld一样，将各字母再次增大1。</strong></p>
+<figure data-type="image" tabindex="1"><img src="https://444494.xyz/post-images/1613889952320.png" alt="" loading="lazy"></figure>
+<br/>
+<h2 id="6-c字符串函数与缓冲区溢出">6. C字符串函数与缓冲区溢出</h2>
+<p>传统的strcpy、strcat等函数并不会在操作前对字符串长度进行越界检查，这就导致可能会出现缓冲区溢出，产生安全漏洞。</p>
+<p>为了避免这种问题，应该尽量使用strnlen_s，strcpy_s，strncpy_s，strcat_s等API函数，更加安全。</p>
+<figure data-type="image" tabindex="2"><img src="https://444494.xyz/post-images/1613892934793.png" alt="" loading="lazy"></figure>
+<center>使用strcat函数将“Welcome to C++”追加到字符串str3后，由于长度超限覆盖了str1</center>
+<br/>
+<h2 id="7-string">7. string</h2>
+<p>C++中字符串string具有了更多功能，如动态分配大小、拷贝=、比较、拼接+等等。<br>
+string和vector类似，也有size和capacity两个函数，并且功能相同。另外还有一个和size函数功能相同的length函数。<br>
+需要注意的是，<strong>即使是未初始化的空字符串，其capacity也是大于0的。</strong></p>
+<p>在对性能要求高的场所，还是需要使用C字符串，string并不是万能的。（c_str对象函数可以返回C字符串的指针）。<br>
+并且，Redis(https://redis.io/)字符串的设计对C字符串空间和时间进行了折中。</p>
+<p>另外，字符串的拼接<strong>不可以拼接两个字符串常量</strong>。</p>
+<pre><code>string str = &quot;abc&quot;;
+string str1 = str + “def&quot;;
+string str2 = &quot;abc&quot; + str;
+string str3 = &quot;abc&quot; + &quot;def&quot;;  //错误！
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/va-k-XPwc/" class="tag">
+                    慕课网《重学C++ 重构你的C++知识体系》
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/qi-ta/">
+                  <h3 class="post-title">
+                    Github Pages加速
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>C++易混变量类型 | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609519378">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="1. 指针引用和引用指针
+int i= 42;
+int *p;
+int *&amp;r = p;  //正确，r是对指针p的引用，变量类型也是指针
+int &amp;*s = p;  //错误，不可以生成引用类型的指针（因为引用不是变量）
+..." />
+    <meta name="keywords" content="C++专项知识点" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1617609519378" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">C++易混变量类型</h2>
+            <div class="post-date">2021-02-15</div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="1-指针引用和引用指针">1. 指针引用和引用指针</h2>
+<pre><code>int i= 42;
+int *p;
+int *&amp;r = p;  //正确，r是对指针p的引用，变量类型也是指针
+int &amp;*s = p;  //错误，不可以生成引用类型的指针（因为引用不是变量）
+</code></pre>
+<p>要理解r的类型到底是什么，最简单的办法是从右向左阅读r的定义。离变量名最近的符号（此例中是&amp;r的符号&amp;）对变量的类型有最直接的影响，因此r是一个引用。声明符的其余部分用以确定r引用的类型是什么，此例中的符号*说明r引用的是一个指针。最后，声明的基本数据类型部分指出r引用的是一个int指针。<br>
+<strong>r是对int指针p的引用</strong></p>
+<br/>
+<h2 id="2-数组指针和指针数组">2. 数组指针和指针数组</h2>
+<pre><code>int* a[4];  //注意：[]优先级比较高，没有小括号时，a优先和[]结合，其次是*；
+int (*b)[4];	  
+</code></pre>
+<p>类似上面第一个，两个变量同样从右向左阅读定义：</p>
+<ul>
+<li>a附近没有()，它首先和[4]结合，指明a是一个容量是4的数组。然后左侧修饰符*号说明这个数组中元素的变量类型是指针，也就是说它是一个指针数组，最终这些指针的数据类型由int指明。所以，a是一个int类型的指针数组；</li>
+<li>由于有优先级更高的()的存在，b首先结合变成 (*b)，这说明b是一个指针。其次右侧[4]说明该指针指向有4个元素的数组，这四个元素的类型由int表明。所以，b是指向存储着4个int类型元素的数组。</li>
+</ul>
+<br/>
+<h2 id="3-指向函数的指针函数指针和返回指针的函数">3. 指向函数的指针（函数指针）和返回指针的函数</h2>
+<p>每个函数都占用一段内存单元，他们有一个其实地址。指向函数入口地址的指针被称为函数指针。</p>
+<p>一般形式：返回的数据类型 （*指针变量名）（形式参数表）；<br>
+例如： int (*p) (int);</p>
+<pre><code>int (*p) (int);  //指向函数的指针，也即函数指针
+int* p (int);   //返回指针类型的函数
+int* processNum(int i, int j, int (*p) (int, int) );  //一个接收函数指针，并返回整型指针的函数
+</code></pre>
+<br/>
+<ol start="4">
+<li>const和指针、const和引用<br>
+详见《修饰符const总结》</li>
+</ol>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/4SoBKkPrS/" class="tag">
+                    C++专项知识点
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/zhi-zhen-he-yin-yong/">
+                  <h3 class="post-title">
+                    指针和引用
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

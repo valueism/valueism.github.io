@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>7-3 Pop Sequence | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609519378">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+7-3 Pop Sequence
+https://pintia.cn/problem-sets/16/problems/665
+
+第一遍做时，为了比较严谨好看，把栈做成了内存动态分配+结构体的形式，类似的还有一个pop序列和对应指针等变量..." />
+    <meta name="keywords" content="C数据结构" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1617609519378" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">7-3 Pop Sequence</h2>
+            <div class="post-date">2021-03-04</div>
+            
+            <div class="post-content" v-pre>
+              <blockquote>
+<p>7-3 Pop Sequence<br>
+https://pintia.cn/problem-sets/16/problems/665</p>
+</blockquote>
+<p>第一遍做时，为了比较严谨好看，把栈做成了内存动态分配+结构体的形式，类似的还有一个pop序列和对应指针等变量，结果把我给搞晕了，中间有个样例会溢出导致异常，头昏脑胀半天没找出bug。<br>
+后来直接重构了代码，栈和pop序列都用了简单的int数组，并且第二遍做的时候思路也更清晰了一点，比较快做完了。</p>
+<p>思路比较简单：按照1，2，3，......，n的顺序不断push进栈中，每次push完检测栈顶元素是否和当前pop序列中元素相等（相等就说明该序列是可行的），如果是，就不断pop弹出，然后继续push进栈。这个过程中如果栈满了，那么直接跳出循环。<br>
+循环结束后，检测栈和pop序列是否为空，如果是，说明这个序列是一个可能的栈弹出序列（&quot;is a possible pop sequence of the stack.&quot;），输出&quot;YES&quot;。反之如果还有元素，说明不能该序列是不可能的，输出&quot;NO&quot;。</p>
+<p>出错点：</p>
+<ol>
+<li>栈顶元素可能连续多个和pop序列中元素相等，因此应当用while循环检测是否相等（而不是if语句）。每次相等时，pop指针+1，栈指针-1。</li>
+<li>k个循环每个循环都是独立的、全新的，因此都要重新初始化pop序列和栈。</li>
+</ol>
+<br/>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include&lt;stdlib.h&gt;
+
+int stack[1003], stackNow = -1;
+
+int size() {
+	return stackNow + 1;
+}
+
+int top() {
+	if (size() &gt; 0) //如果不为空
+	{
+		return stack[stackNow];
+	}
+	else
+		return -1;
+}
+
+void pop() {
+	if (size() &gt; 0)
+		--stackNow;
+}
+
+void push(int a) {
+	stack[++stackNow] = a;
+}
+
+
+
+int main()
+{
+	int m, n, k;
+	int seq[1003], seqNow = 0;  //存放序列
+	scanf(&quot;%d %d %d&quot;, &amp;m, &amp;n, &amp;k);// 5 7 5
+
+	while (k--)
+	{
+		seqNow = 0; stackNow = -1;
+		for (int i = 0; i &lt; n; i++)
+			scanf(&quot;%d&quot;, &amp;seq[i]);
+		
+
+		int num = 1;//将要放入的数字
+		while (num&lt;(n + 1))
+		{
+			stack[++stackNow] = num++;
+
+			if (size() &gt;m)
+				break;
+
+			while (size()&gt;0 &amp;&amp; seq[seqNow] == top())
+			{
+				seqNow++;
+				pop();
+			}
+
+		}
+		if (num== (n + 1) &amp;&amp;size()== 0)
+			printf(&quot;YES\n&quot;);
+		else
+			printf(&quot;NO\n&quot;);
+	}
+	return 0;
+}
+
+
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/MSy8INJ59/" class="tag">
+                    C数据结构
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/7-2-yi-yuan-duo-xiang-shi-de-cheng-fa-yu-jia-fa-yun-suan/">
+                  <h3 class="post-title">
+                    7-2 一元多项式的乘法与加法运算
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

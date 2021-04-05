@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>《重学C++》5. 彻底学会 C++ 指针，引用（一）指针和左值右值 | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609519378">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="1. 左值和右值
+概念:
+
+一般说法，编译器为左值单独分配了一块存储空间，可以取其地址。左值可以放在赋值运算符左边也可以在右边；
+右值指的是数据本身；不能取到其自身地址，右值只能赋值运算右边；
+
+左值代表地址单元,右值代表数据本身。
+左值最..." />
+    <meta name="keywords" content="慕课网《重学C++ 重构你的C++知识体系》" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1617609519378" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">《重学C++》5. 彻底学会 C++ 指针，引用（一）指针和左值右值</h2>
+            <div class="post-date">2021-02-22</div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="1-左值和右值">1. 左值和右值</h2>
+<h3 id="概念">概念:</h3>
+<blockquote>
+<p>一般说法，<strong>编译器为左值单独分配了一块存储空间，可以取其地址</strong>。左值可以放在赋值运算符左边也可以在右边；<br>
+<strong>右值指的是数据本身；不能取到其自身地址</strong>，右值只能赋值运算右边；</p>
+</blockquote>
+<p>左值代表地址单元,右值代表数据本身。</p>
+<p>左值最常见的情况如函数和数据成员的名字；<br>
+右值是没有标识符、不可以取地址的表达式，一般也称之为“临时对象”。</p>
+<p>比如：</p>
+<pre><code> a = b + c;
+</code></pre>
+<p>&amp;a是允许的操作，而&amp;(b+c)不能通过编译，因此a是一个左值，而(b+c)是一个右值。</p>
+<pre><code>char strHelloWorld[] = {&quot;helloworld&quot;};
+char* pStrHelloWorld = &quot;helloworld&quot;;
+pStrHelloWrold = strHelloWorld;	//指针变量的值允许改变
+strHelloWorld = pStrHelloWrold;	//strHelloWorld是右值，代表字符串的值，不可以被赋值等
+</code></pre>
+<blockquote>
+<p>理解C和C++中的左值和右值<br>
+https://blog.csdn.net/xuwqiang1994/article/details/79924310</p>
+</blockquote>
+<br/>
+<h2 id="2-指针和数组">2. 指针和数组</h2>
+<p>指针的数组(array of pointers)与数组的指针(a pointer to an array):<br>
+指针的数组T* t[]<br>
+数组的指针 T(*t) []</p>
+<pre><code>int* a[4];  //注意：[]优先级比较高，没有小括号时，a优先和[]结合，表明是数组；
+int (*b)[4];	 //优先和()结合，*表明b是指针；
+</code></pre>
+<br/>
+<h2 id="3-指针和const">3. 指针和const</h2>
+<p>除了指针和数组容易混淆外，指针也容易和const混淆。<br>
+<img src="https://444494.xyz/post-images/1614001600913.png" alt="" loading="lazy"></p>
+<center>const和指针</center>
+<br/>
+<h2 id="4-原始指针">4. 原始指针</h2>
+<ul>
+<li>野指针：</li>
+</ul>
+<pre><code>    int *a;
+    *a=12;  //出错，
+</code></pre>
+<p>一般有三种情况：</p>
+<ol>
+<li>指针变量没有初始化；</li>
+<li>已经释放不用的指针没有置NULL，如delete和free之后的指针；</li>
+<li>指针操作超越了变量的作用范围；</li>
+</ol>
+<ul>
+<li>空指针：</li>
+</ul>
+<pre><code>    int *a = NULL;
+</code></pre>
+<p>空指针表明了该指针目前没有指向任何位置。</p>
+<br/>
+<p><strong>指针要么被手动初始化指向一个地址，要么就应该被置为NULL。</strong>（尽量避免野指针，使用空指针）<br>
+同样，在使用一个指针前，要先判断其是否是NULL。</p>
+<br/>
+<h2 id="5-指针和左值右值">5. 指针和左值右值</h2>
+<h3 id="一元取地址符-拿一个左值作为参数并且生成一个右值">一元取地址符 ‘<strong>&amp;</strong>’ 拿一个左值作为参数并且生成一个右值：</h3>
+<pre><code>char ch = 'a';char* cP = &amp;ch;
+
+char* cp = &amp;ch;		//&amp;ch作为右值正确
+//&amp;cp = 97;			//&amp;cp左值不合法
+char** cpp = &amp;cp;	//&amp;cp右值
+</code></pre>
+<p>上面的例子中，&amp;ch和&amp;cp都是只能作为右值而不是左值。<br>
+在取地址时，编译器记录变量的地址，并将其数值保存在临时变量中。而<strong>所有临时变量（它们均由编译器管理）只能取到数值，是右值的一种</strong>。<br>
+这里要想让&amp;ch和&amp;cp作为左值，只能手动将其保存为一个程序员管理的变量（而不是编译器内部管理的临时变量）。<br>
+<br></p>
+<h3 id="一元运算符解引用拿一个右值作为参数而产生一个左值作为结果">一元运算符‘<strong>*</strong>’（解引用）拿一个右值作为参数而产生一个左值作为结果：</h3>
+<p>*p会取到指针p的空间作为左值。由于左值可以作为右值使用，*p作为右值时取p指向的空间里的数值。</p>
+<pre><code>*cp = 'a';			//*cp左值取变量ch位置
+
+char ch2 = *cp;		//*cp此时当右值，取变量ch存储的值
+
+//*cp + 1 = 'a';	
+//*cp+1左值，不合法的位置。
+//为了和1相加，*cp转换为了右值（变量ch存储的值），两个右值相加结果也是右值
+
+ch2 = *cp + 1;		//*cp+1右值取到的字符做ASCII码+1操作
+
+*(cp + 1) = 'a';	//*(cp+1)左值语法上合法，取ch后面位置的值。但可能会非法访问。
+ch2 = *(cp + 1);	//*(cp+1)右值语法上合法，取ch后面位置的值。但可能会非法访问。
+</code></pre>
+<h3 id="和-运算符">++和--运算符</h3>
+<pre><code>//++,--操作符
+char* cp2 = ++cp;        //++指针cp，只能做右值，取cp存储的地址+1的地址作为数值
+char* cp3 = cp++;        //类似的，返回cp存储的地址作为数值，仅作为右值
+char* cp4 = --cp;
+char* cp5 = cp--;
+</code></pre>
+<br/>
+<h3 id="和组合运算符">*和++组合运算符</h3>
+<p>注意：<strong>注意：++操作符的优先级高于取间接*操作符的优先级。</strong></p>
+<pre><code>//*++,++*
+*++cp2 = 98;           //取cp2指向地址的后面空间，是左值
+char ch3 =  *++cp2;           //类似上面，但是左值充当了右值，取cp2指向地址的后面空间存储的数值
+*cp2++ = 98;           //取cp2指向地址，是左值
+char ch4 = *cp2++;           ////类似上面，但是左值充当了右值，取cp2指向地址中存储的数值
+</code></pre>
+<br/>
+<h2 id="6读取运算符贪心法">6.读取运算符“贪心法”</h2>
+<p>编译器程序分解成符号的方法是：一个字符一个字符的读入，如果该字符可能组成一个符号，那么读入下一个字符，<strong>一直到读入的字符不再能组成一个有意义的符号</strong>。这个处理过程称为&quot;贪心法&quot;。</p>
+<pre><code>int a = 1,b = 2,c;
+c = a+++b;	//相当于a++ +b;
+d = a++++b;	//相当于a++ ++b,error
+</code></pre>
+<blockquote>
+<p>小练习：<br>
+表达式  ++*++cp  是什么含义？（提示：结合贪心法和堆栈）<img src="https://444494.xyz/post-images/1614007456559.png" alt="" loading="lazy"></p>
+</blockquote>
+<br/>
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/va-k-XPwc/" class="tag">
+                    慕课网《重学C++ 重构你的C++知识体系》
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/lesslessqi-huo-yu-qi-quan-greatergreater-14-yan-sheng-pin-li-shi/">
+                  <h3 class="post-title">
+                    《期货与期权》1. 导论（一）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

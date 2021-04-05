@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>《期货与期权》1. 导论（二） | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609519378">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="1.10 NDF和远期利率协议
+无本金交割远期外汇交易(Non-deliverable Forwards，NDF）
+
+NDF(Non-deliverable forward):NDF is an outright forward in wh..." />
+    <meta name="keywords" content="中财《期货与期权》" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1617609519378" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">《期货与期权》1. 导论（二）</h2>
+            <div class="post-date">2021-02-23</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="110-ndf和远期利率协议">1.10 NDF和远期利率协议</h1>
+<h2 id="无本金交割远期外汇交易non-deliverable-forwardsndf">无本金交割远期外汇交易(Non-deliverable Forwards，NDF）</h2>
+<blockquote>
+<p><strong>NDF(Non-deliverable forward)</strong>:NDF is an outright forward in which counterparties settle the difference between the contracted NDF price or rate and the prevailing spot price or rate on an agreed notional amount.<br>
+NDF是一种直接的远期合约，交易对手根据约定的名义金额结算NDF合约价格或汇率与现行现货价格或汇率之间的差额。</p>
+</blockquote>
+<p>简单来说就是类似于汇率远期合约，但是并没有现金交割，只用硬通货结算差额。比如上一节的买英镑远期合约，但是最后到期时只能得到交割时汇率和约定汇率的差额（只能赚到/赔掉差额的部分钱）。<br>
+在一些禁止远期外汇交易的国家，NDF很流行，因为它是作为一种避免汇率风险的手段。</p>
+<blockquote>
+<p>为什么要用硬通货只结算差额（而不是全额结算）？<br>
+因为有的货币不够“硬”，要这些货币也没什么用，不如用美元结算差额，这些多余的钱以美元的形式还可以花出去。</p>
+</blockquote>
+<h2 id="远期利率协议forward-rate-agreementfra">远期利率协议（Forward rate agreement，FRA）</h2>
+<blockquote>
+<p>FRA is a forward contract, an over-the-counter contract between parties that determines the rate of interest to bepaid or received on an obligation beginning at a future start date. The contract will determine the rates to beused along with the termination date and notional value.<br>
+远期利率合约（FRA）是一种场外交易，这种交易约定在将来某一段时间交易的一方将以某一利率借入或借出固定数量的资金。合同将决定使用的价格，以及终止日期和<strong>名义价值</strong>。</p>
+</blockquote>
+<p>类似于NDF用来规避汇率风险，FRA被各大公司用来规避汇率风险。而且本金只用于计算利率（并不涉及实际借贷），也被称为名义本金。</p>
+<p>合同双方会约定一个的未来时间作为生效日（effective date）并约定固定的合同利率（contracted rate），并在一段时间间隔（interval）出借/借入资金，这段时间里浮动的利率是参考利率（reference rate），最终在未来的终点（terminal）结束。合约只在结算日一次性按照利息的差额进行结算，需要注意的是：<strong>FRA结算日并不是在结束日，而是在生效日折算（discount）价格。</strong></p>
+<p>协议记法为：生效月数×到期月数。例如一个FRA1个月后生效、有效期为3个月，那么记作1×4。在一个月后的生效日一次性结算利率差额。</p>
+<p>特点：</p>
+<ul>
+<li>未来某一时间（certain time）</li>
+<li>间隔（interval）</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://444494.xyz/post-images/1614092739390.png" alt="" loading="lazy"></figure>
+<center>远期利率协议</center>
+<p>术语：</p>
+<ul>
+<li>用来规避汇率上涨风险的一方被称作买方buyer(payer)；</li>
+<li>用来规避汇率下降风险的一方被称作卖方seller(receiver)；</li>
+<li>合同中签订一个固定利率contracted rate</li>
+<li>间隔中的浮动的参考利率reference rate，该利率常常设为LIBOR；</li>
+<li>计算利率用到名义本金notional</li>
+<li>α=间隔月数/一年=月数/12，如3个月是0.25</li>
+</ul>
+<p>payer支付固定利率，收到浮动利率；而receiver相反。</p>
+<figure data-type="image" tabindex="2"><img src="https://444494.xyz/post-images/1614086139609.png" alt="" loading="lazy"></figure>
+<center>payer支付价格payment</center>
+<blockquote>
+<p>【例43】假定一家公司进入一个FRA合约，在合约中这家公司将在3年后收入3个月期限4%的固定利率的现金流。在FRA中，公司要支付IBOR，同时收入4%的固定利率，期限为3个月。FRA的本金为1亿美元。如果在3年后，3个月期限 LIBOR为4.5%，那么对于资金借出方而言（即这家公司），在3.25年时现金流为？<br/>在3.25年时现金流为-123609。</p>
+</blockquote>
+<br/>
+<hr>
+<br/>
+<h1 id="114-期权">1.14 期权</h1>
+<p>和三大类的其他衍生品不同，<br>
+期货/远期/交换给持有者一种<strong>义务</strong>，让他以一个固定的价格去买/卖一个标的资产，并且只能履约；<br>
+而期权给持有者一种<strong>权利/义务</strong>，这种权利/义务让他一个在未来某时间（<strong>行权日</strong>）&quot;以一个固定的价格（<strong>执行价格/行权价格</strong>）买入/卖出<strong>标的资产</strong>&quot;。期权买入者向卖出者支付的资金叫做<strong>权利金</strong>。</p>
+<h2 id="特点">特点</h2>
+<p>期权的买方有权利、无义务，而期权的卖方有义务、无权利。但是买方自愿为了获得权利付出<strong>权利金</strong>、而卖方也愿意牺牲权利换取权利金，因此期权是一个<strong>不对称但公平</strong>的交易。<br>
+例如：50万卖给其他人去从事危险工作（如矿工等）的权利，也就是&quot;重赏之下必有勇夫&quot;、“一个愿打一个愿挨”。</p>
+<p>2个交易方式（买入、卖出）、2个方向（看涨、看跌）、n个有效期期限、m个执行价格，组合起来导致期权的交易选择非常多。<br>
+看涨、看跌期权各自都可以买入/卖出，如买入一个50ETF看涨期权，即买入一个买入50ETF的权利；买入一个50ETF看跌期权，即买入一个卖出50ETF的权利；卖出一个50ETF看跌期权，即卖出一个卖出50ETF的权利。（比较绕）</p>
+<figure data-type="image" tabindex="3"><img src="https://444494.xyz/post-images/1614097140326.png" alt="" loading="lazy"></figure>
+<center>期权种类很多，有不同的行权日、行权价格、看涨看跌方向</center>
+<h2 id="术语">术语</h2>
+<ul>
+<li>
+<p>看涨期权/认购期权：一个买入的权利，给期权持有者在将来一个时刻以一定价格买入资产的权利。</p>
+</li>
+<li>
+<p>看跌期权/认沽期权：一个卖出的权利，给期权持有者在将来一个时刻以一定价格卖出资产的权利。</p>
+</li>
+<li>
+<p>欧式期权：只能在到期日实施权利；</p>
+</li>
+<li>
+<p>美式期权：权利有效期内可以无限实施，美式期权更贵、更难分析、数量也略多一点；<br>
+当最优实施的价格就在到期日时，两种期权的价格相等。</p>
+</li>
+</ul>
+<h2 id="交割">交割</h2>
+<p>期权的<strong>交割方式</strong>有实物交割和现金交割两种。<br>
+如果某一期权的交割方式是实物交割，那么在交割时，期权行权双方需进行资金和现货的交割。如果某一期权的交割方式是现金交割，那么在交割时，期权卖方将按照约定向期权买方支付行权价格与标的证券结算价格之间差额。</p>
+<p>不管是期货还是期权，持有者都可以不执行权利，而是选择在市场上<strong>提前卖出</strong>。这是因为市场存在着流动性，而这些流动性很大程度上来自于做市商、投机者（最终没有平仓进入期权到期日的交易者只有5%）。</p>
+<p>但是到了到期日就需要<strong>交割</strong>，还没有平仓的期权持有者将会被交易所随机配对为对手。因为不对称，期权的买方在该项期权规定的时间内拥有选择买或不买、卖或不卖的权利，他可以实施该权利，也可以放弃该权利，而期权的卖方则只负有期权合约规定的义务。所以最终权利是否被行使是否取决于买方。在行权日，无论标的价格上涨或下跌到什么水平，只要期权买方要求执行该期权，期权卖方都必须以此行权价履行其必须履行的义务。</p>
+<blockquote>
+<p>考虑某投资者买入执行价格为100美元的100股股票的看涨期权。<br>
+假定当前股票的市场价格为98美元，期权的到期日为4个月，购买一股股票的期权价格为5美元。持有者的最初投资为500美元。因为期权为欧式，持有者只能在到期日才能行使期权。如果在到期日，股票价格小于100美元，很明显投资者不会行使期权（没有必要以100美元的价格买入市场价格低于100美元的股票）。因此投资者会损失全部500美元的最初投资；如果在到期日，股票价格大于100美元，期权将会被行使。假定在到期日股票价格为115美元。通过行使期权，期权持有人可以每股100美元的价格买入100股股票，如果投资者马上将股票变卖，每股可以赚入15美元。忽略交易费用，投资者可以挣得1500美元。将最初的期权费用考虑在内，投资者的盈利为1000美元。</p>
+</blockquote>
+<blockquote>
+<p>例：1月1日，铜期货的执行价格为1750 美元/吨，A买入这个权利，付出5美元;B卖出这个权利，收入5美元。<br/><br>
+2月1日，铜价跌至1695美元/吨，看跌期权的价格涨至55美元。此时，A可采取两个策略：<br>
+行使权利一：A可以按1695美元/吨的价格从市场上买入铜，而以1750美元/吨的价格卖给B，B必须接受，A从中获利50美元(1750一1695一5)，B损失50美元。<br>
+行使权利二：售出期权。A可以55美元的价格售出看跌期权。A获利50美元(55一5〕。<br>
+<br/><br>
+如果铜期货价格上涨，A就会放弃这个权利而损失5美元，B则净得5美元。</p>
+</blockquote>
+<br/>
+<hr>
+<br/>
+<h1 id="115-期权交易者分类">1.15 （期权）交易者分类</h1>
+<p>交易者分类：</p>
+<ul>
+<li>套期保值（套保）者</li>
+<li>投机者</li>
+<li>套利者</li>
+</ul>
+<p>以套期保值为例：一个买了微软股票的人为了确保股价平稳，可以购买一定价格卖出股票的期权，避免以后股价下跌太多。如果到期日股价相比现在跌了，按照期权卖出股票，如果涨了，可以放弃权利。<br>
+不考虑期权费用的话，最终这些股票会有一个保底价格。</p>
+<figure data-type="image" tabindex="4"><img src="https://444494.xyz/post-images/1614092166219.png" alt="" loading="lazy"></figure>
+<center>买入期权后，最终这些股票会有一个保底价格</center>
+<br/>
+<hr>
+<br/>
+<h1 id="116-利率互换">1.16 利率互换</h1>
+<blockquote>
+<p>对比“远期利率协议”、“利率期货”、“利率互换”？ - 知乎<br>
+https://www.zhihu.com/question/277618631/answer/394515630</p>
+</blockquote>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/kpVS26av4/" class="tag">
+                    中财《期货与期权》
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/lesslesschong-xue-greatergreater/">
+                  <h3 class="post-title">
+                    《重学C++》5. 彻底学会 C++ 指针，引用（三）智能指针
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

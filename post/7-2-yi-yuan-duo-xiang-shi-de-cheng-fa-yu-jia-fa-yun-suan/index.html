@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>7-2 一元多项式的乘法与加法运算 | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609519378">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+7-2 一元多项式的乘法与加法运算
+https://pintia.cn/problem-sets/15/problems/710
+
+首先大致思路是做好输入输出之后，先做加法（一是比乘法简单，二是后面乘法也会用到加法）再做乘法。
+加法：加法..." />
+    <meta name="keywords" content="C数据结构" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1617609519378" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">7-2 一元多项式的乘法与加法运算</h2>
+            <div class="post-date">2021-03-04</div>
+            
+            <div class="post-content" v-pre>
+              <blockquote>
+<p>7-2 一元多项式的乘法与加法运算<br>
+https://pintia.cn/problem-sets/15/problems/710</p>
+</blockquote>
+<p>首先大致思路是做好输入输出之后，先做加法（一是比乘法简单，二是后面乘法也会用到加法）再做乘法。<br>
+加法：加法的过程其实和上一道题”<a href="https://444494.xyz/7-51-liang-ge-you-xu-lian-biao-xu-lie-de-he-bing/">两个有序链表的合并</a>“非常相似，只不过这里的合并是按照系数和指数来进行的。上一题的一些坑这里也都有，因为遇到过，也比较容易避开。<br>
+乘法：实现了加法之后，乘法其实比较容易。将<strong>两个多项式A、B相乘的结果</strong>拆分为把<strong>多项式A中各项（a,b,c,...）和多项式B相乘的结果 累加</strong>。其中<strong>一个项a和一个多项式B相乘的结果</strong>拆分为<strong>一个项a和多项式B中各项（x,y,z,...）相乘的结果 累加</strong>。最后再分成<strong>一个项a和一个项x的乘积</strong>。反过来再利用已实现的多项式加法函数进行累加即可（把一个项视作只有一项的多项式）。</p>
+<p>零多项式的来源：</p>
+<ol>
+<li>输入了零多项式 （题目已经说明了只会输入非零多项式）</li>
+<li>运算（ 加法/乘法）得到零多项式</li>
+</ol>
+<p>坑：</p>
+<ol>
+<li>零多项式<br>
+不管是输入了零多项式，还是运算（ 加法/乘法）得到零多项式，最终只要在输出函数中进行判断就可以。因此引入了tag变量，tag为true时，没有输出过非零项，说明目前为止num是零多项式。</li>
+<li>可能必须先做乘法才能做加法，视加法的实现细节而定。<br>
+我的代码中多项式加法的结果并不是创建了一个新的链表，而是将原来的两个链表拆开重组而成的，这样会改变原来两个多项式，所以一定要先做乘法（乘法是创建一个新的链表作为结果）。</li>
+<li>格式问题<br>
+因为有零多项式和系数为0的项的存在，再加上题目对格式（回车、空格）有要求，所以比较容易出错。</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210304150239.png" alt="" loading="lazy"></figure>
+<center>格式问题：解决方法是加入printed变量，用于控制</center>
+<br/>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include&lt;stdlib.h&gt;
+typedef struct Node node;
+typedef struct Node* ptr;
+
+struct Node
+{
+	int coe;
+	int log;
+	ptr next;
+};
+
+void print(ptr num);
+
+//功能：根据输入，创建多项式链表，返回头指针
+ptr createNode() {
+	ptr num = NULL, now = NULL;
+	int a;
+	scanf(&quot;%d&quot;, &amp;a);
+	for (int i = 0; i &lt; a; i++)
+	{
+		ptr temp = (ptr)malloc(sizeof(node));
+		scanf(&quot;%d&quot;, &amp;temp-&gt;coe);
+		scanf(&quot;%d&quot;, &amp;temp-&gt;log);
+		temp-&gt;next = NULL;
+
+		if (num == NULL)
+		{
+			num = temp;
+			now = temp;
+		}
+		else
+		{
+			now-&gt;next = temp;
+			now = now-&gt;next;
+		}
+	}
+	return num;
+}
+
+//功能：将两个多项式相加
+
+ptr numPlus(ptr poly1,ptr poly2) {
+	ptr resPlus = NULL, now = NULL;
+	while (poly1!=NULL &amp;&amp; poly2!=NULL)
+	{
+		if (poly1-&gt;log &lt; poly2-&gt;log)   //把2放到resPlus后面
+		{
+			if(resPlus == NULL)
+			{
+				resPlus = poly2;
+				now = poly2;
+			}
+			else
+			{
+				now-&gt;next = poly2;
+				now = now-&gt;next;
+			}
+			
+			poly2 = poly2-&gt;next;
+			now-&gt;next = NULL;
+		}
+		else if (poly1-&gt;log &gt; poly2-&gt;log)  ////把1放到resPlus后面
+		{
+			if (resPlus == NULL)
+			{
+				resPlus = poly1;
+				now = poly1;
+			}
+			else
+			{
+				now-&gt;next = poly1;
+				now = now-&gt;next;
+			}
+
+			poly1 = poly1-&gt;next;
+			now-&gt;next = NULL;
+		}
+		else   //幂相等：系数相加后，放到resPlus后面
+		{
+			if (resPlus == NULL)
+			{
+				poly1-&gt;coe += poly2-&gt;coe;
+				resPlus = poly1;
+				now = poly1;
+			}
+			else
+			{
+				poly1-&gt;coe += poly2-&gt;coe;
+				now-&gt;next = poly1;
+				now = now-&gt;next;
+			}
+			
+			poly1 = poly1-&gt;next;
+
+			//后移poly2后，释放空间
+			ptr temp = poly2;
+			poly2 = poly2-&gt;next;
+			free(temp);
+
+			now-&gt;next = NULL;
+		}
+	}
+
+	//执行到这里，说明至少有一个为空
+	if (poly1 != NULL )
+	{
+		if (resPlus == NULL)
+		{
+			resPlus = poly1;
+			now = poly1;
+		}
+		else
+		{
+			now-&gt;next = poly1;
+		}
+	}
+	else if (poly2 != NULL)
+	{
+		if (resPlus == NULL)
+		{
+			resPlus = poly2;
+			now = poly2;
+		}
+		else   
+		{
+			now-&gt;next = poly2;
+		}
+	}
+	//全都为空时不会处理
+
+	return resPlus;
+}
+
+//功能：将两个数相乘，返回指向结果节点的指针 
+ptr multiNums(ptr num1, ptr num2) {
+	ptr now = (ptr)malloc(sizeof(node));
+	now-&gt;coe = num1-&gt;coe * num2-&gt;coe;
+	now-&gt;log = num1-&gt;log + num2-&gt;log;
+	now-&gt;next = NULL;
+	return now;
+}
+
+//功能:将数字num和多项式poly相乘，返回指向结果节点的指针 
+ptr multiNumAndPoly(ptr num, ptr poly) {
+	//数字num和多项式poly中每个数字的积的和
+	ptr res =NULL;
+
+	while (poly)
+	{
+		//temp:数字num和多项式poly中当前数字相乘的结果
+		ptr temp = multiNums(num, poly);
+		//将temp临时结果和res相加
+		if (res == NULL)
+			res = temp;
+		else
+			res = numPlus(res, temp);
+
+		poly = poly-&gt;next;
+	}
+	//printf(&quot;%d %d:\n&quot;, num-&gt;coe, num-&gt;log);
+	//print(res);
+	return res;
+}
+
+
+//功能：将两个多项式相乘，返回指向结果节点的指针 
+ptr numMulti (ptr poly1, ptr poly2) {
+	ptr res = NULL;
+
+	while (poly1)
+	{
+		//每次让num1指向的数字和多项式num2相乘
+		ptr temp = multiNumAndPoly(poly1, poly2);
+		if (res == NULL)
+			res = temp;
+		else
+			res = numPlus(res, temp);
+
+		poly1 = poly1-&gt;next;
+	}
+	return res;
+}
+
+//功能：输出多项式num
+void print(ptr num) {
+	//tag为true时，没有输出过非零项，说明目前为止num是零多项式
+	int tag = 1;
+	//printed=1表示输出过内容
+	int printed = 0;
+
+	if (num) {
+		if (num-&gt;coe!= 0)
+		{
+			printf(&quot;%d %d&quot;, num-&gt;coe, num-&gt;log);
+			tag = 0;
+			printed = 1;
+		}
+		while (num-&gt;next != NULL)
+		{
+			num = num-&gt;next;
+			if (num-&gt;coe != 0)
+			{
+				if (printed)
+					printf(&quot; &quot;);
+				printf(&quot;%d %d&quot;, num-&gt;coe, num-&gt;log);
+				tag = 0;
+			}
+		}
+		if (printed)
+		{
+			printf(&quot;\n&quot;);
+		}
+
+	}
+	if (tag)
+	{
+		printf(&quot;0 0\n&quot;);
+
+	}
+}
+
+
+
+
+int main()
+{
+	ptr num1 = createNode();
+	ptr num2 = createNode();
+	ptr resMulti = numMulti(num1, num2);
+	ptr resPlus = numPlus(num1,num2);
+
+	print(resMulti);
+	print(resPlus);
+
+	return 0;
+}
+
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/MSy8INJ59/" class="tag">
+                    C数据结构
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/7-51-liang-ge-you-xu-lian-biao-xu-lie-de-he-bing/">
+                  <h3 class="post-title">
+                    7-51 两个有序链表序列的合并
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

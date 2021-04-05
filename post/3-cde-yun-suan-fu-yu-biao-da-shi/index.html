@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>《重学C++》3. C++的运算符与表达式 | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609519378">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="1. 利用assert的性质验证德·摩根律。
+assert()：当且仅当括号内的运算结果为真时，程序可以正常运行；否则程序出错退出。
+
+在开发过程中，经常会用到assert函数进行调试。
+例如验证加法函数plus(1,1)返回的函数值是否为..." />
+    <meta name="keywords" content="慕课网《重学C++ 重构你的C++知识体系》" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1617609519378" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">《重学C++》3. C++的运算符与表达式</h2>
+            <div class="post-date">2021-02-20</div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="1-利用assert的性质验证德摩根律">1. 利用assert的性质验证德·摩根律。</h2>
+<p><strong>assert()</strong>：当且仅当括号内的运算结果为真时，程序可以正常运行；否则程序出错退出。<br>
+<img src="https://444494.xyz/post-images/1613793487358.png" alt="" loading="lazy"><br>
+<strong>在开发过程中，经常会用到assert函数进行调试。</strong><br>
+例如验证加法函数plus(1,1)返回的函数值是否为预期结果2，可以写成：<br>
+assert( plus(1,1) );<br>
+如果程序正常运行，说明函数正常。<br/></p>
+<h2 id="2-运算符">2. 运算符</h2>
+<p>有几个运算符比较少见，简单记录一下：</p>
+<pre><code class="language-c++">&lt;&lt;=：左移且赋值运算符。c&lt;&lt;=2等同于c=c&lt;&lt;2；
+&gt;&gt;=：左移且赋值运算符。c&gt;&gt;=2等同于c=c&gt;&gt;2；
+&amp;=：按位与且赋值运算符。c&amp;=2等同于c=c&amp;2；
+|=：按位或且赋值运算符。c|=2等同于c=c|2；
+^=：按位异或且赋值运算符。c^=2等同于c=c^2；
+</code></pre>
+<p><strong>关于移位，一种特殊用法是对2^n取余。</strong></p>
+<pre><code>m-(m&gt;&gt;1&lt;&lt;1);  //对2取余
+m-(m&gt;&gt;n&lt;&lt;n);  //对2^n取余
+</code></pre>
+<p>这种方法取余要比%取余效率更高，主要用在对性能要求很高的场合。大学一个室友曾在一个实验室呆过，这个实验室主要负责图像处理方向。他们开发用的语言是C，理由是C++速度不够快（python之类就更不用提了），甚至取余都是用这种方法来代替%。</p>
+<p>**关于运算符：**一般来说，一元运算符优先级高于二元运算符</p>
+<h2 id="3-注释的注意事项">3. 注释的注意事项</h2>
+<ul>
+<li>
+<p>好的代码和注释本身就是最好的注释。如果代码很清楚，那么不需要注释；</p>
+</li>
+<li>
+<p>在重要代码处，最好先写注释再写代码，有利于思路清晰和保证代码注释一致性；</p>
+</li>
+<li>
+<p>注释不是越多越好，它是对代码的提示，要写就要写清楚，并且需要保持代码和注释的一致性，更新代码也要更新注释。<br>
+<br/></p>
+</li>
+</ul>
+<hr>
+<br/>
+<h2 id="第三章课后练习">第三章课后练习</h2>
+<p>一. 填空题（必做）</p>
+<ol>
+<li>下面每行程序输出结果是分别是什么 （涉及知识点： 3-7 sizeof 2-2 数据类型）</li>
+</ol>
+<pre><code>cout sizeof(char)  endl; __1_
+cout  sizeof(short)  endl; _2__
+cout  sizeof(int)  endl; _4__
+cout  sizeof(float)  endl; __4_
+cout  sizeof(double)  endl; __8_
+</code></pre>
+<ol start="2">
+<li>下面程序输出结果是分别是什么 （涉及知识点：3-1 算术运算符，3-5赋值运算符， 3-7 sizeof ， 逗号运算符）</li>
+</ol>
+<pre><code>a = (x=10,y=20,z=x+y);
+cout&lt;&lt;a&lt;&lt;endl;  _30__
+</code></pre>
+<ol start="3">
+<li>下面程序输出结果是分别是什么 （涉及知识点： 3-7 sizeof, 点运算符 ）</li>
+</ol>
+<pre><code>typedef struct{
+short Sunday = 0;
+short Monday = 1;
+short Tuesday = 2;
+short Wednesday = 3;
+short Thursday = 4;
+short Friday = 5;
+short Saturday = 6;
+} Week;
+Week w;
+cout&lt;&lt;sizeof(w.Sunday)&lt;&lt; endl; _6__
+cout&lt;&lt;sizeof(w)&lt;&lt; endl; _14__
+</code></pre>
+<blockquote>
+<p>结构体大小的计算https://www.runoob.com/w3cnote/struct-size.html</p>
+</blockquote>
+<p>二. 编程题（必做）</p>
+<ol>
+<li>使用#define编写一段代码，来实现“标准”宏MIN？（涉及知识点： 2-6 宏定义 3-3关系运算符 3-7 运算符优先级）</li>
+</ol>
+<pre><code>#define MIN(a,b) ((a)&lt;(b)?(a):(b))
+</code></pre>
+<p>切记一定要加上括号，因为a、b可能是一个表达式，直接代入a&lt;b?a:b中可能会因为优先级而改变原本意图。</p>
+<ol start="2">
+<li>分别写出bool 、int、 float、与“零值”比较，表达式返回值等于1的代码片段；（涉及知识点： 3-1表达式 3-3关系运算符 3-4 逻辑运算符 2-2 数据类型 ）</li>
+</ol>
+<pre><code>bool a = 1;
+int b = 1;
+float c= 1;
+
+assert(a&gt;0);
+assert(b&gt;0);
+assert(c&gt;0);
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/va-k-XPwc/" class="tag">
+                    慕课网《重学C++ 重构你的C++知识体系》
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/2cji-chu-yu-fa/">
+                  <h3 class="post-title">
+                    《重学C++》2. C++基础语法
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

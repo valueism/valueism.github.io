@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>《重学C++》6. C++基础句法 | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609519378">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="1. 枚举enum
+定义时类似于结构体：
+enum wT{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
+wT week;
+week = monday;
+we..." />
+    <meta name="keywords" content="慕课网《重学C++ 重构你的C++知识体系》" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1617609519378" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">《重学C++》6. C++基础句法</h2>
+            <div class="post-date">2021-02-24</div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="1-枚举enum">1. 枚举enum</h2>
+<p>定义时类似于结构体：</p>
+<pre><code>enum wT{monday, tuesday, wednesday, thursday, friday, saturday, sunday};
+wT week;
+week = monday;
+week = Tuesday;
+</code></pre>
+<p>枚举变量可以给其他变量赋值，但其他变量不能赋值给枚举变量</p>
+<pre><code>int a = 1;
+// week = a;   错误，其他变量不能赋值给枚举变量
+a = week;
+</code></pre>
+<p>枚举变量内部其实是通过int整型数字实现的，内部的第一个变量默认为0（也可指定为某数字），之后依次加一。</p>
+<pre><code>week = wT(1);    //一定要转换类型才能赋值，这里转换为tuesday
+week = wednesday;
+cout&lt;&lt; week  &lt;&lt;endl;    //输出2，即wednesday
+</code></pre>
+<h2 id="2-联合体和结构体内存">2. 联合体和结构体内存</h2>
+<p>联合体中的所有数据共用一块数据，因此<strong>联合体的大小是其中最大元素的大小</strong>。</p>
+<p>而结构体的大小是其中所有数据的大小之和，但涉及到内存对齐的问题。32位机器中，每4Byte作为一个整体，元素即使小于4Byte也要单独占据这块空间（除非和其他变量共占）。<br>
+（为了节省空间，应该尽量把小的数据元素放到一起）<br>
+<img src="https://444494.xyz/post-images/1614135596674.png" alt="" loading="lazy"></p>
+<center>元素即使小于4Byte也要单独在其中存放</center>
+此外，结构体内存大小还应当是最大元素的整数倍。
+<figure data-type="image" tabindex="1"><img src="https://444494.xyz/post-images/1614135737974.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://444494.xyz/post-images/1614135805065.png" alt="" loading="lazy"></figure>
+<p><strong>面试题经常考到这部分内容。</strong></p>
+<blockquote>
+<p>结构体大小的计算<br>
+https://www.runoob.com/w3cnote/struct-size.html</p>
+</blockquote>
+<br/>
+<h2 id="2-函数">2. 函数</h2>
+<p>函数是一段封装好的代码，便于复用。<br>
+可以去使用一些比较好的公开库函数，可以节省开发成本，提高效率。但是有些场合对软件要求比较高，此时使用库函数可能不够高效而不能满足要求。</p>
+<h3 id="函数重载overload">函数重载overload</h3>
+<p>函数名和函数参数列表，共同构成了<strong>函数签名</strong>。函数签名用来区别重载的函数。基本支持函数重载的语言都需要进行<strong>name mangling</strong>。mangling的目的就是为了给重载的函数不同的签名，以避免调用时的二义性调用。</p>
+<h3 id="函数指针和返回指针的函数">函数指针和返回指针的函数</h3>
+<p>详见《C++易混变量类型》</p>
+<h3 id="命名空间">命名空间</h3>
+<p>有的时候函数除了名字相同，参数也相同，这种时候不能重载，应当通过namespace解决这个问题。<br>
+下面的代码使用<strong>命名空间定义</strong>了一个函数和一个变量。</p>
+<pre><code>namespace  lu
+{
+	bool test() {
+		return 1;
+	}
+	int constNum = 2;
+}
+</code></pre>
+<p>有两种方法<strong>使用命名空间</strong>：</p>
+<pre><code>方法一：只需要在名称前加上命名空间的名称和两个冒号，即
+cout &lt;&lt;  lu::constNum &lt;&lt; endl;
+cout &lt;&lt; ( lu::test() == 1 )&lt;&lt; endl;
+方法二：
+using namespace lu;
+cout &lt;&lt;  constNum &lt;&lt; endl;
+cout &lt;&lt; ( test() == 1 )&lt;&lt; endl;
+</code></pre>
+<p>在实际使用中，可能需要在.h头文件中声明、.cpp文件中定义命名空间，最后在另一个.cpp文件中使用命名空间。</p>
+<br/>
+<h2 id="3-函数体hack过程">3. 函数体hack过程</h2>
+<h3 id=""></h3>
+<p>函数调用过程中，默认会<strong>从右向左</strong>，先压入后面的参数、再压入前面的参数。<br>
+VS默认采取了__cdecl的调用约定方式，从右向左传递参数。这也是为什么只能给右边的函数参数加默认参数。</p>
+<blockquote>
+<p>调用约定（调用惯例）的参数传递顺序<br>
+1.从右到左依次入栈：__stdcall，__cdecl，__thiscall，__fastcall<br>
+2.从左到右依次入栈：__pascal</p>
+</blockquote>
+<figure data-type="image" tabindex="3"><img src="https://i.loli.net/2021/02/24/ZRDJeBarbuNg1qQ.png" alt="Snipaste_2021-02-24_15-43-46.png" loading="lazy"></figure>
+<center>先压入后面的参数、再压入前面的参数</center>
+<br/>
+<h2 id="4-递归">4. 递归</h2>
+<p>递归是一种重要的编程思想：</p>
+<ol>
+<li>很多重要的算法都包含递归的思想；</li>
+<li>递归最大的缺陷：
+<ol>
+<li>空间上需要开辟大量的栈空间；</li>
+<li>时间上可能需要有大量重复运算；</li>
+</ol>
+</li>
+</ol>
+<p>递归的优化：</p>
+<ol>
+<li>尾递归：所有递归形式的调用都出现在函数的末尾；</li>
+<li>使用循环替代；</li>
+<li>使用动态规划，空间换时间；</li>
+</ol>
+<p>下面以斐波那契数列为例，列举优化后的方法。</p>
+<h3 id="循环优化递归">循环优化递归</h3>
+<p>这种方法是以循环代替递归调用函数。</p>
+<pre><code>int Fib(int n)
+{
+	if(n &lt;2)
+	{
+		return n;
+	}
+	int n0 = 0,n1 = 1;
+	int temp;
+	for(int i = 2;i &lt;= n;++i)
+	{
+		temp = n0;
+		n0 = n1;
+		n1 = temp+n1;
+	}
+	return n1;
+}
+
+</code></pre>
+<h3 id="动态规划">动态规划</h3>
+<p>动态规划思路是将每个计算过的数值存储起来，后期如果需要可以直接拿出来，不需要再次计算（空间换时间）。</p>
+<p>这里就是用一个数组存储各个斐波那契的数值。</p>
+<pre><code>#include&lt;assert.h&gt;
+int a[1000];	//全局数组
+int Fib(int n)
+{
+	a[0] = 0;
+	a[1] = 1;
+	for(int i &lt;=2;i &lt;= n;++i)
+	{
+		a[i] = a[i-1]+a[i-2];
+	}  
+	return a[n];
+}
+assert(Fib(10)==55);
+</code></pre>
+<h3 id="尾递归">尾递归</h3>
+<p>尾递归：所有递归形式的调用都出现在函数的末尾，并且只能直接返回递归函数的值（不能有加法等运算）。</p>
+<blockquote>
+<p>什么是尾递归？ - 龙枪的回答 - 知乎<br>
+https://www.zhihu.com/question/20761771/answer/106426743</p>
+</blockquote>
+<pre><code>    //不是尾递归，因为存在加法
+     return Fib(n-1}+Fib(n-2);
+    //return Fib(n-1}+2; 这种方式也不是尾递归
+
+    //是尾递归
+    return Fib(n-1,ret1,ret0+ret1);
+</code></pre>
+<p>优化后的代码：</p>
+<pre><code>int Fib(int n,int ret0,int ret1)
+{
+	if(n == 0)
+	{
+		return ret0;
+	}else if(n == 1){
+		return ret1;
+	}
+	return Fib(n-1,ret1,ret0+ret1);
+}
+</code></pre>
+<p>尾递归每次只需要保存一个递归信息，普通的递归每次需要保存两个函数的递归信息。长此以往是一个很大的开销。</p>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20201113181206825.png" alt="" loading="lazy"></figure>
+<center>没有尾递归优化时的调用过程</center>
+<p>当有尾递归优化时，每次只调用一个递归函数，然后这个函数再向下调用一个（特点是直上直下、没有分支，类似于从头到尾访问一个链表）。这样的好处是，每次调用不会“分叉”，每轮永远只调用一个函数。从而节省了大量栈空间和重复计算的时间。</p>
+<blockquote>
+<p><strong>尾递归的优化：</strong><br>
+在编译器中C/C+±&gt;优化-&gt;优化-&gt;使大小最小化(/O1)<br>
+C/C+±&gt;代码生成-&gt;基本运行时检查-&gt;默认值</p>
+</blockquote>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/va-k-XPwc/" class="tag">
+                    慕课网《重学C++ 重构你的C++知识体系》
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/lessless/">
+                  <h3 class="post-title">
+                    《期货与期权》1. 导论（二）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

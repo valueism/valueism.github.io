@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>《重学C++》2. C++基础语法 | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609519378">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="程序生成过程
+编译型语言的程序生成过程：
+
+
+32位计算机中，常见的数据类型大小：
+
+
+整数类
+短整型short int：所占内存大小：2byte；   
+整型int：所占内存大小：4byte，表示范围：-231~231-1；
+unsign..." />
+    <meta name="keywords" content="慕课网《重学C++ 重构你的C++知识体系》" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1617609519378" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">《重学C++》2. C++基础语法</h2>
+            <div class="post-date">2021-02-20</div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="程序生成过程">程序生成过程</h2>
+<p>编译型语言的程序生成过程：<br>
+<img src="https://444494.xyz/post-images/1613787767770.png" alt="" loading="lazy"><br>
+<br/></p>
+<h2 id="32位计算机中常见的数据类型大小">32位计算机中，常见的数据类型大小：</h2>
+<ol>
+<li>
+<p>整数类<br>
+<strong>短整型short int：所占内存大小：2byte；</strong>   <br/><br>
+<strong>整型int：所占内存大小：4byte</strong>，表示范围：-2<sup>31~2</sup>31-1；<br>
+unsigned int: 所占内存大小：4byte，表示范围：0~2^32-1； <br/><br>
+<strong>长整型long int：所占内存大小：4byte</strong>，表示范围：-2<sup>31~2</sup>31-1；<br>
+unsigned long: 所占内存大小：4byte，表示范围：0~2^32-1； <br/><br>
+<strong>long long int：所占内存大小：8byte；</strong><br>
+unsigned long long int：所占内存大小：8byte；<br/><br>
+前缀：0、0x/0X分别代表8进制、16进制，不带前缀默认10进制；<br>
+后缀：u/U、l/L分别代表unsigned、long；</p>
+</li>
+<li>
+<p>浮点数类（注意：浮点数在内存中都是按科学计数法来存储的）<br>
+<strong>单精度float： 所占内存大小：4byte；</strong><br>
+<strong>双精度double：所占内存大小：8byte；</strong><br>
+long double：所占内存大小：8byte；<br>
+long long double：所占内存大小：16byte；     <br/><br>
+unsigned 浮点数类似 unsigned 整数</p>
+</li>
+<li>
+<p>字符类<br>
+<strong>char：所占内存大小：1byte；</strong><br>
+unsigned char：所占内存大小：1byte；<br>
+singned char: 所占内存大小：1byte；  <br/><br>
+<strong>wchar_t：所占所占内存大小：2byte；</strong><br/><br>
+前缀：L(仅大写字母)代表是宽字符（如：L'x'），存储在wchar_t中；<br>
+常量：代表转义字符、通用字符等（如：'\n'）；</p>
+</li>
+<li>
+<p>字符串类<br>
+由于string在c++中属于类类型，不是基本数据类型，类不能计算其在内存中所占大小，非要用sizeof(string)来算的话，一般算出来的结果是 sizeof(string)=4byte， 如果string字符串内容很多，很明显就不是其真实大小，string类里面有计算其字节大小的函数如：size(),length()。</p>
+</li>
+<li>
+<p>指针类<br>
+Win32下的大小为4字节，Win64中为8字节。</p>
+</li>
+</ol>
+<h2 id="标识符命名注意事项">标识符命名注意事项</h2>
+<ul>
+<li>标识符应该直观，使用英文单词组合；</li>
+<li>标识符应当符合“min-length &amp; max-information”原则，不要太长，能表达意思即可；</li>
+<li>变量名尽量使用“[形容词+]名词”，如newValue、value；同时尽量避免使用数字，如value1；<br>
+函数名可以使用“[动词+]名词”，如DrawGraph；</li>
+<li>使用统一的命名法则，如微软匈牙利命名法、大/小驼峰（Camel）命名法、Pascal命名法。</li>
+</ul>
+<br/>
+<hr>
+<br/>
+<h2 id="第二章课后练习题">第二章课后练习题</h2>
+<p><strong>一.</strong> 基础题（必做）</p>
+<ol>
+<li>
+<p>下面标识符是合法的有哪些（ bef） （涉及知识点： 2-5 标识符与关键字）<br>
+A.float<br>
+B.ipad<br>
+C.1button<br>
+D. A#BC<br>
+E.my_button<br>
+F. button_1_ok</p>
+</li>
+<li>
+<p>请给一个退出按钮命一个好变量名（ c）（涉及知识点： 2-5 标识符）<br>
+A. 1button<br>
+B. button1<br>
+C.buttonQuit<br>
+D.button_tuichu</p>
+</li>
+<li>
+<p>下面整数常量合法的是（ d）（涉及知识点： 2-6 常量）<br>
+A.078<br>
+B.03UU<br>
+C.0x9AHX<br>
+D.0xFFAA00</p>
+</li>
+</ol>
+<p><strong>二.</strong> 提高题（选做）<br>
+下面程序输出结果是_12__ （涉及知识点： 2-6 常量的宏定义）</p>
+<p>#define MA(x) x*(x-1)<br>
+void main()<br>
+{<br>
+int a=1, b=2;<br>
+cout &lt;&lt; MA(1+a+b)) &lt;&lt; endl;<br>
+}</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/va-k-XPwc/" class="tag">
+                    慕课网《重学C++ 重构你的C++知识体系》
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/1-cgai-gua/">
+                  <h3 class="post-title">
+                    《重学C++》1. C++概括
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

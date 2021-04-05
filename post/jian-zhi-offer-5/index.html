@@ -3,14 +3,16 @@
   <head>
     <meta charset="utf-8" >
 
-<title>剑指offer #5.  | Nome</title>
+<title>力扣×剑O #05. 替换空格 | 菠萝屋</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1605295945801">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609519378">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
 
 
 
@@ -20,9 +22,13 @@
 
 
 
-    <meta name="description" content="000
-" />
-    <meta name="keywords" content="" />
+    <meta name="description" content="
+剑指 Offer 05. 替换空格
+请实现一个函数，把字符串 s 中的每个空格替换成&quot;%20&quot;。
+示例 1：
+输入：s = &quot;We are happy.&quot;
+输出：&quot;We%20are%20h..." />
+    <meta name="keywords" content="剑指offer,leetcode" />
   </head>
   <body>
     <div id="app" class="main">
@@ -31,8 +37,8 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1605295945801" class="site-logo">
-        <h1 class="site-title">Nome</h1>
+        <img src="https://444494.xyz/images/avatar.png?v=1617609519378" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
         <div class="line"></div>
@@ -42,25 +48,25 @@
       
         
           <a href="/" class="site-nav">
-            首页
+            首页 Blog
           </a>
         
       
         
           <a href="/archives" class="site-nav">
-            归档
+            归档 Archives
           </a>
         
       
         
           <a href="/tags" class="site-nav">
-            标签
+            标签 Tags
           </a>
         
       
         
-          <a href="/post/about" class="site-nav">
-            关于
+          <a href="/about" class="site-nav">
+            关于 About
           </a>
         
       
@@ -87,7 +93,7 @@
       
     </div>
     <div class="site-description">
-      Break a leg
+      Break a leg.
     </div>
     <div class="site-footer">
        | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
@@ -99,20 +105,94 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">剑指offer #5. </h2>
+            <h2 class="post-title">力扣×剑O #05. 替换空格</h2>
             <div class="post-date">2020-11-14</div>
             
             <div class="post-content" v-pre>
-              <p>000</p>
+              <blockquote>
+<p><strong>剑指 Offer 05. 替换空格</strong><br>
+请实现一个函数，把字符串 s 中的每个空格替换成&quot;%20&quot;。<br><br>
+示例 1：<br>
+输入：s = &quot;We are happy.&quot;<br>
+输出：&quot;We%20are%20happy.&quot;<br><br>
+限制：<br>
+0 &lt;= s 的长度 &lt;= 10000</p>
+</blockquote>
+<p>实在想不出有什么特殊技巧，用最简单的方法纯手动实现</p>
+<pre><code class="language-c++">class Solution {
+public:
+    string replaceSpace(string s) {
+        string str;
+        for(auto i:s){
+            if(i==' '){
+                str+=&quot;%20&quot;;
+                continue;
+            }
+            str+=i;
+        }
+        return str;
+    }
+};
+</code></pre>
+<img src="https://i.loli.net/2020/11/14/qmWRHBlhG9bnpID.png"/>
+<center>运行效果</center>
+<p>如果没有限制，那么上面的代码已经足够了。但是可能会要求在原来的字符串上进行替换，如果要求了，那么这种方法不合适。</p>
+<blockquote>
+<p>由于有两种不同的解决方案，我们应该向面试官问清楚 ，让他明确告诉我们他的需求。假设面试官让我们在原来的字符串上进行替换，并且保证输入的 字符串后面有足够多的空余内存。</p>
+</blockquote>
+<p>后面根据原来的字符串上进行替换的要求，列举了两个例子：<br>
+第一个是较差的时间复杂度为O(n^2)的解法，即每次替换将空格后面的字符全部向后移动两个位置；<br>
+第二种效率较高，时间复杂度为O(n)，同时因为空间占用也更低，是这三种中最好的方法。</p>
+<p><strong>总体思路</strong>：第一次遍历计算出替换之后的字符串的总长度并扩充，第二次利用两个指针p<sub>1</sub>、p<sub>2</sub>分别指向原字符串和替换后字符串的末尾，从尾到头进行复制。遇到普通字符直接复制过来并前移一格，遇到空格p<sub>1</sub>前移一个、p<sub>2</sub>填充字符并前移三格。</p>
+<img src="https://i.loli.net/2020/11/14/gSlb95cTr3yJuwo.png"/>
+<pre><code class="language-c++">class Solution {
+public:
+    string replaceSpace(string s) {
+        int originalNum=s.size()-1,newNum=0; //originalNum旧字符串最后一个字符位置
+        auto poriginal = s.end()-1;  //指向原字符串尾
+        for(auto i:s){
+            if(i==' ')
+                ++newNum;   //空格数量
+        }
+        newNum=s.size()+newNum*2;  //扩充后长度
+        s.resize(newNum);
+        --newNum;    //指向新字符串最后一个字符位置
+        while(originalNum&gt;=0){
+            if(s[originalNum]!=' ')
+                s[newNum--] = s[originalNum--];   //复制旧字符到新位置，都前移一位
+            else{
+                s[newNum--] = '0';//填充三个新字符，移动三位
+                s[newNum--] = '2';
+                s[newNum--] = '%';
+                --originalNum;//旧位置只前移一位
+            } 
+        }
+        return s;
+        }
+};
+</code></pre>
+<p>因为书上代码用的是c语言，采用字符数组的形式。string如果要重新分配大小（resize），很可能会把原来的字符串移动到一个新位置，这样resize前指向原来字符串末尾的指针就变成了一个指向未知地方的指针。除非记住原来字符串中字符个数num，resize之后通过s.begin()+num来获得原来最后一个字符的位置。</p>
 
             </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/jMxB6GbYh/" class="tag">
+                    剑指offer
+                  </a>
+                
+                  <a href="https://444494.xyz/tag/Lk7db9p7jb/" class="tag">
+                    leetcode
+                  </a>
+                
+              </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
                 <a href="https://444494.xyz/post/jian-zhi-offer-3-shu-zu-zhong-chong-fu-de-shu-zi/">
                   <h3 class="post-title">
-                    剑指offer #3. 数组中重复的数字
+                    力扣×剑O #3. 数组中重复的数字
                   </h3>
                 </a>
               </div>

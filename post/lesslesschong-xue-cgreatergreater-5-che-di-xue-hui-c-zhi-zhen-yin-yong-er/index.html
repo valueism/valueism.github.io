@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>《重学C++》5. 彻底学会 C++ 指针，引用（二）内存资源 | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609519378">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="1.CPP程序的存储区域划分总结
+int a = 0;				//(GVAR)全局初始化区
+int* p1;				//(bss)全局未初始化区
+
+int main()				//(text)代码区
+{
+	int b = 1;			//(s..." />
+    <meta name="keywords" content="慕课网《重学C++ 重构你的C++知识体系》" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1617609519378" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">《重学C++》5. 彻底学会 C++ 指针，引用（二）内存资源</h2>
+            <div class="post-date">2021-02-23</div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="1cpp程序的存储区域划分总结">1.CPP程序的存储区域划分总结</h2>
+<pre><code>int a = 0;				//(GVAR)全局初始化区
+int* p1;				//(bss)全局未初始化区
+
+int main()				//(text)代码区
+{
+	int b = 1;			//(stack)栈区变量
+	char s[] = &quot;abc&quot;;	//(stack)栈区变量
+	int* p2 = NULL;		//(stack)栈区变量
+	const char* p3 = &quot;123456&quot;;//123456\0在常量区，p3在(stack)栈区
+	static int c = 0;	//(GVAR)全局(静态)初始化区
+	p1 = new int(10);	//(heap)堆区变量
+	p2 = new int(20);	//(heap)堆区变量
+	char* p4 = new char[7];//(heap)堆区变量
+	strcpy_s(p4, 7, &quot;123456&quot;);	//这两个语句在(text)代码区
+
+	return 0;			//这两个语句在(text)代码区
+}
+</code></pre>
+<p>同样是指针变量，p1本身存在全局区、p2、p3、p4本身存储在栈区；<br>
+而同样被指针指， &quot;123456&quot;存储在常量区（因此p3不能更改里面的值）、p1和p2指向的数字存在堆区、p4指向的字符数组也存在堆区。<br>
+<br/><br>
+另外：栈区中地址从大到小增长，而堆中地址从小到大。</p>
+<figure data-type="image" tabindex="1"><img src="https://444494.xyz/post-images/1614048905137.png" alt="" loading="lazy"></figure>
+<center>栈和堆相向增长</center>
+<blockquote>
+<p>堆中分为全局初始化区(GVAR)和全局未初始化区(bss)。<br>
+由于未初始化的变量只需要用0标记，因此不需要为未初始化的全局变量专门分配存储空间。</p>
+</blockquote>
+<br/>
+<h2 id="2-cpp动态分配和回收原则">2. CPP动态分配和回收原则</h2>
+<h3 id="动态分配资源堆heap">动态分配资源——堆(heap):</h3>
+<p>从现代的编程语言角度来看，使用堆，或者说使用动态内存分配，是一件很自然不过的事情。但并不是说这应该成为唯一的分配方式。<br>
+<strong>动态内存带来了不确定性</strong>：内存分配耗时需要多久？失败了怎么办？在实时性要求比较高的场合，如一些嵌入式控制器和电信设备。<br>
+一般而言，当我们在堆上分配内存时，很多语言会使用new这样的关键字，有些语言则是隐式分配。在C++中new的对应词是delete，因为C++是可以让程序员完全接管内存的分配释放的（Java不能接管释放）。</p>
+<h3 id="分配和回收动态内存的原则">分配和回收动态内存的原则</h3>
+<p>程序通常牵扯到三个内存管理器的操作：</p>
+<ol>
+<li>分配一个某个大小的内存块；</li>
+<li>释放一个之前分配的内存块；</li>
+<li>垃圾收集操作，寻找不再使用的内存块并予以释放；这个回收策略需要实现性能、实时性、额外开销等各方面的平衡，很难有统一和高效的做法；</li>
+</ol>
+<p>C++做了1,2两件事；而Java则做了1,3两件事；</p>
+<br/>
+<h2 id="3-raii资源管理">3. RAII资源管理</h2>
+<ul>
+<li>RAII(Resource Acquisition Is Initialization)是主流语言中C++所独有的资源管理方式；</li>
+<li>RAII<strong>依托栈和析构函数，来对所有的资源——包括堆内存在内——进行管理</strong>。对RAII的使用，使得C++不需要类似于Java那样的垃圾收集方法，也能有效地对内存进行管理。RAII的存在，也是垃圾收集虽然理论上可以在C++使用，但从来没有真正流行过的主要原因；</li>
+<li>RAII有些比较成熟的智能指针代表：如std::auto_ptr和boost::shared_ptr</li>
+</ul>
+<br/>
+<h2 id="4-几种变量对比">4. 几种变量对比</h2>
+<h3 id="栈-vs-堆">栈 VS 堆</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"> </th>
+<th style="text-align:center">栈(stack)区</th>
+<th style="text-align:center">堆(heap)区</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">作用域</td>
+<td style="text-align:center">函数体内，语句块{}作用域；</td>
+<td style="text-align:center">整个程序范围内，由new,malloc开始，delete,free结束；</td>
+</tr>
+<tr>
+<td style="text-align:center">编译间大小确定</td>
+<td style="text-align:center">变量大小范围确定</td>
+<td style="text-align:center">变量大小范围不确定，需要运行期确定；</td>
+</tr>
+<tr>
+<td style="text-align:center">大小范围</td>
+<td style="text-align:center">Windows系统默认栈大小是<strong>1M</strong>，linux常见默认的栈大小是<strong>8M或10M</strong>(通过ulimit -s查看；不同linux发行版的命令不保证相同)</td>
+<td style="text-align:center">所有系统的堆空间上限是接近内存(虚拟内存)的总大小的(一部分被OS占用)；</td>
+</tr>
+<tr>
+<td style="text-align:center">内存分配方式</td>
+<td style="text-align:center">地址由高到低减少</td>
+<td style="text-align:center">地址由低到高增加</td>
+</tr>
+<tr>
+<td style="text-align:center">内存是否可变</td>
+<td style="text-align:center">可变</td>
+<td style="text-align:center">可变</td>
+</tr>
+</tbody>
+</table>
+<p><font color=red>不应该通过栈做负荷量大的工作，而是应该用堆</font>，因为栈容量小。更严重的是调试时未必会出错，因为当时工作量可能并不大。</p>
+<h3 id="全局静态存储区-vs-变量存储区">全局静态存储区 VS 变量存储区</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"> </th>
+<th style="text-align:center">全局静态存储区</th>
+<th style="text-align:center">常量存储区</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">存储内容</td>
+<td style="text-align:center">全局变量，静态变量</td>
+<td style="text-align:center">常量</td>
+</tr>
+<tr>
+<td style="text-align:center">编译期间大小是否确定</td>
+<td style="text-align:center">确定</td>
+<td style="text-align:center">确定</td>
+</tr>
+<tr>
+<td style="text-align:center">内容是否可变</td>
+<td style="text-align:center">可变</td>
+<td style="text-align:center">不可变</td>
+</tr>
+</tbody>
+</table>
+<br/>
+<h2 id="5-内存泄漏">5. 内存泄漏</h2>
+<p>内存泄漏：指程序中已动态分配的<strong>堆内存</strong>由于某种原因程序<strong>未释放或无法释放</strong>，造成系统内存的浪费，导致程序运行速度减慢甚至系统崩溃等严重后果。</p>
+<blockquote>
+<p>我们平时程序运行时间很短，即使泄露也会很快结束程序并释放内存，那<strong>为什么内存泄露会造成严重的资源浪费？</strong><br>
+因为服务器程序不同于个人电脑中的程序，它需要很长时间运行而且不能轻易关闭/重启。内存泄漏每次可能只浪费一点点，但由于服务器程序的特点，会导致内存长时间泄露+无法及时归还，导致最终会造成严重后果。</p>
+</blockquote>
+<p>内存泄漏发生原因和排查方式：<br>
+内存泄漏主要发生在<strong>堆内存分配方式</strong>中，即&quot;配置了内存后，所有指向该内存的指针都遗失了&quot;。若缺乏java语言这样的垃圾回收机制，这样的内存片就无法归还系统。<br>
+因为内存泄漏属于程序运行中的问题，无法通过编译识别，所以<strong>只能在程序运行过程中来判断和诊断</strong>。</p>
+<br/>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/va-k-XPwc/" class="tag">
+                    慕课网《重学C++ 重构你的C++知识体系》
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/5-che-di-xue-hui-c-zhi-zhen-yin-yong/">
+                  <h3 class="post-title">
+                    《重学C++》5. 彻底学会 C++ 指针，引用（一）指针和左值右值
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

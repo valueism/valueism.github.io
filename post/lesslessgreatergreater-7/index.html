@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>《重学C++》7. C++高级语法（一） | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609519378">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="1. 编程中的抽象和实际之间的关系
+并不是所有面向对象编程中的逻辑关系都是在物质世界中有迹可循的。例如常见的&quot;is-a&quot;的关系用来表述“继承”的概念并不完善；此外还有实际项目中，“缓冲区”类的存在也并没有现实中对应的原型..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1617609519378" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">《重学C++》7. C++高级语法（一）</h2>
+            <div class="post-date">2021-02-27</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="1-编程中的抽象和实际之间的关系">1. 编程中的抽象和实际之间的关系</h1>
+<p>并不是所有面向对象编程中的逻辑关系都是在物质世界中有迹可循的。例如常见的&quot;is-a&quot;的关系用来表述“继承”的概念并不完善；此外还有实际项目中，“缓冲区”类的存在也并没有现实中对应的原型。<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210227230504.png" alt="" loading="lazy"></p>
+<br/>
+<h1 id="2-添加虚数类">2. 添加虚数类</h1>
+<p>在C++编程中，可以右键项目添加类，创建.h和.cpp文件。<br>
+之后在这两个文件中进行编程。<strong>析构函数需要声明为虚函数，具体原因后面会讲。</strong></p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210227234803.png" alt="" loading="lazy"></figure>
+<center>在对应.h文件中对类进行声明</center>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210227235029.png" alt="" loading="lazy"></figure>
+<center>在对应.cpp文件中类的方法进行实现</center>
+<p>最后，在另外的.cpp文件（记得引入头文件）中的main函数中进行对象的创建。</p>
+<blockquote>
+<p>类的成员函数定义有两种：类内定义和类外定义。<br/><strong>类内定义</strong>是在类的大括号内直接写类的定义，类内定义的成员函数会被<strong>优先编译为内联函数</strong>；<br/><strong>类外定义</strong>包括同文件类外定义，和分文件类外定义。它们均是在类内只写成员函数的声明，但是在同文件的类外或者单独一个.cpp文件中编写类的定义。</p>
+</blockquote>
+<br/>
+<h1 id="3-虚数类的实现重载-拷贝构造和临时对象优化">3. 虚数类的实现——重载+=、拷贝构造和临时对象优化</h1>
+<h2 id="1-运算符重载实现加法和赋值">(1) 运算符重载，实现加法和赋值</h2>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228174306.png" alt="" loading="lazy"></figure>
+<p>为了实现虚数的加法操作并对对象进行赋值(红框内部分)，分别对运算符+和运算符=进行重载：</p>
+<pre><code>//重载运算符+
+//返回Complex对象，输入不允许修改变量的引用作为参数，最后const指明该函数不允许修改成员变量
+Complex Complex::operator+ (const Complex&amp; x) const
+{
+	Complex tmp;
+	tmp._real = _real + x._real;
+	tmp._image = _image + x._image;
+	return tmp;   
+    //tmp是局部变量，函数体外它会消亡，但是为什么可以返回这个变量
+}
+
+//重载运算符=
+//返回Complex对象的引用，输入不允许修改变量的引用作为参数
+Complex&amp; Complex::operator= (const Complex&amp; x)
+{
+    if (this != &amp;x)
+    {
+        _real = x._real;
+        _image = x._image;
+    }
+    return *this;
+}
+</code></pre>
+<p>运行结果：<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228172722.png" alt="4个构造函数却有5个析构函数" loading="lazy"></p>
+<h2 id="2-拷贝构造函数">(2) 拷贝构造函数</h2>
+<p>但是从上面的图可以看出存在几个问题：程序中声明了4个对象（a、b、c和tmp），却有4个构造函数和5个析构函数的调用，哪里多出了一个Complex对象？并且为什么构造和析构数量不一致？最后，tmp是局部变量，函数体外它会消亡，但是为什么重载+的函数可以返回这个变量并将其作为重载=的函数参数？（<font color=red>问题1</font>）</p>
+<p>进行调试，发现实参tmp和形参x地址不一致，但是返回值c和*this地址一致：<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228135132.png" alt="" loading="lazy"></p>
+<center>tmp和参数x地址不一致，c和*this地址一致</center>
+<p>这说明并不是tmp直接作为重载=的函数的参数，而是返回值tmp到参数x中间发生了复制，复制产生的临时对象作为参数x。</p>
+<p><strong>系统将局部对象tmp进行拷贝构造，生成一个看不见的临时对象，然后作为参数传入重载=函数中（因此tmp和参数x地址不同）。<strong>这个临时对象的拷贝构造是系统通过</strong>自动生成的拷贝构造函数</strong>来实现的，所以构造函数的输出只有4个，而不是析构函数的5个。（<font color=red>答案1</font>）</p>
+<p>应当自定义拷贝构造函数，避免系统为我们实现构造函数。<strong>因为系统实现的拷贝构造函数，容易带来深拷贝/浅拷贝的问题</strong>。</p>
+<blockquote>
+<p>c++primer学习笔记--为什么要自己写拷贝构造函数<br>
+https://blog.csdn.net/pursue_my_life/article/details/80462572</p>
+</blockquote>
+<p>编写自定义拷贝构造函数，这样需要拷贝构造时，系统就会调用自己写的这个函数（<font color=red>优化1</font>）：</p>
+<pre><code>//拷贝构造函数是一种特殊的构造函数，它的参数必须是引用，一般会加上const
+Complex::Complex(const Complex&amp; x)
+{
+	_real = x._real;
+	_image = x._image;
+	//cout &lt;&lt; &quot;Complex::Complex(const Complex&amp; x)&quot; &lt;&lt; endl;
+}
+</code></pre>
+<blockquote>
+<p>拷贝构造函数，又称复制构造函数，是一种特殊的构造函数，它由编译器调用来完成一些基于同一类的其他对象的构建及初始化。<strong>其形参必须是引用</strong>，但并不限制为const，<strong>一般普遍的会加上const</strong>限制。</p>
+</blockquote>
+<p>再次运行：<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228144605.png" alt="5个Complex对象" loading="lazy"></p>
+<center>5个构造和析构函数输出</center>
+<p>可以看到多了一个构造函数输出，就是上面的拷贝构造函数。并且返回值tmp和参数x的地址是一致的</p>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228140624.png" alt="" loading="lazy"></figure>
+<h2 id="3-临时对象优化">(3) 临时对象优化</h2>
+<p>考虑到临时变量优化（<strong>尽量避免产生临时对象</strong>）：因为重载+的函数中tmp没有必要存在，因此重载运算符+就可以将相加结果作为参数，直接返回拷贝构造函数的结果（<font color=red>优化2</font>）：</p>
+<pre><code>Complex Complex::operator+ (const Complex&amp; c) const
+{
+	//Complex tmp;
+	//tmp._real = _real + x._real;
+	//tmp._image = _image + x._image;
+	//return tmp;
+
+    //将相加结果作为参数，返回构造函数Complex(double r, double i)的结果
+	return Complex(_real + c._real, _image + c._image);
+}
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228140951.png" alt="" loading="lazy"></figure>
+<center>修改之后，少了tmp变量的构造和析构函数</center>
+<p>修改之后，相比于上次运行结果，少了tmp变量的构造和析构函数。并且构造函数Complex(double r, double i)替代了拷贝构造函数。</p>
+<p>更好的减少临时对象的方法是：直接对对象c进行赋值时构造。（<font color=red>优化3</font>）</p>
+<pre><code>Complex c = a+b;   //而不是 Complex c; c= a+ b；   
+</code></pre>
+<p>这样的好处是，避免了“Complex c; ”语句中默认构造函数产生的对象，而是直接进行赋值。</p>
+<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210228144054.png" alt="" loading="lazy"></figure>
+<center>最终优化到只有3个Complex对象</center>
+<p><strong>生成的几个Complex对象总结：</strong></p>
+<ol>
+<li>程序员生成的Complex对象a，由Complex(double r, double i)函数生成；</li>
+<li>程序员生成的Complex对象b，由Complex(double r, double i)函数生成；</li>
+<li>程序员生成的Complex对象c，由Complex()函数生成；<br>
+第三次优化中，语句&quot;Complex c= a+b; &quot;避免了调用Complex()等构造函数，并且直接使用a+b的结果（来自重载+函数的返回值）作为c（没有使用重载=进行赋值）。</li>
+<li>程序员生成的Complex对象tmp，在重载+函数中由Complex()函数生成；<br>
+第二次优化中，不使用Complex tmp;等即可避免产生该对象。</li>
+<li>中间变量，由重载+函数的返回值tmp被拷贝构造产生（然后被作为重载=函数的参数x）；<br>
+第二次优化中，语句return Complex(_real + c._real, _image + c._image); 替代Complex tmp; 等语句，用Complex(double r, double i)函数替代了拷贝构造函数。</li>
+</ol>
+<h1 id="第2-3小节知识点">第2、3小节知识点：</h1>
+<ul>
+<li>利用VS“新建类”功能，实现类的分文件编写。</li>
+<li>重载运算符</li>
+<li>拷贝构造函数</li>
+<li>临时变量优化</li>
+</ul>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/lesslesszheng-quan-tou-zi-xue-greatergreater-gu-zhi-fang-fa/">
+                  <h3 class="post-title">
+                    《证券投资学》估值方法
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

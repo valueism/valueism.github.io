@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>《重学C++》7. C++高级语法（二） | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609519378">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="1. 虚数类的实现——前置和后置运算符
+以++运算符为例，要注意前置和后置的区分。
+//前置++重载
+Complex&amp; Complex::operator++ () {
+	real++;
+	image++;
+	return *thi..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1617609519378" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">《重学C++》7. C++高级语法（二）</h2>
+            <div class="post-date">2021-02-28</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="1-虚数类的实现前置和后置运算符">1. 虚数类的实现——前置和后置运算符</h1>
+<p>以++运算符为例，要注意前置和后置的区分。</p>
+<pre><code>//前置++重载
+Complex&amp; Complex::operator++ () {
+	real++;
+	image++;
+	return *this;
+}
+
+//后置++重载
+Complex Complex::operator++ (int) {
+	return Complex(real++, image++);
+}
+</code></pre>
+<blockquote>
+<p>区分前置和后置运算符的方式是形参列表是否有Int、参数返回类型。<br>
+如果是前置，返回值类型应该为引用；<br>
+如果是后置，应该是值传递，并且形参列表中有int。</p>
+</blockquote>
+<h1 id="2-虚数类的实现重载输入输出运算符">2. 虚数类的实现——重载输入输出运算符</h1>
+<p>重载输入输出运算符并不是通过成员函数的方式，而是要利用到<strong>友元函数</strong>，只有通过friend关键字，才可以访问内部变量。</p>
+<p>除了注意<strong>要写friend关键字</strong>外，因为友元函数并不是成员函数，所以<strong>不需要类作用域限定符</strong>。</p>
+<pre><code>//下面两行是声明，应当写到类内
+//friend ostream&amp; operator&lt;&lt;(ostream&amp; os, const Complex&amp; comp);
+//friend istream&amp; operator&gt;&gt;(istream&amp; is, Complex&amp; comp);
+
+//输入运算符重载
+ostream&amp; operator&lt;&lt;(ostream&amp; os, const Complex&amp; comp) {
+	os &lt;&lt; &quot;The real value is &quot; &lt;&lt; comp.real &lt;&lt; &quot;, the image value is &quot; &lt;&lt; comp.image;
+	return os;
+}
+//输出运算符重载
+istream&amp; operator&gt;&gt;(istream&amp; is, Complex&amp; comp) {
+	is &gt;&gt; comp.real &gt;&gt; comp.image;
+	return is;
+}
+</code></pre>
+<blockquote>
+<p>注：为什么一定要用到友元函数？<br>
+实现输入输出会使用到对象内部的private变量，要想有读取/写入private变量的权限，有两种途径：1.成员函数，2.友元函数。<br/><br>
+如果是重载双目操作符（即为类的成员函数），就只要设置一个参数作为右侧运算量，而左侧运算量就是对象本身。。。。。。<br>
+而 &gt;&gt;  或&lt;&lt; 左侧运算量是 cin或cout 而不是对象本身，所以不满足后面一点。。。。。。。。就只能申明为友元函数了。。。<br>
+如果一定要声明为成员函数，只能成为如下的形式：<br>
+ostream &amp; operator&lt;&lt;(ostream &amp;output)<br>
+{<br>
+　　return output;<br>
+}<br>
+所以在运用这个&lt;&lt;运算符时就变为这种形式了：data&lt;&lt;cout;<br>
+不合符人的习惯。<br/><br>
+为什么operator&lt;&lt;运算符重载一定要为友元函数呢？<br>
+https://www.cnblogs.com/this-543273659/archive/2011/09/01/2161574.html</p>
+</blockquote>
+<h1 id="3-io流">3. IO流</h1>
+<br/>
+<hr>
+<br/>
+<h1 id="练习题">练习题</h1>
+<h2 id="编程题编写自定义类string-的构造函数-析构函数和赋值函数">编程题：编写自定义类String 的构造函数、析构函数和赋值函数。</h2>
+<p>已知类String 的原型为：<br>
+class String<br>
+{<br>
+public:<br>
+String(const char *str = NULL);                             // 普通构造函数<br>
+String(const String &amp;other);                                  // 拷贝构造函数<br>
+String(String&amp;&amp; other);                                          // 移动构造函数<br>
+~String(void);                                                            // 析构函数<br>
+String&amp; operator= (const String&amp; other);             // 赋值函数<br>
+String&amp; operator=(String&amp;&amp; rhs)noexcept;		  // 移动赋值运算符<br>
+private:<br>
+char *m_data; // 用于保存字符串<br>
+};<br>
+请编写String 的上述几个函数。</p>
+<br/>
+<pre><code>// String 的析构函数
+String::~String(void)
+{
+	if (m_data != NULL)
+	{
+		delete[] m_data;
+	}
+}
+
+// String 的普通构造函数
+String::String(const char *str)
+{
+	if (str == NULL)
+	{
+		m_data = new char[1];
+		if (m_data != NULL)
+		{
+			*m_data = '\0';
+		}
+		else
+		{
+			exit(-1); // new有可能失败，失败后返回错误退出, 最好能有日志
+		}
+	}
+	else
+	{
+		int length = strlen(str);
+		m_data = new char[length + 1];
+		if (m_data != NULL)
+		{
+			*m_data = '\0';
+		}
+		else
+		{
+			exit(-1); // new有可能失败，失败后返回错误退出, 最好能有日志
+		}
+		strcpy(m_data, str);
+	}
+}
+// 拷贝构造函数
+String::String(const String &amp;other)
+{
+	int length = strlen(other.m_data);
+	m_data = new char[length + 1];
+	if (m_data != NULL)
+	{
+		*m_data = '\0';
+	}
+	else
+	{
+		exit(-1); // new有可能失败，失败后返回错误退出, 最好能有日志
+	}
+	strcpy(m_data, other.m_data);
+}
+
+String::String(String&amp;&amp; other)
+{
+	if (other.m_data != NULL)
+	{
+		m_data=other.m_data;
+		other.m_data = NULL;
+	}
+}
+
+
+// 赋值函数
+String&amp; String::operator= (const String &amp;other)
+{
+	// 检查自赋值
+	if (this == &amp;other)
+		return *this;
+	// 释放原有的内存资源 
+	delete[] m_data;
+	// 分配新的内存资源，并复制内容
+	int length = strlen(other.m_data);
+	m_data = new char[length + 1];
+	if (m_data != NULL)
+	{
+		*m_data = '\0';
+	}
+	else
+	{
+		exit(-1); // new有可能失败，失败后返回错误退出, 最好能有日志
+	}
+	strcpy(m_data, other.m_data);
+	//  返回本对象的引用
+	return *this;
+}
+
+String&amp; String::operator=(String&amp;&amp; rhs)noexcept
+{
+	if (this != &amp;rhs)
+	{
+		delete[] m_data;
+		m_data = rhs.m_data;
+		rhs.m_data = NULL;
+	}
+	return *this;
+}
+</code></pre>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/lesslessgreatergreater-7/">
+                  <h3 class="post-title">
+                    《重学C++》7. C++高级语法（一）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>7-51 两个有序链表序列的合并 | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609519378">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+7-51 两个有序链表序列的合并
+https://pintia.cn/problem-sets/15/problems/2992
+
+这道题算是数据结构的最基础的题目，很多数据结构入门的课程里面都有它的身影。
+好久没练习，导致挺简单的一题也..." />
+    <meta name="keywords" content="C数据结构" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1617609519378" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">7-51 两个有序链表序列的合并</h2>
+            <div class="post-date">2021-03-04</div>
+            
+            <div class="post-content" v-pre>
+              <blockquote>
+<p>7-51 两个有序链表序列的合并<br>
+https://pintia.cn/problem-sets/15/problems/2992</p>
+</blockquote>
+<p>这道题算是数据结构的最基础的题目，很多数据结构入门的课程里面都有它的身影。</p>
+<p>好久没练习，导致挺简单的一题也是wrong了几次才过。<br>
+这道题遇到的几个坑：</p>
+<ol>
+<li>合并链表时，对剩下的不为空链表要分情况讨论。<br>
+剩下的不为空链表有两种可能，第一是合并剩下的，第二是压根没参与合并，因为	while (list1!=NULL &amp;&amp; list2!= NULL)　语句直接跳过了合并的循环。这两种情况下头指针是不同的（一个为空，一个不为空）。<br>
+如果没有考虑到这种情况，结果就是当只有一个链表为空时，程序会非法访问引发异常。</li>
+<li>打印链表时，需要考虑到链表头指针是否为空。</li>
+<li>仔细读题……（“若新链表为空，输出'NULL'”）</li>
+</ol>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include&lt;stdlib.h&gt;
+typedef struct Node node;
+typedef struct Node* ptr;
+
+struct Node
+{
+	int data;
+	ptr next;
+};
+
+
+
+ptr createList() {
+	int a;
+	ptr list= NULL,now = NULL;
+
+	while (scanf(&quot;%d&quot;, &amp;a), a != -1)
+	{
+		//新建节点
+		ptr temp = (ptr)malloc(sizeof(node));
+		temp-&gt;data = a;
+		temp-&gt;next = NULL;
+
+		if (list == NULL) {  //头节点
+			list = temp;
+			now = temp;
+		}
+		else  //now非头节点
+		{
+			now-&gt;next = temp;
+			now = now-&gt;next;
+		}
+	}
+	return list;
+}
+
+
+ptr mergeList(ptr list1, ptr list2) {
+	ptr list = NULL, now = NULL;
+	//非降序排列
+	while (list1!=NULL &amp;&amp; list2!= NULL)
+	{
+		if (list1-&gt;data &gt; list2-&gt;data)
+		{
+			if (list == NULL)
+			{
+				list = list2;
+				now = list2;
+			}
+			else {
+				now-&gt;next = list2;
+				now = now-&gt;next;
+			}
+				
+			list2 = list2-&gt;next;
+			now-&gt;next = NULL;
+		}
+		else 
+		{
+			if (list == NULL)
+			{
+				list = list1;
+				now = list1;
+			}
+			else {
+				now-&gt;next = list1;
+				now = now-&gt;next;
+			}
+
+			list1 = list1-&gt;next;
+			now-&gt;next = NULL;
+		}
+	}
+
+	//执行到这里说明其一一定为空
+	if (list1!= NULL )
+	{
+		if (now == NULL ) {
+
+			now = list1;
+			list = list1;
+		}
+		else
+		{
+			now-&gt;next = list1;
+		}
+			
+	}
+	else if (list2 != NULL)
+	{
+		if (now == NULL) {
+
+			now = list2;
+			list = list2;
+		}
+		else
+		{
+			now-&gt;next = list2;
+		}
+	}
+
+	return list;
+}
+
+void print(ptr list) {
+	if (list!= NULL)
+	{
+		printf(&quot;%d&quot;, list-&gt;data);
+		while (list-&gt;next != NULL)
+		{
+			list = list-&gt;next;
+			printf(&quot; %d&quot;, list-&gt;data);
+		}
+		printf(&quot;\n&quot;);
+	}
+	else
+		printf(&quot;NULL&quot;);
+
+}
+int main()
+{
+	int a;
+	ptr list1 = createList();
+	ptr list2 = createList();
+
+	ptr list = mergeList(list1 ,list2);
+	print(list);
+
+	return 0;
+}
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://444494.xyz/tag/MSy8INJ59/" class="tag">
+                    C数据结构
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/6-10-er-fen-cha-zhao/">
+                  <h3 class="post-title">
+                    6-10 二分查找
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
