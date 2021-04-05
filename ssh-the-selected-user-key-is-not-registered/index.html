@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617526272417">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617607818890">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617526272417" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617607818890" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -114,11 +114,14 @@
 SSH服务器保存的客户端公钥存放在配置文件~/.ssh/authorized_keys中。需要注意的是，服务器端可以有多个用户，每个用户都有一个家目录，但是客户端每次只是登录其中的一个。因此一定要<strong>确保自己登录的那个用户是已经配置好authorized_keys文件的那个用户</strong>。<br>
 反过来讲，如果登录不成功，可能在服务器中自己只把客户端公钥记录在了root用户的authorized_keys文件，而客户端访问的是一个叫“user”的用户。</li>
 <li>SSH是否允许密钥认证<br>
-SSH服务端的配置文件在/etc/ssh/sshd_config，检查对应参数：RSAAuthentication或PubkeyAuthentication是否设置为yes。<br>
+SSHD（SSH的守护进程）的配置文件在/etc/ssh/sshd_config，检查对应参数：RSAAuthentication或PubkeyAuthentication是否设置为yes。<br>
 如果服务端没有允许密钥认证，那再怎么记录公钥当然也是没有的。</li>
 <li>SSH是否限制root用户<br>
 如果root用户的公钥记录好了，并且登陆的也是root用户，但是遇到这种提示，可能是没有开启root用户登录。<br>
-SSH服务端的配置文件在/etc/ssh/sshd_config，设置PermitRootLogin后面为yes。</li>
+SSHD（SSH的守护进程）的配置文件在/etc/ssh/sshd_config，设置PermitRootLogin后面为yes。</li>
+<li>SSH是否允许了该用户登录<br>
+配置文件/etc/ssh/sshd_config中有一项是AllowUsers，表示所有可以通过SSH登录的用户，检查要登录的用户名是否在后面。<br>
+BTW，如果需要允许多个用户，一定要使用空格符将其用户名分开，否则将会导致SSH只允许一个叫做“user1,user2”的用户登录，而这个用户应该是不存在的，但是其他的用户又被屏蔽无法登录，所以……（不要问我是怎么知道的）</li>
 <li>文件(夹)权限设置<br>
 SSH对配置文件/文件夹的权限有要求，如果权限不对，就会出现未注册的情况（即使正确的公钥已经添加到authorized_keys文件了）。<strong>必须要使authorized_keys文件的权限为600、.ssh文件夹的权限为700。</strong><br>
 chmod 600 authorized_keys<br>
@@ -135,15 +138,15 @@ SSH在通信中采用公钥加密进行验证，可选的公钥加密算法有�
 <p>https://blog.csdn.net/asddsaws147852/article/details/101316737<br>
 SSH客户端提示 用户密钥未在远程主机上注册</p>
 </blockquote>
-<ol start="8">
+<ol start="9">
 <li>虚拟机网络设置问题（if applicable）<br>
 如果使用了虚拟机，一定要采用桥接（bridge）模式才能使虚拟机之间相互通信。<br>
 详情百度虚拟机各网络模式的区别。</li>
 <li>防火墙屏蔽问题</li>
 <li>配置更改后没有重启服务，还未生效<br>
-重启SSH服务端systemctl restart sshd，使配置生效</li>
+重启SSH守护进程systemctl restart sshd，使配置生效</li>
 </ol>
-<p>以上默认服务端已经打开了SSH服务。安装SSH之后它并不会自动启动，所以也可能是连服务器SSH程序还没有启动，使用命令systemctl start sshd将SSH服务端启动。</p>
+<p>以上默认服务端已经打开了SSH服务。安装SSH之后它并不会自动启动，所以也可能是连服务器SSH程序还没有启动，使用命令systemctl start sshd将守护进程启动。</p>
 
             </div>
             
