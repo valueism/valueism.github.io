@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609130839">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617609441068">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617609130839" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617609441068" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -151,19 +151,19 @@ SSH客户端提示 用户密钥未在远程主机上注册</p>
 <hr>
 <br>
 <h2 id="其他">其他</h2>
-<p>systemctl是linux系统服务相关的命令，使用格式为:<br>
-systemctl  <u>parameter</u> <u>service</u><br>
-实际使用时，分别使用具体的参数和服务名替换下划线的内容（即替换上一行中parameter、service）<br>
-systemctl官方文档如下，其中最常用的参数是start、stop、restart、status，分别代表启动、停止、重启服务和查看服务状态。</p>
-<blockquote>
-<p>systemctl(1) — Linux manual page<br>
-https://www.man7.org/linux/man-pages/man1/systemctl.1.html</p>
-</blockquote>
-<br>
 <p>最后，SSHD的配置文件中有很多参数，网上也有很多博客对其中一些参数进行解释，但是质量实在是参差不齐，最好还是查看官方文档，把博客当作一种补充。</p>
 <blockquote>
 <p>sshd_config — OpenSSH daemon configuration file<br>
 https://man.openbsd.org/sshd_config</p>
+</blockquote>
+<br>
+<p>systemctl是linux系统服务相关的命令，使用格式为:<br>
+systemctl [OPTIONS...] COMMAND [UNIT...]<br>
+实际使用时，使用具体的参数替换OPTIONS、COMMAND和UNIT。其中OPTIONS和UNIT可以有多个参数。<br>
+systemctl官方文档如下，其中最常用的COMMAND是start、stop、restart、status，分别代表启动、停止、重启服务和查看服务状态。</p>
+<blockquote>
+<p>systemctl(1) — Linux manual page<br>
+https://www.man7.org/linux/man-pages/man1/systemctl.1.html</p>
 </blockquote>
 
             </div>
