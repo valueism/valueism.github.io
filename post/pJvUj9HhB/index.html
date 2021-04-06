@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>已有公私钥时，Git 绑定GitHub | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617687750007">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="前言
+之前在Linux上使用过Git，生成了绑定GitHub的公私钥、也把两个密钥文件保存在了本地。现在也想要Windows下的Git绑定GitHub，但是不知道如何用已有的公私钥绑定GitHub。
+网上关于绑定GitHub的大多数办法
+首..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1617687750007" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Break a leg.
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">已有公私钥时，Git 绑定GitHub</h2>
+            <div class="post-date">2021-04-06</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="前言">前言</h1>
+<p>之前在Linux上使用过Git，生成了绑定GitHub的公私钥、也把两个密钥文件保存在了本地。现在也想要Windows下的Git绑定GitHub，但是不知道如何用已有的公私钥绑定GitHub。</p>
+<h1 id="网上关于绑定github的大多数办法">网上关于绑定GitHub的大多数办法</h1>
+<p>首先去网上一搜，我看到的几乎所有的答案是这样的：<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210406115246.png" alt="" loading="lazy"><br>
+包括<a href="https://docs.github.com/cn/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">官方的文档</a>，也提到了如何生成新 SSH 密钥，然后利用这个密钥进行连接。（其实页面下面还有添加已有的SSH密钥的方法，但我当时没看懂）<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210406120053.png" alt="" loading="lazy"><br>
+(BTW，网上绝大部分文章和上面官方文档几乎是一样的，文章里没有多少东西是自己写的，哪怕作者对现有的多篇文章进行了整合、总结，也能节省读者到处查找解决方案的时间精力，但是很多并没有。这样的文章里所有的东西都能在官方文档里找到，所以它们有什么存在的价值？)<br>
+难道已经有了密钥就不配用Git吗？Windows和Linux的Git各自利用一个ssh密钥和github绑定，不仅麻烦，而且两份密钥文件增加了密钥泄露的风险，实在是没有必要。</p>
+<h1 id="一些参考">一些参考</h1>
+<p>后来看到这个帖子，和我是一样的问题。然后我意识到应该指定让SSH客户端使用自己的私钥。</p>
+<blockquote>
+<p>【急】github的密钥重新生成后，怎么连接？<br>
+https://bbs.csdn.net/topics/396066450</p>
+</blockquote>
+<p>同时我看到官方文档中有对本地密钥的描述，其中提到“默认情况下，公钥的文件名是以下之一：id_rsa.pub、id_ecdsa.pub id_ed25519.pub”。然后我打开存放密钥的目录（ ~/.ssh），用自己的密钥将原有的密钥替换后，完成绑定（<a href="https://docs.github.com/cn/github/authenticating-to-github/testing-your-ssh-connection">测试是否正确连接的命令</a>：ssh -T git@github.com）。<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210406122222.png" alt="" loading="lazy"></p>
+<blockquote>
+<p>检查现有 SSH 密钥<br>
+https://docs.github.com/cn/github/authenticating-to-github/checking-for-existing-ssh-keys</p>
+</blockquote>
+<h1 id="原理重要">原理（重要）</h1>
+<p>到底是怎么回事当然要弄清楚。<br>
+应该可以意识到，代码托管服务器不管是Github服务器也好，还是自建服务器也好，本质都是Git先通过SSH连接本地和服务器，然后Git再对数据进行同步等处理。（具体SSH的实际通信过程不重要，当成黑盒子就行。但是知道Git数据处理的逻辑过程还是有用的，这牵涉到Git原理，扯远了）<br>
+因此，如何在“已有公私钥时，让Git 和GitHub账户进行绑定”这个问题最终归结到SSH连接的问题。一方面，要让Github服务器记录SSH公钥（这个很简单，在Github账户设置中，把公钥粘贴到对应部分并保存即可），另一方面，要向本地SSH使用的公私钥（这就是下面的内容）。本地和服务器公私钥均配置正确，可以对上时，也就完成了本地Git和网络上的Github账号的绑定。<br>
+既然最终都是SSH连接，那Git连接服务器和我们平时使用SSH连接远程服务器是一样的，SSH部分涉及的内容完全相同，包括ssh_config、sshd_config等配置文件。</p>
+<p>如何指定本地SSH客户端使用自己已有的密钥（而不是它自行生成的一个密钥）？</p>
+<ul>
+<li>
+<p>一是可以用自己的密钥文件替换掉默认的密钥文件（我用的方法）；<br>
+这个很简单，将自己的密钥改成和默认密钥相同的名字，然后替换即可。对于SSH来说，它的所有配置、所有进行的工作都没有变，仍然是使用相同的文件（默认的密钥）进行连接，只不过这个默认的密钥内容发生变化了。</p>
+</li>
+<li>
+<p>二是对SSH客户端进行配置，告诉他应该使用的密钥文件而不是默认的密钥文件。这里也包含两种方法：</p>
+<ol>
+<li>通过用户设置，实现之后每次都是使用指定密钥进行连接；<br>
+上面CSDN的帖子就是通过配置文件进行设置，指定了使用的密钥。“在.ssh下建立config文件，在里面指定那个服务器用哪个密钥文件”。查阅官方文档可以看到，配置文件中有一项属性叫做IdentityFile，用来指定认证时使用的文件（密钥）。将其指定为自己的密钥即可。（参见文章末尾“其他”部分的SSH配置文件）</li>
+<li>通过命令ssh-add，借助ssh-agent，要求SSH使用指定密钥<br>
+<a href="https://docs.github.com/cn/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">Github官方的文档</a>中就是这种方法，使用ssh-add命令将自己的密钥添加到ssh-agent中。（参见文章末尾“其他”部分的“SSH的ssh-add命令”）</li>
+</ol>
+</li>
+</ul>
+<h1 id="测试连接">测试连接</h1>
+<p>最后，使用ssh -T git@github.com命令测试上述配置是否生效，能否连接到Github。</p>
+<blockquote>
+<p>测试 SSH 连接<br>
+https://docs.github.com/cn/github/authenticating-to-github/testing-your-ssh-connection</p>
+</blockquote>
+<br>
+<hr>
+<br>
+<h1 id="其他">其他</h1>
+<h2 id="ssh配置文件">SSH配置文件</h2>
+<p>配置文件有两个，一个是用户配置文件，仅在当前用户下生效，另一个是全局配置文件，对所有用户生效。一般情况下最好只修改用户配置。<br>
+不管是Linux还是Windows，SSH的用户配置文件（包含设置文件和公私钥）永远是~/.ssh/config。<br>
+具体来说，Windows的用户配置文件在C:\Users\用户名.ssh<br>
+Linux的用户配置文件在/home/用户名/.ssh</p>
+<p>官方文档对SSH配置文件的说明</p>
+<blockquote>
+<p>ssh_config — OpenSSH client configuration file<br>
+https://man.openbsd.org/ssh_config</p>
+</blockquote>
+<h2 id="ssh的ssh-add命令">SSH的ssh-add命令</h2>
+<p>官方文档对ssh-add命令的说明</p>
+<blockquote>
+<p>ssh-add — adds private key identities to the OpenSSH authentication agent<br>
+https://man.openbsd.org/ssh-add.1</p>
+</blockquote>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/ssh-the-selected-user-key-is-not-registered/">
+                  <h3 class="post-title">
+                    SSH-&#34;The selected user key is not registered&#34;
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
