@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" >
 
-<title>已有公私钥时，Git 绑定GitHub | 菠萝屋</title>
+<title>使用现有公私钥，将Git 绑定到GitHub | 菠萝屋</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617687750007">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617688043218">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617687750007" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617688043218" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -103,7 +103,7 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">已有公私钥时，Git 绑定GitHub</h2>
+            <h2 class="post-title">使用现有公私钥，将Git 绑定到GitHub</h2>
             <div class="post-date">2021-04-06</div>
             
             <div class="post-content" v-pre>
@@ -142,9 +142,9 @@ https://docs.github.com/cn/github/authenticating-to-github/checking-for-existing
 <li>
 <p>二是对SSH客户端进行配置，告诉他应该使用的密钥文件而不是默认的密钥文件。这里也包含两种方法：</p>
 <ol>
-<li>通过用户设置，实现之后每次都是使用指定密钥进行连接；<br>
+<li>通过用户配置文件的设置，要求SSH使用指定密钥进行连接；<br>
 上面CSDN的帖子就是通过配置文件进行设置，指定了使用的密钥。“在.ssh下建立config文件，在里面指定那个服务器用哪个密钥文件”。查阅官方文档可以看到，配置文件中有一项属性叫做IdentityFile，用来指定认证时使用的文件（密钥）。将其指定为自己的密钥即可。（参见文章末尾“其他”部分的SSH配置文件）</li>
-<li>通过命令ssh-add，借助ssh-agent，要求SSH使用指定密钥<br>
+<li>通过命令ssh-add，借助ssh-agent，要求SSH使用指定密钥进行连接<br>
 <a href="https://docs.github.com/cn/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">Github官方的文档</a>中就是这种方法，使用ssh-add命令将自己的密钥添加到ssh-agent中。（参见文章末尾“其他”部分的“SSH的ssh-add命令”）</li>
 </ol>
 </li>
