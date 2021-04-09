@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617965714997">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617974889484">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -22,7 +22,7 @@
 
 
 
-    <meta name="description" content="4. 其他工程问题
+    <meta name="description" content="1. 其他工程问题
 头文件重复包含问题
 为了防止同一个文件被include多次，有两种方式避免：
 
@@ -41,7 +41,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617965714997" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617974889484" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -113,7 +113,7 @@
             <div class="post-date">2021-04-09</div>
             
             <div class="post-content" v-pre>
-              <h1 id="4-其他工程问题">4. 其他工程问题</h1>
+              <h1 id="1-其他工程问题">1. 其他工程问题</h1>
 <h2 id="头文件重复包含问题">头文件重复包含问题</h2>
 <p>为了防止同一个文件被include多次，有两种方式避免：</p>
 <ol>
@@ -135,6 +135,12 @@
 <p>优点：可以防止宏名重复，容易排错；缺点：可移植性查，只能在win平台使用。</p>
 <h2 id="引用头文件">引用头文件</h2>
 <p>项目引用的各类头文件统一放到stdafx.h中，避免分散</p>
+<h1 id="2-深拷贝-浅拷贝">2. 深拷贝、浅拷贝</h1>
+<p><strong>浅拷贝</strong>：拷贝对象时，只拷贝指针地址。Ｃ＋＋默认拷贝构造和赋值运算符重载都是浅拷贝。节省空间，但容易引发多次释放。<br>
+<strong>深拷贝</strong>：重新分配堆内存，不只拷贝指针，还会对指针指向的内容进行拷贝。浪费空间，但不会导致多次释放。<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/image2.gif" alt="" loading="lazy"></p>
+<p>实现深拷贝，需要在<strong>拷贝构造</strong>、<strong>赋值运算符重载</strong>时，主动复制指针指向的内存空间。此外，还需要在析构函数中考虑到将这块内存释放，防止发生内存泄露。<br>
+如果要兼顾深拷贝和浅拷贝的优点，有两种方法：一是采用引用计数，当没有指针指向该内存时才进行内存销毁（类似智能指针）；其次是C++新标准的move方法（智能指针中也有类似的实现），指针b直接拿来使用指针a指向的空间，相当于所有权的转让。</p>
 
             </div>
             
