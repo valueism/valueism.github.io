@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617976433562">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617979729814">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -41,7 +41,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617976433562" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617979729814" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -193,7 +193,7 @@ private:
 <pre><code>int main()
 {
 	// 面对变化，尽可能少修改原有的逻辑，要扩充逻辑
-	const int shapeNum = 3;
+	const int shapeNum = 2;
 
 	Square s1(2.0);
 	Circle   c1(2.0);
@@ -209,11 +209,12 @@ private:
 	}
 
 	cout &lt;&lt; endl;
-	cout &lt;&lt; sizeof(s1) &lt;&lt; endl;
+	cout &lt;&lt; sizeof(s1) &lt;&lt; endl;//s1对象的大小为16
 
 	return 0;
 }
 </code></pre>
+<h2 id="1-虚函数的作用">1. 虚函数的作用</h2>
 <p>如果基类有虚函数， 这样运行的时候，就可以通过<strong>基类指针指向派生类对象</strong>，同时根据不同的派生类对象调用相应的派生类成员函数，也就是多态。<br>
 **多态：C++ 多态意味着调用成员函数时，会根据调用函数的对象的类型来执行不同的函数。**这些不同的对象执行的都是继承自基类的虚函数。</p>
 <blockquote>
@@ -222,6 +223,14 @@ https://zhuanlan.zhihu.com/p/37340242<br>
 C++多态（菜鸟教程）<br>
 https://www.runoob.com/cplusplus/cpp-polymorphism.html</p>
 </blockquote>
+<h2 id="2-对象的大小">2. 对象的大小</h2>
+<p>虽然Square类的s1对象中数据成员只有一个double，但输出的s1对象的大小为16。<br>
+这是因为Square类继承了基类Shape，而Shape类含有两个纯虚函数：<br>
+virtual double Area() const = 0;<br>
+virtual void Show() = 0;<br>
+在运行时，程序将会确定虚函数（纯虚函数）的地址，并将其记录在该对象内。两个地址一共是8字节，加上Square类自己的浮点数数据成员是8字节，因此s1对象一共是16字节。<br>
+也就是说：<strong>对象的大小（单位：字节）=数据成员的字节数+所有虚函数地址的字节数</strong>。</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210409224346.png" alt="" loading="lazy"></figure>
 
             </div>
             
