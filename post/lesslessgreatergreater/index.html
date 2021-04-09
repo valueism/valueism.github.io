@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617958630033">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617965148121">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -41,7 +41,7 @@ protected：保..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617958630033" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617965148121" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -240,6 +240,29 @@ cin.ignore(numeric_limits<a href="std::streamsize">std::streamsize</a>::max(), '
 </table>
 <p>如果文件不存在，默认不会打开/创建文件。<br>
 判断文件是否打开成功，应该使用fstream对象的fail()函数；判断文件是否读完，应该使用fstream对象的eof()函数。所有fstream相关函数见http://www.cplusplus.com/reference/fstream/fstream/</p>
+<p>读写二进制文件部分，<a href="https://github.com/valueism/StudyCode/tree/master/BinaryFile">自己练习的代码</a></p>
+<h1 id="4-其他工程问题">4. 其他工程问题</h1>
+<h2 id="头文件重复包含问题">头文件重复包含问题</h2>
+<p>为了防止同一个文件被include多次，有两种方式避免：</p>
+<ol>
+<li>可以使用宏定义方式进行避免：</li>
+</ol>
+<pre><code>#ifndef __SOMEFILE_H__
+#define  __SOMEFILE_H__
+
+//to do 
+
+#end if 
+</code></pre>
+<p>这种宏定义的方式优点：可移植性好；缺点：无法防止宏名重复（宏名重复时会出错），难以排错。</p>
+<ol start="2">
+<li>使用编译器的方式</li>
+</ol>
+<pre><code>#pragma once
+</code></pre>
+<p>优点：可以防止宏名重复，容易排错；缺点：可移植性查，只能在win平台使用。</p>
+<h2 id="引用头文件">引用头文件</h2>
+<p>项目引用的各类头文件统一放到stdafx.h中，避免分散</p>
 <br/>
 <hr>
 <br/>
