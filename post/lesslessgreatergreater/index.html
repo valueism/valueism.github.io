@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617952428926">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617957535530">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -41,7 +41,7 @@ protected：保..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617952428926" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617957535530" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -190,7 +190,7 @@ while (cin &gt;&gt; a)
 可以在最后一次读取字符的代码前加入如下代码：<br>
 cin.ignore(numeric_limits<a href="std::streamsize">std::streamsize</a>::max(), '\n');  // 清空缓存区脏数据</p>
 <h1 id="3-文件io">3. 文件IO</h1>
-<p>文件：</p>
+<p>文件按类型分类：</p>
 <ol>
 <li>文本文件，文字等信息经过编码（如ASCII码等）变成无意义的二进制代码，存放在内存中。</li>
 <li>二进制文件，二进制代码就是文本内容（两者相同，不需要编码）。<strong>实际项目中接触的大多数文件</strong></li>
@@ -203,7 +203,7 @@ cin.ignore(numeric_limits<a href="std::streamsize">std::streamsize</a>::max(), '
 <li>检测文件是否读完（EOF）；</li>
 <li>使用完文件关闭close。</li>
 </ol>
-<p>文件打开方式（这些文件模式定义在<strong>std命名空间</strong>）：</p>
+<p>文件打开方式（这些文件模式定义在<strong>std::ios命名空间</strong>）：</p>
 <table>
 <thead>
 <tr>
@@ -230,7 +230,7 @@ cin.ignore(numeric_limits<a href="std::streamsize">std::streamsize</a>::max(), '
 </tr>
 <tr>
 <td style="text-align:left">trunc</td>
-<td style="text-align:left">截断文件（覆盖、默认）</td>
+<td style="text-align:left">打开并清除文件内容（默认）</td>
 </tr>
 <tr>
 <td style="text-align:left">binary</td>
@@ -238,6 +238,8 @@ cin.ignore(numeric_limits<a href="std::streamsize">std::streamsize</a>::max(), '
 </tr>
 </tbody>
 </table>
+<p>如果文件不存在，默认不会打开/创建文件。<br>
+判断文件是否打开成功，应该使用fstream对象的fail()函数；判断文件是否读完，应该使用fstream对象的eof()函数。所有fstream相关函数见http://www.cplusplus.com/reference/fstream/fstream/</p>
 <br/>
 <hr>
 <br/>
