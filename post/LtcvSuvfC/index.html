@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617976200110">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617976433562">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -39,7 +39,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617976200110" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617976433562" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -295,9 +295,8 @@ char *:
    	printf(str);
    }
 </code></pre>
-<pre><code>问运行Test 函数会有什么样的结果？
-</code></pre>
-<p><strong>答：程序崩溃。因为GetMemory 并不能传递动态内存，<br>
+<p>问运行Test 函数会有什么样的结果？<br>
+<strong>答：程序崩溃。因为GetMemory 并不能传递动态内存，<br>
 Test 函数中的 str 一直都是 NULL。strcpy(str, &quot;hello world&quot;);将使程序崩溃。</strong></p>
 <ol>
 <li></li>
@@ -317,43 +316,44 @@ Test 函数中的 str 一直都是 NULL。strcpy(str, &quot;hello world&quot;);�
 <p>请问运行Test 函数会有什么样的结果？<br>
 <strong>答：可能是乱码;因为GetMemory 返回的是指向“栈内存”的指针，该指针的地址不是 NULL，但其原现的内容已经被清除，新内容不可知。</strong></p>
 <ol>
-<li>
-<pre><code>void GetMemory2(char **p, int num)
-{
-	*p = new char[num];
-}
-void Test(void)
-{
-	char *str = NULL;
-	GetMemory2(&amp;str, 100);
-	strcpy(str, &quot;hello&quot;);
-	printf(str);
-}
+<li></li>
+</ol>
+<pre><code>  void GetMemory2(char **p, int num)
+  {
+  	*p = new char[num];
+  }
+  void Test(void)
+  {
+  	char *str = NULL;
+  	GetMemory2(&amp;str, 100);
+  	strcpy(str, &quot;hello&quot;);
+  	printf(str);
+  }
 </code></pre>
 <p>请问运行Test 函数会有什么样的结果？<br>
 **答：能够输出hello，但内存泄漏 **</p>
-</li>
-<li>
-<pre><code># include &lt;string.h&gt;
- void Test(void)
- {
- 	char *str = new  char[100];
- 	strcpy(str, &quot;hello&quot;);
- 	delete[ ] str;
- 	if (str != NULL)
- 	{
- 		strcpy(str,&quot;world&quot;);
- 		printf(str);
- 	}
- }
+<ol start="2">
+<li></li>
+</ol>
+<pre><code>   # include &lt;string.h&gt;
+    void Test(void)
+    {
+    	char *str = new  char[100];
+    	strcpy(str, &quot;hello&quot;);
+    	delete[ ] str;
+    	if (str != NULL)
+    	{
+    		strcpy(str,&quot;world&quot;);
+    		printf(str);
+    	}
+    }
 </code></pre>
 <p>请问运行Test 函数会有什么样的结果？<br>
 <strong>答：篡改动态内存区的内容，后果难以预料，非常危险。因为 delete[ ]str;之后，str成为野指针(需要str = NULL;)if(str != NULL)语句不起作用。</strong></p>
-</li>
-</ol>
 <h2 id="二-编程题-2">二、编程题</h2>
 <ol>
-<li>char *strcpy(char *strDest, const char *strSrc)不调用C++/C 的字符串库函数，请编写函数 strcpy；</li>
+<li>char *strcpy(char *strDest, const char *strSrc)<br>
+请在不调用C++/C 的字符串库函数的情况下，编写函数 strcpy；</li>
 </ol>
 <pre><code>char *strcpy(char *strDest, const char *strSrc);
 {
@@ -367,20 +367,21 @@ void Test(void)
 <h1 id="第七章">第七章：</h1>
 <h2 id="一-编程题">一、编程题</h2>
 <p>编写自定义类String 的构造函数、析构函数和赋值函数。<br>
-已知类String 的原型为：<br>
-class String<br>
-{<br>
-public:<br>
-String(const char *str = NULL);                             // 普通构造函数<br>
-String(const String &amp;other);                                  // 拷贝构造函数<br>
-String(String&amp;&amp; other);                                          // 移动构造函数<br>
-~String(void);                                                            // 析构函数<br>
-String&amp; operator= (const String&amp; other);             // 赋值函数<br>
-String&amp; operator=(String&amp;&amp; rhs)noexcept;		  // 移动赋值运算符<br>
-private:<br>
-char *m_data; // 用于保存字符串<br>
-};<br>
-请编写String 的上述几个函数。</p>
+已知类String 的原型为：</p>
+<pre><code>class String
+{
+public:
+	String(const char *str = NULL);                             // 普通构造函数
+	String(const String &amp;other);                                  // 拷贝构造函数
+	String(String&amp;&amp; other);                                          // 移动构造函数
+	~String(void);                                                            // 析构函数
+	String&amp; operator= (const String&amp; other);             // 赋值函数
+	String&amp; operator=(String&amp;&amp; rhs)noexcept;		  // 移动赋值运算符
+private:
+	char *m_data; // 用于保存字符串
+};
+</code></pre>
+<p>请编写String 的上述几个函数。</p>
 <pre><code>// String 的析构函数
 String::~String(void)
 {
