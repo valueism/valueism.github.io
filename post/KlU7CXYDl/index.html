@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617974889484">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617976200110">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -41,7 +41,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617974889484" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617976200110" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -141,6 +141,87 @@
 <img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/image2.gif" alt="" loading="lazy"></p>
 <p>实现深拷贝，需要在<strong>拷贝构造</strong>、<strong>赋值运算符重载</strong>时，主动复制指针指向的内存空间。此外，还需要在析构函数中考虑到将这块内存释放，防止发生内存泄露。<br>
 如果要兼顾深拷贝和浅拷贝的优点，有两种方法：一是采用引用计数，当没有指针指向该内存时才进行内存销毁（类似智能指针）；其次是C++新标准的move方法（智能指针中也有类似的实现），指针b直接拿来使用指针a指向的空间，相当于所有权的转让。</p>
+<h1 id="3-虚函数">3. 虚函数</h1>
+<p>面向对象编程中，涉及继承时往往需要在基类中定义虚函数。<br>
+如下代码，定义了一个抽象的基类Shape，然后两个具体的形状类Square和Circle均继承了Shape类。</p>
+<pre><code>// 抽象类
+class Shape
+{
+public:
+    // 子类方法实现不一致加上virtual
+    //抽象函数后面加上=0，表示不能被自己实现，只能被派生类实现
+	virtual double Area() const = 0;
+	virtual void Show() = 0;
+
+	void Display()
+	{
+		cout &lt;&lt; Area() &lt;&lt; endl;
+	}
+};
+
+//正方形的对象，继承Shape
+class Square: public Shape
+{
+public:
+	Square(double len) :_len(len) { }
+	void Show() { cout &lt;&lt; &quot;Square&quot; &lt;&lt; endl; }
+	double Area() const
+	{
+		return _len*_len;
+	}
+private:
+	double _len;
+};
+
+
+//圆的对象，继承Shape
+class Circle : public Shape
+{
+public:
+	Circle(double radius) :_radius(radius) {}
+	void Show() { cout &lt;&lt; &quot;Circle&quot; &lt;&lt; endl; }
+	double Area() const
+	{
+		return 3.1415926*_radius*_radius;
+	}
+
+private:
+	double _radius;
+};
+</code></pre>
+<p>下面是负责调用各个类的main函数：</p>
+<pre><code>int main()
+{
+	// 面对变化，尽可能少修改原有的逻辑，要扩充逻辑
+	const int shapeNum = 3;
+
+	Square s1(2.0);
+	Circle   c1(2.0);
+
+    //基类的数组存放派生类的对象
+	Shape* shapes[shapeNum];
+	shapes[0] = &amp;s1;
+	shapes[1] = &amp;c1;
+
+	for (unsigned int index = 0; index &lt; shapeNum; index++)
+	{
+		shapes[index]-&gt;Display();
+	}
+
+	cout &lt;&lt; endl;
+	cout &lt;&lt; sizeof(s1) &lt;&lt; endl;
+
+	return 0;
+}
+</code></pre>
+<p>如果基类有虚函数， 这样运行的时候，就可以通过<strong>基类指针指向派生类对象</strong>，同时根据不同的派生类对象调用相应的派生类成员函数，也就是多态。<br>
+**多态：C++ 多态意味着调用成员函数时，会根据调用函数的对象的类型来执行不同的函数。**这些不同的对象执行的都是继承自基类的虚函数。</p>
+<blockquote>
+<p>C++多态（知乎）<br>
+https://zhuanlan.zhihu.com/p/37340242<br>
+C++多态（菜鸟教程）<br>
+https://www.runoob.com/cplusplus/cpp-polymorphism.html</p>
+</blockquote>
 
             </div>
             
