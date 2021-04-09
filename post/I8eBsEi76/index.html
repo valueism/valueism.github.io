@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>博客 | 菠萝屋</title>
+<title>static作用 | 菠萝屋</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -22,7 +22,16 @@
 
 
 
-    <meta name="description" content="Kick ass!">
+    <meta name="description" content="
+
+在函数体内，一个被声明为静态的变量，在该函数被调用的过程中其值不变；
+
+
+在模块内（但在函数体外），一个被声明为静态的变量，可以被该模块内的任何函数调用，但不能被模块外的函数调用，是一个本地的全局变量；
+
+
+在模块内，一个被声明为静态的..." />
+    <meta name="keywords" content="" />
   </head>
   <body>
     <div id="app" class="main">
@@ -98,43 +107,39 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: 博客</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://444494.xyz/post/github-tu-chuang-pei-zhi-dao-picgo-de-keng/">
-                  <h2 class="post-title">PicGo配置Github图床的坑</h2>
-                </a>
-                <div class="post-date">
-                  2021-02-25
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://444494.xyz/post/qi-ta/">
-                  <h2 class="post-title">Github Pages加速</h2>
-                </a>
-                <div class="post-date">
-                  2021-02-20
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
+          <div class="post-detail">
+            <h2 class="post-title">static作用</h2>
+            <div class="post-date">2021-04-09</div>
+            
+            <div class="post-content" v-pre>
+              <ol>
+<li>
+<p>在函数体内，一个被声明为静态的变量，在该函数被调用的过程中其值不变；</p>
+</li>
+<li>
+<p>在模块内（但在函数体外），一个被声明为静态的变量，可以被该模块内的任何函数调用，但不能被模块外的函数调用，是一个本地的全局变量；</p>
+</li>
+<li>
+<p>在模块内，一个被声明为静态的函数，只可以被该模块内的其他函数调用，也就是说被限制在本地范围内使用</p>
+</li>
+</ol>
 
-          <div class="pagination-container">
-  
-  
-</div>
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/KlU7CXYDl/">
+                  <h3 class="post-title">
+                    《重学C++》7. C++高级语法(三) 其他问题：头文件、深浅拷贝、多态和虚函数
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
 
         </div>
       </div>
