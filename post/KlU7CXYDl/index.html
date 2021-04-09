@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617980389519">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617980659761">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -41,7 +41,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617980389519" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617980659761" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -228,11 +228,13 @@ https://www.runoob.com/cplusplus/cpp-polymorphism.html</p>
 这是因为Square类继承了基类Shape，而Shape类含有两个纯虚函数：<br>
 virtual double Area() const = 0;<br>
 virtual void Show() = 0;<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210409224346.png" alt="" loading="lazy"><br>
 在运行时，程序将会确定虚函数（纯虚函数）的地址，并将其记录在该对象内。两个地址一共是8字节，加上Square类自己的浮点数数据成员是8字节，因此s1对象一共是16字节。<br>
 也就是说：<strong>对象的大小=基类对象大小+自身数据成员大小+所有虚函数地址的字节数</strong>（单位统一为字节），一般成员函数、静态成员（存在全局变量区）不会对对象的大小造成影响。</p>
-<blockquote></blockquote>
-<p>https://blog.csdn.net/JerryGou/article/details/79052130</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210409224346.png" alt="" loading="lazy"></figure>
+<blockquote>
+<p>C++ 类对象大小计算（一）常规情况<br>
+https://blog.csdn.net/JerryGou/article/details/79052130</p>
+</blockquote>
 
             </div>
             
