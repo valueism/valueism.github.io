@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617951206574">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617951470558">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -41,7 +41,7 @@ protected：保..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617951206574" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617951470558" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -157,7 +157,7 @@ ostream &amp; operator&lt;&lt;(ostream &amp;output)<br>
 <p>为什么operator&lt;&lt;运算符重载一定要为友元函数呢？<br>
 https://www.cnblogs.com/this-543273659/archive/2011/09/01/2161574.html</p>
 </blockquote>
-<h1 id="2-io流">2. IO流</h1>
+<h1 id="2-io流概述">2. IO流概述</h1>
 <p>简单来说，C++中各种I/O的stream结构如下：<br>
 <img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210409142343.png" alt="" loading="lazy"></p>
 <center>来源：http://www.cplusplus.com/reference/sstream/stringstream/</center>  
@@ -166,7 +166,7 @@ https://www.cnblogs.com/this-543273659/archive/2011/09/01/2161574.html</p>
 <center>来源：https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp10_IO.html</center>
 <p>实际使用中，主要使用iostream、fstream、sstream，分别对标准输入输出流、文件流、字符串流进行读写操作。（其中输入流ifstream和istringstream都继承自istream，输出流类似）</p>
 <h2 id="缓存区">缓存区</h2>
-<p>不管是哪种流，一般都会采用缓冲区。缓冲区分为三种：按块缓存（读取文件）、按行缓存（while从cin读取数据）和不缓存：<br>
+<p>不管是哪种流，一般都会采用缓冲区。缓冲区分为三种：<strong>按块缓存、按行缓存和不缓存</strong>。按块缓存一次将数据读入，例如读取文件、按行缓存逐次读入数据，例如while从cin读取数据：<br>
 <img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210409143741.png" alt="" loading="lazy"></p>
 <p>如下代码，while循环不断读取一个整数，收到第5个时退出循环，循环外部再接收一个字符</p>
 <pre><code>int a;
@@ -185,9 +185,11 @@ while (cin &gt;&gt; a)
 </code></pre>
 <p>当一次性输入1 2 3 4 5 6时，这6个数据应该只被while读入5个，剩下一个应当无法被读取。但实际运行中，程序却将其读入了循环外的代码部分：<br>
 <img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210409144801.png" alt="" loading="lazy"><br>
-**这是因为输入1 2 3 4 5 6时，程序将其一次全部读入了缓存区。循环外的代码直接从缓存区读取了第6个输入。**要想解决这种情况，必须在输入回车之后清空缓存区。<br>
+这种情况被叫作读入了缓存区脏数据。<br>
+**这是因为输入1 2 3 4 5 6时，程序将其一次全部读入了缓存区。后面循环外的代码直接从缓存区读取了第6个输入，也就是脏数据。**要想解决这种情况，必须在输入回车之后清空缓存区中的脏数据。<br>
 可以在最后一次读取字符的代码前加入如下代码：<br>
 cin.ignore(numeric_limits<a href="std::streamsize">std::streamsize</a>::max(), '\n');  // 清空缓存区脏数据</p>
+<h1 id="3-文件io">3. 文件IO</h1>
 <br/>
 <hr>
 <br/>
