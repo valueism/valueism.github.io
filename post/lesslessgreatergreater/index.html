@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617949825503">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617951206574">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -41,7 +41,7 @@ protected：保..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617949825503" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617951206574" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -142,7 +142,6 @@ istream&amp; operator&gt;&gt;(istream&amp; is, Complex&amp; comp) {
 	return is;
 }
 </code></pre>
-<blockquote>
 <p>注：为什么一定要用到友元函数？<br>
 实现输入输出会使用到对象内部的private变量，要想有读取/写入private变量的权限，有两种途径：1.成员函数，2.友元函数。<br/><br>
 如果是重载双目操作符（即为类的成员函数），就只要设置一个参数作为右侧运算量，而左侧运算量就是对象本身。。。。。。<br>
@@ -154,7 +153,6 @@ ostream &amp; operator&lt;&lt;(ostream &amp;output)<br>
 }<br>
 所以在运用这个&lt;&lt;运算符时就变为这种形式了：data&lt;&lt;cout;<br>
 不合符人的习惯。<br/></p>
-</blockquote>
 <blockquote>
 <p>为什么operator&lt;&lt;运算符重载一定要为友元函数呢？<br>
 https://www.cnblogs.com/this-543273659/archive/2011/09/01/2161574.html</p>
@@ -162,11 +160,34 @@ https://www.cnblogs.com/this-543273659/archive/2011/09/01/2161574.html</p>
 <h1 id="2-io流">2. IO流</h1>
 <p>简单来说，C++中各种I/O的stream结构如下：<br>
 <img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210409142343.png" alt="" loading="lazy"></p>
-<center>来源：http://www.cplusplus.com/reference/sstream/stringstream/</center>
-<p>如果详细一点，可以如下图所示：<br>
-<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/IOclasses.png" alt="" loading="lazy"></p>
+<center>来源：http://www.cplusplus.com/reference/sstream/stringstream/</center>  
+如果详细一点，可以如下图所示：
+![](https://raw.githubusercontent.com/valueism/Pictures/master/img/IOclasses.png)  
 <center>来源：https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp10_IO.html</center>
 <p>实际使用中，主要使用iostream、fstream、sstream，分别对标准输入输出流、文件流、字符串流进行读写操作。（其中输入流ifstream和istringstream都继承自istream，输出流类似）</p>
+<h2 id="缓存区">缓存区</h2>
+<p>不管是哪种流，一般都会采用缓冲区。缓冲区分为三种：按块缓存（读取文件）、按行缓存（while从cin读取数据）和不缓存：<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210409143741.png" alt="" loading="lazy"></p>
+<p>如下代码，while循环不断读取一个整数，收到第5个时退出循环，循环外部再接收一个字符</p>
+<pre><code>int a;
+while (cin &gt;&gt; a)
+	{
+		cout &lt;&lt; &quot;The numbers are: &quot; &lt;&lt; a &lt;&lt; endl;
+		index++;
+		if (index == 5)
+		{
+			break;
+		}
+	}
+	char ch;
+	cin &gt;&gt; ch;
+	cout &lt;&lt; &quot;the last char is: &quot; &lt;&lt; ch &lt;&lt; endl;
+</code></pre>
+<p>当一次性输入1 2 3 4 5 6时，这6个数据应该只被while读入5个，剩下一个应当无法被读取。但实际运行中，程序却将其读入了循环外的代码部分：<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210409144801.png" alt="" loading="lazy"><br>
+**这是因为输入1 2 3 4 5 6时，程序将其一次全部读入了缓存区。循环外的代码直接从缓存区读取了第6个输入。**要想解决这种情况，必须在输入回车之后清空缓存区。<br>
+可以在最后一次读取字符的代码前加入如下代码：<br>
+cin.ignore(numeric_limits<a href="std::streamsize">std::streamsize</a>::max(), '\n');  // 清空缓存区脏数据</p>
 <br/>
 <hr>
 <br/>
