@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" >
 
-<title>《重学C++》7. C++高级语法（二） | 菠萝屋</title>
+<title>《重学C++》7. C++高级语法（二）IO操作 | 菠萝屋</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617942855885">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617949496762">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -22,13 +22,16 @@
 
 
 
-    <meta name="description" content="1. 虚数类的实现——前置和后置运算符
-以++运算符为例，要注意前置和后置的区分。
-//前置++重载
-Complex&amp; Complex::operator++ () {
-	real++;
-	image++;
-	return *thi..." />
+    <meta name="description" content="主要内容
+这一篇主要总结于第七章&quot;C++高级语法&quot;中的第7-
+
+
+
+1. 虚数类的实现——重载输入输出运算符
+C++三种限制访问符：
+
+private：私有的，只能在类内使用，子类和类外不可以使用
+protected：保..." />
     <meta name="keywords" content="" />
   </head>
   <body>
@@ -38,7 +41,7 @@ Complex&amp; Complex::operator++ () {
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617942855885" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617949496762" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -106,31 +109,23 @@ Complex&amp; Complex::operator++ () {
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">《重学C++》7. C++高级语法（二）</h2>
+            <h2 class="post-title">《重学C++》7. C++高级语法（二）IO操作</h2>
             <div class="post-date">2021-02-28</div>
             
             <div class="post-content" v-pre>
-              <h1 id="1-虚数类的实现前置和后置运算符">1. 虚数类的实现——前置和后置运算符</h1>
-<p>以++运算符为例，要注意前置和后置的区分。</p>
-<pre><code>//前置++重载
-Complex&amp; Complex::operator++ () {
-	real++;
-	image++;
-	return *this;
-}
-
-//后置++重载
-Complex Complex::operator++ (int) {
-	return Complex(real++, image++);
-}
-</code></pre>
-<blockquote>
-<p>区分前置和后置运算符的方式是形参列表是否有Int、参数返回类型。<br>
-如果是前置，返回值类型应该为引用；<br>
-如果是后置，应该是值传递，并且形参列表中有int。</p>
-</blockquote>
-<h1 id="2-虚数类的实现重载输入输出运算符">2. 虚数类的实现——重载输入输出运算符</h1>
-<p>重载输入输出运算符并不是通过成员函数的方式，而是要利用到<strong>友元函数</strong>，只有通过friend关键字，才可以访问内部变量。</p>
+              <h1 id="主要内容">主要内容</h1>
+<p>这一篇主要总结于第七章&quot;C++高级语法&quot;中的第7-</p>
+<br/>
+<hr>
+<br/>
+<h1 id="1-虚数类的实现重载输入输出运算符">1. 虚数类的实现——重载输入输出运算符</h1>
+<p>C++三种限制访问符：</p>
+<ul>
+<li>private：私有的，只能在类内使用，子类和类外不可以使用</li>
+<li>protected：保护的，类内和子类可以使用，类外不可以使用</li>
+<li>public：公有的，类内和类外、子类都可以使用<br>
+重载输入输出运算符并不是通过成员函数的方式，而是要利用到<strong>友元函数</strong>，只有通过friend关键字，才可以访问内部变量。</li>
+</ul>
 <p>除了注意<strong>要写friend关键字</strong>外，因为友元函数并不是成员函数，所以<strong>不需要类作用域限定符</strong>。</p>
 <pre><code>//下面两行是声明，应当写到类内
 //friend ostream&amp; operator&lt;&lt;(ostream&amp; os, const Complex&amp; comp);
@@ -164,7 +159,13 @@ ostream &amp; operator&lt;&lt;(ostream &amp;output)<br>
 <p>为什么operator&lt;&lt;运算符重载一定要为友元函数呢？<br>
 https://www.cnblogs.com/this-543273659/archive/2011/09/01/2161574.html</p>
 </blockquote>
-<h1 id="3-io流">3. IO流</h1>
+<h1 id="2-io流">2. IO流</h1>
+<p>简单来说，C++中各种I/O的stream结构如下：<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210409142343.png" alt="" loading="lazy"></p>
+<center>来源：http://www.cplusplus.com/reference/sstream/stringstream/</center>
+如果详细一点，可以如下图所示：
+![](https://raw.githubusercontent.com/valueism/Pictures/master/img/IOclasses-1.png)
+<center>来源：https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp10_IO.html</center>
 <br/>
 <hr>
 <br/>
@@ -293,7 +294,7 @@ String&amp; String::operator=(String&amp;&amp; rhs)noexcept
                 <div class="next">下一篇</div>
                 <a href="https://444494.xyz/post/lesslessgreatergreater-7/">
                   <h3 class="post-title">
-                    《重学C++》7. C++高级语法（一）
+                    《重学C++》7. C++高级语法（一）OOP、构造函数、运算符重载
                   </h3>
                 </a>
               </div>

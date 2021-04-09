@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://444494.xyz</id>
     <title>菠萝屋</title>
-    <updated>2021-04-09T04:36:39.862Z</updated>
+    <updated>2021-04-09T06:24:58.874Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://444494.xyz"/>
     <link rel="self" href="https://444494.xyz/atom.xml"/>
@@ -60,14 +60,14 @@
         <updated>2021-03-03T16:49:05.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[《重学C++》7. C++高级语法（二）]]></title>
+        <title type="html"><![CDATA[《重学C++》7. C++高级语法（二）IO操作]]></title>
         <id>https://444494.xyz/post/lesslessgreatergreater/</id>
         <link href="https://444494.xyz/post/lesslessgreatergreater/">
         </link>
         <updated>2021-02-28T14:03:08.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[《重学C++》7. C++高级语法（一）]]></title>
+        <title type="html"><![CDATA[《重学C++》7. C++高级语法（一）OOP、构造函数、运算符重载]]></title>
         <id>https://444494.xyz/post/lesslessgreatergreater-7/</id>
         <link href="https://444494.xyz/post/lesslessgreatergreater-7/">
         </link>

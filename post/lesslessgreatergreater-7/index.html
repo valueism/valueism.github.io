@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" >
 
-<title>《重学C++》7. C++高级语法（一） | 菠萝屋</title>
+<title>《重学C++》7. C++高级语法（一）OOP、构造函数、运算符重载 | 菠萝屋</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617942855885">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617949496762">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -22,8 +22,8 @@
 
 
 
-    <meta name="description" content="1. 编程中的抽象和实际之间的关系
-并不是所有面向对象编程中的逻辑关系都是在物质世界中有迹可循的。例如常见的&quot;is-a&quot;的关系用来表述“继承”的概念并不完善；此外还有实际项目中，“缓冲区”类的存在也并没有现实中对应的原型..." />
+    <meta name="description" content="主要内容
+这一篇主要总结于第七章&quot;C++高级语法&quot;中的第1-6小节。下文第一节主要介绍面向对象编程（Object Oriented Programming，OOP）；第二节简单介绍类的创建和成员的声明、定义；第三四节为主..." />
     <meta name="keywords" content="" />
   </head>
   <body>
@@ -33,7 +33,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617942855885" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617949496762" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -101,12 +101,18 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">《重学C++》7. C++高级语法（一）</h2>
+            <h2 class="post-title">《重学C++》7. C++高级语法（一）OOP、构造函数、运算符重载</h2>
             <div class="post-date">2021-02-27</div>
             
             <div class="post-content" v-pre>
-              <h1 id="1-编程中的抽象和实际之间的关系">1. 编程中的抽象和实际之间的关系</h1>
-<p>并不是所有面向对象编程中的逻辑关系都是在物质世界中有迹可循的。例如常见的&quot;is-a&quot;的关系用来表述“继承”的概念并不完善；此外还有实际项目中，“缓冲区”类的存在也并没有现实中对应的原型。<br>
+              <h1 id="主要内容">主要内容</h1>
+<p>这一篇主要总结于第七章&quot;C++高级语法&quot;中的第1-6小节。下文第一节主要介绍面向对象编程（Object Oriented Programming，OOP）；第二节简单介绍类的创建和成员的声明、定义；第三四节为主要内容，涉及各种构造函数和运算符重载。</p>
+<br/>
+<hr>
+<br/>
+<h1 id="1-面向对象编程">1. 面向对象编程（）</h1>
+<p>编程中的抽象和实际之间的关系：<br>
+并不是所有面向对象编程中的逻辑关系都是在物质世界中有迹可循的。例如常见的&quot;is-a&quot;的关系用来表述“继承”的概念并不完善；此外还有实际项目中，“缓冲区”类的存在也并没有现实中对应的原型。<br>
 <img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210227230504.png" alt="" loading="lazy"></p>
 <br/>
 <h1 id="2-添加虚数类">2. 添加虚数类</h1>
@@ -219,6 +225,25 @@ Complex::Complex(const Complex&amp; x)
 <li>拷贝构造函数</li>
 <li>临时变量优化</li>
 </ul>
+<h1 id="4-虚数类的实现前置和后置运算符">4. 虚数类的实现——前置和后置运算符</h1>
+<p>以++运算符为例，要注意前置和后置的区分。</p>
+<pre><code>//前置++重载
+Complex&amp; Complex::operator++ () {
+	real++;
+	image++;
+	return *this;
+}
+
+//后置++重载
+Complex Complex::operator++ (int) {
+	return Complex(real++, image++);
+}
+</code></pre>
+<blockquote>
+<p>区分前置和后置运算符的方式是形参列表是否有Int、参数返回类型。<br>
+如果是前置，返回值类型应该为引用；<br>
+如果是后置，应该是值传递，并且形参列表中有int。</p>
+</blockquote>
 
             </div>
             
