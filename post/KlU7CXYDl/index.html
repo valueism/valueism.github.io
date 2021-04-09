@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>拖延 | 菠萝屋</title>
+<title>《重学C++》7. C++高级语法(三) 其他问题：头文件、深浅拷贝等 | 菠萝屋</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -22,12 +22,16 @@
 
 
 
-    <meta name="description" content="
-单纯的做事拖拉或是懒得去做，只能定义为“拖延”，也仅是一种坏习惯，改正它并不难。
+    <meta name="description" content="4. 其他工程问题
+头文件重复包含问题
+为了防止同一个文件被include多次，有两种方式避免：
 
-当“拖延”已经影响到情绪，如出现强烈自责情绪，强烈负罪感，不断的自我否定、自我贬低，伴生出焦虑症、抑郁症、强迫症等心理疾病时，才能称之为“拖延症”。
+可以使用宏定义方式进行避免：
 
-拖..." />
+#ifndef __SOMEFILE_H__
+#define  __SOMEFILE_H__
+
+//to d..." />
     <meta name="keywords" content="" />
   </head>
   <body>
@@ -105,20 +109,44 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">拖延</h2>
-            <div class="post-date">2020-11-17</div>
+            <h2 class="post-title">《重学C++》7. C++高级语法(三) 其他问题：头文件、深浅拷贝等</h2>
+            <div class="post-date">2021-04-09</div>
             
             <div class="post-content" v-pre>
-              <blockquote>
-<p>单纯的做事拖拉或是懒得去做，只能定义为“拖延”，也仅是一种坏习惯，改正它并不难。</p>
-</blockquote>
-<p>当“拖延”已经影响到情绪，如出现强烈自责情绪，强烈负罪感，不断的自我否定、自我贬低，伴生出焦虑症、抑郁症、强迫症等心理疾病时，才能称之为“拖延症”。</p>
-<blockquote>
-<p>拖延的基础，实际上是对自身很高甚至不切实际的期望。如果说完成任务是走过一块一人宽、十米长的厚木板，那么当它放在地面上时，几乎人人都可以轻松地走过。 但对结果的高期望则像是将这块木板架到了两座高楼间十层楼高的地方，于是我们会害怕掉下去，即害怕失败或害怕成功，甚至不敢向前迈上一步。而deadline则是身后的一团火，当它离我们足够近时，害怕被烧着的恐惧感战胜了对掉下去的恐惧感，于是我们一下子冲了过去，在deadline前赶完了任务，尽管质量很难说。</p>
-</blockquote>
+              <h1 id="4-其他工程问题">4. 其他工程问题</h1>
+<h2 id="头文件重复包含问题">头文件重复包含问题</h2>
+<p>为了防止同一个文件被include多次，有两种方式避免：</p>
+<ol>
+<li>可以使用宏定义方式进行避免：</li>
+</ol>
+<pre><code>#ifndef __SOMEFILE_H__
+#define  __SOMEFILE_H__
+
+//to do 
+
+#end if 
+</code></pre>
+<p>这种宏定义的方式优点：可移植性好；缺点：无法防止宏名重复（宏名重复时会出错），难以排错。</p>
+<ol start="2">
+<li>使用编译器的方式</li>
+</ol>
+<pre><code>#pragma once
+</code></pre>
+<p>优点：可以防止宏名重复，容易排错；缺点：可移植性查，只能在win平台使用。</p>
+<h2 id="引用头文件">引用头文件</h2>
+<p>项目引用的各类头文件统一放到stdafx.h中，避免分散</p>
 
             </div>
             
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/LtcvSuvfC/">
+                  <h3 class="post-title">
+                    《重学C++》前七章习题
+                  </h3>
+                </a>
+              </div>
             
 
             
