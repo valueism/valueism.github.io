@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617951470558">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617952428926">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -41,7 +41,7 @@ protected：保..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617951470558" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1617952428926" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -190,6 +190,54 @@ while (cin &gt;&gt; a)
 可以在最后一次读取字符的代码前加入如下代码：<br>
 cin.ignore(numeric_limits<a href="std::streamsize">std::streamsize</a>::max(), '\n');  // 清空缓存区脏数据</p>
 <h1 id="3-文件io">3. 文件IO</h1>
+<p>文件：</p>
+<ol>
+<li>文本文件，文字等信息经过编码（如ASCII码等）变成无意义的二进制代码，存放在内存中。</li>
+<li>二进制文件，二进制代码就是文本内容（两者相同，不需要编码）。<strong>实际项目中接触的大多数文件</strong></li>
+</ol>
+<p>通过fstream读写文件，一般流程：</p>
+<ol>
+<li>打开文件open；</li>
+<li>检测是否打开成功，没有的话fail不能使用；</li>
+<li>对文件read/write；</li>
+<li>检测文件是否读完（EOF）；</li>
+<li>使用完文件关闭close。</li>
+</ol>
+<p>文件打开方式（这些文件模式定义在<strong>std命名空间</strong>）：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">文件模式</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">in</td>
+<td style="text-align:left">只读方式打开</td>
+</tr>
+<tr>
+<td style="text-align:left">out</td>
+<td style="text-align:left">写方式打开</td>
+</tr>
+<tr>
+<td style="text-align:left">app</td>
+<td style="text-align:left">每次写操作前均定位到文件末尾（追加）</td>
+</tr>
+<tr>
+<td style="text-align:left">ate</td>
+<td style="text-align:left">打开并立即定位到文本末尾</td>
+</tr>
+<tr>
+<td style="text-align:left">trunc</td>
+<td style="text-align:left">截断文件（覆盖、默认）</td>
+</tr>
+<tr>
+<td style="text-align:left">binary</td>
+<td style="text-align:left">二进制方式进行IO</td>
+</tr>
+</tbody>
+</table>
 <br/>
 <hr>
 <br/>
