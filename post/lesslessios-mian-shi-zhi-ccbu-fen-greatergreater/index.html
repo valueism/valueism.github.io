@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618033296402">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618033707467">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -36,7 +36,7 @@ https://edu.51cto.com/course/2306.html
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1618033296402" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1618033707467" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -113,6 +113,9 @@ https://edu.51cto.com/course/2306.html
 https://edu.51cto.com/course/2306.html</p>
 </blockquote>
 <p>虽说这门课是针对iOS面试，但知识点都是C/C++上的。里面有些内容讲的挺好，尤其是前几节对指针的讲解、最后一节关于函数参数以及二级指针的内容。个人认为这两块比较深入透彻，非常值得一看，其他地方相对比较一般，是比较基础、简单的内容。</p>
+<br>
+<hr>
+<br>
 <h1 id="1-指针">1. 指针</h1>
 <p>上来几个问题:<br>
 1.你是如何理解指针的？<br>
@@ -257,10 +260,12 @@ q-&gt;run(); //调用Worker的run函数<br>
 析构顺序：先调用子类析构，再调用父类析构。</p>
 <p>但<strong>如果是父类指针指向子类对象</strong>，调用顺序为：父类构造、子类构造、父类析构，<strong>不会对子类进行析构</strong>。<br>
 为了解决这种问题，需要<strong>将父类的析构函数声明为虚函数</strong>，这样子类析构也是虚函数，就会先调用父类析构函数再调用子类析构函数。</p>
-<h1 id="4-函数参数">4. 函数参数</h1>
+<h1 id="4-函数参数与二级指针">4. 函数参数与二级指针</h1>
+<h2 id="a-函数参数">a. 函数参数</h2>
 <p>函数只能有一个返回值，但有的时候需要根据函数的运算得到多个变量。可以通过函数的参数实现，将输入的变量和输出的变量统一作为参数传入（但输出的变量应该传入指针或引用），最后还可以返回一个返回值。<strong>也就是说，参数可以分为输入参数和输出参数，其中输出参数必须传递指针或者引用。</strong></p>
-<h1 id="5-二级指针">5. 二级指针</h1>
-<p>当想要通过一个函数申请对象的内存空间，并返回申请空间的地址时，通过传递指针参数不能完成这样的功能：</p>
+<p>如果采用参数的方式、并且只用指针，当需要通过函数对一个指针的内容进行改变时，输出参数必须是该指针的指针，也就是二级指针。</p>
+<h2 id="b-二级指针">b. 二级指针</h2>
+<p>下面代码的目的是：通过一个函数申请对象的内存空间，并返回将空间地址传给指针参数，希望能在函数外部完成对实参的赋值。</p>
 <pre><code>void fun(Person *p){
     p = new Person();
 }
