@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618033707467">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618033805230">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -36,7 +36,7 @@ https://edu.51cto.com/course/2306.html
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1618033707467" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1618033805230" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -133,9 +133,9 @@ int *qq = &amp;p;  //这一行呢？（第二处）
 int *** ppp = &amp;pp;
 </code></pre>
 <p>第一处的写法是正确的。<br>
-这种本质上是正确的，但是因为int类型变量可以保存很多值， 而且可以参与运算等等，如果直接按照第一行处存储，程序员和编译器都容易弄混，可阅读性很差，分不清q是地址还是数值，这就需要添加一个<em>号进行标记。<br>
+这种本质上是正确的，但是因为int类型变量可以保存很多值， 而且可以参与运算等等，如果直接按照第一行处存储，程序员和编译器都容易弄混，可阅读性很差，分不清q是地址还是数值，这就需要添加一个*号进行标记。<br>
 第二处的写法也正确。<br>
-因为指针变量p也是一种变量，所以也是可以将其地址存储到另一个指针变量qq中。但是同样因为容易混淆，可阅读性很差。所以再加一个</em>号，用于标记。</p>
+因为指针变量p也是一种变量，所以也是可以将其地址存储到另一个指针变量qq中。但是同样因为容易混淆，可阅读性很差。所以再加一个*号，用于标记。</p>
 <h2 id="b-指针的变量类型作用">b. 指针的变量类型作用</h2>
 <p>面试题：定义一个结构体，所占字节为20个，请逐字节输出内存里面的值。</p>
 <p>可以随意定义如下一个结构体：</p>
