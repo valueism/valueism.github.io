@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618033805230">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618039617868">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -39,7 +39,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1618033805230" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1618039617868" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -280,6 +280,10 @@ char *:
 	  sizeof( str ) = 4 
 	}
 </code></pre>
+<blockquote>
+<p>如果定义如下代码，那么该str2变量大小（sizeof(str2)）应该是多少？<br>
+char* str2 = (char*)malloc(sizeof(char)*3);</p>
+</blockquote>
 <ol start="2">
 <li></li>
 </ol>
@@ -298,7 +302,7 @@ char *:
 <p>问运行Test 函数会有什么样的结果？<br>
 <strong>答：程序崩溃。因为GetMemory 并不能传递动态内存，<br>
 Test 函数中的 str 一直都是 NULL。strcpy(str, &quot;hello world&quot;);将使程序崩溃。</strong></p>
-<ol>
+<ol start="3">
 <li></li>
 </ol>
 <pre><code>char *GetMemory(void)
@@ -315,7 +319,7 @@ Test 函数中的 str 一直都是 NULL。strcpy(str, &quot;hello world&quot;);�
 </code></pre>
 <p>请问运行Test 函数会有什么样的结果？<br>
 <strong>答：可能是乱码;因为GetMemory 返回的是指向“栈内存”的指针，该指针的地址不是 NULL，但其原现的内容已经被清除，新内容不可知。</strong></p>
-<ol>
+<ol start="4">
 <li></li>
 </ol>
 <pre><code>  void GetMemory2(char **p, int num)
@@ -332,7 +336,7 @@ Test 函数中的 str 一直都是 NULL。strcpy(str, &quot;hello world&quot;);�
 </code></pre>
 <p>请问运行Test 函数会有什么样的结果？<br>
 **答：能够输出hello，但内存泄漏 **</p>
-<ol start="2">
+<ol start="5">
 <li></li>
 </ol>
 <pre><code>   # include &lt;string.h&gt;
