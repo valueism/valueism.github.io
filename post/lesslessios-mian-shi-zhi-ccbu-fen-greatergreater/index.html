@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618022212765">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618033296402">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -26,9 +26,7 @@
 iOS面试之C/C++部分
 https://edu.51cto.com/course/2306.html
 
-虽说这门课是针对iOS面试，但知识点都是C/C++上的，尤其是对难点（指针等）讲的比较深入透彻，非常值得一看。
-1. 指针
-上来几..." />
+虽说这门课是针对iOS面试，但知识点都是C/C++上的。里面有些内容讲的挺好，尤其是前几节对指针的讲解、最后一节关于函数参数以及二..." />
     <meta name="keywords" content="C++专项知识点" />
   </head>
   <body>
@@ -38,7 +36,7 @@ https://edu.51cto.com/course/2306.html
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1618022212765" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1618033296402" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -114,7 +112,7 @@ https://edu.51cto.com/course/2306.html
 <p>iOS面试之C/C++部分<br>
 https://edu.51cto.com/course/2306.html</p>
 </blockquote>
-<p>虽说这门课是针对iOS面试，但知识点都是C/C++上的，尤其是对难点（指针等）讲的比较深入透彻，非常值得一看。</p>
+<p>虽说这门课是针对iOS面试，但知识点都是C/C++上的。里面有些内容讲的挺好，尤其是前几节对指针的讲解、最后一节关于函数参数以及二级指针的内容。个人认为这两块比较深入透彻，非常值得一看，其他地方相对比较一般，是比较基础、简单的内容。</p>
 <h1 id="1-指针">1. 指针</h1>
 <p>上来几个问题:<br>
 1.你是如何理解指针的？<br>
@@ -233,8 +231,54 @@ delete p;
 const Person person;  //const对象
 //p-&gt;print();  错误，即使成员函数不修改数据成员（实例变量）的值，也不能调用
 </code></pre>
-<p>const对象/const对象指针只能调用const成员函数。<br>
-例如void print()const { ... };</p>
+<p>一般的对象默认调用非const成员函数，但如果该对象被const修饰，那么它将调用const成员函数。<br>
+<strong>const对象/const对象指针只能调用const成员函数</strong>，例如<br>
+const Word word; //默认会调用下面的const成员函数<br>
+void print()const { ... };</p>
+<pre><code>Word word; //默认会调用下面的非常量成员函数
+void print() { ... };
+</code></pre>
+<h1 id="3多态">3.多态</h1>
+<h2 id="a-虚函数">a. 虚函数</h2>
+<p>派生类Worker、Student均对基类Person（有一个run的成员函数）进行继承，同时用父类指针指向子类对象：<br>
+Person q = new Worker();<br>
+q-&gt;run(); //调用Person的run函数，<br>
+<strong>默认情况下，上面的代码将会调用基类的函数</strong>，即使这种做法的意图是调用派生类函数。这种情况叫做“对象的行为不符合对象的真实身份”。<br>
+但如果基类定义的run函数是<strong>虚函数</strong>、且派生类均对run进行了重载，下面的代码将会调用子类的对应方法：<br>
+Person p = new Student();<br>
+Person q = new Worker();<br>
+p-&gt;run(); //调用Student的run函数<br>
+q-&gt;run(); //调用Worker的run函数<br>
+这样，<strong>统一通过基类的指针，就可以访问不同的派生类的虚函数</strong>。<br>
+但是在<strong>OC里面，所有函数都是虚函数</strong>，可以直接覆盖，实现多态。并且OC中默认继承的数据成员受保护，不能被直接访问。</p>
+<h2 id="b-基类和派生类构造顺序">b. 基类和派生类构造顺序</h2>
+<p>一般情况下，父类指针指向父类对象、子类指针指向子类对象时：<br>
+构造顺序：先生成父类对象、调用父类的构造函数，再生成子类对象、调用子类的构造函数。（编译器隐式在子类的构造函数处添加了父类构造的参数列表）<br>
+析构顺序：先调用子类析构，再调用父类析构。</p>
+<p>但<strong>如果是父类指针指向子类对象</strong>，调用顺序为：父类构造、子类构造、父类析构，<strong>不会对子类进行析构</strong>。<br>
+为了解决这种问题，需要<strong>将父类的析构函数声明为虚函数</strong>，这样子类析构也是虚函数，就会先调用父类析构函数再调用子类析构函数。</p>
+<h1 id="4-函数参数">4. 函数参数</h1>
+<p>函数只能有一个返回值，但有的时候需要根据函数的运算得到多个变量。可以通过函数的参数实现，将输入的变量和输出的变量统一作为参数传入（但输出的变量应该传入指针或引用），最后还可以返回一个返回值。<strong>也就是说，参数可以分为输入参数和输出参数，其中输出参数必须传递指针或者引用。</strong></p>
+<h1 id="5-二级指针">5. 二级指针</h1>
+<p>当想要通过一个函数申请对象的内存空间，并返回申请空间的地址时，通过传递指针参数不能完成这样的功能：</p>
+<pre><code>void fun(Person *p){
+    p = new Person();
+}
+
+Person *p = NULL;
+fun(p);  
+</code></pre>
+<p>最终运行完fun(p)之后，p仍然是空指针。这是因为<strong>函数传递的形参永远是实参的一份拷贝</strong>，fun函数中的参数p确实指向了存有Person对象的一块内存空间，但这个p和外部的实参p是两个指针变量，它们在函数运行刚开始时仅仅是内容相同（两个指向同一个地址的指针），后来改变了形参p指向的空间，却不对另一个指针造成影响。<br>
+为了实现相应的功能，必须要使用二级指针才可以。重写代码如下：</p>
+<pre><code>void fun(Person **p){
+    *p = new Person();
+}
+Person *p = NULL;
+fun(p);
+</code></pre>
+<p>这样的方式的含义是：将申请到的内存空间的地址，保存到二级指针p指向的内存空间。也就是说，这个二级指针指向的空间保存的内容（二级指针指向的地址里面存放的东西）是申请的Person的空间。这个二级指针参数中保存的内容是外部实参指针p的地址，通过修改二级指针指向地址的值（修改*p，p是形参），也就修改了实参指针p保存的值（等同于修改了实参指针p指向的地址）。如果看不懂，那么把指针当成一个普通的变量，二级指针则是指向这个变量的普通指针，然后思考。</p>
+<p>也就是说：<strong>函数参数传递永远是值拷贝，要想修改某个变量（该变量可能是指针）的值，只能传递该变量的指针（或引用）</strong>。<br>
+这样会生成一个指向该变量的指针，通过改变该指针指向的内存空间里的内容的方式改变该变量。如果想修改的变量是普通类型，那么传递一级指针；如果想修改一级指针的值，那么传递二级指针；想修改二级指针的值，就传递三级指针……等等。当然也可以使用引用的方式（虽然系统内部还是用了指针）。</p>
 
             </div>
             
