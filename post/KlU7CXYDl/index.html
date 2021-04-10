@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1617980881333">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618020968621">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -41,7 +41,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1617980881333" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1618020968621" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -142,8 +142,15 @@
 <p>实现深拷贝，需要在<strong>拷贝构造</strong>、<strong>赋值运算符重载</strong>时，主动复制指针指向的内存空间。此外，还需要在析构函数中考虑到将这块内存释放，防止发生内存泄露。<br>
 如果要兼顾深拷贝和浅拷贝的优点，有两种方法：一是采用引用计数，当没有指针指向该内存时才进行内存销毁（类似智能指针）；其次是C++新标准的move方法（智能指针中也有类似的实现），指针b直接拿来使用指针a指向的空间，相当于所有权的转让。</p>
 <h1 id="3-虚函数">3. 虚函数</h1>
-<p>面向对象编程中，涉及继承时往往需要在基类中定义虚函数。<br>
-如下代码，定义了一个抽象的基类Shape，然后两个具体的形状类Square和Circle均继承了Shape类。</p>
+<h3 id="继承">继承</h3>
+<ul>
+<li>派生类必须通过使用<strong>类派生列表</strong>明确指出它是从哪个（哪些）基类继承而来的。（即在类名后加上冒号，后跟以逗号分割的基类列表）。</li>
+<li>如果<strong>不希望一个类（成员函数）被继承（覆盖）</strong>，需要在类名（函数声明的最后）后添加<strong>final</strong>关键字。</li>
+<li>可以<strong>指定派生类中一个成员函数是对基类中成员函数的覆盖</strong>，在const、引用限定符后显式注明<strong>override</strong>。</li>
+<li>关于访问限定符，派生类不能使用基类<strong>private</strong>的成员，但可以使用<strong>protected</strong>成员，无论是谁都可以用<strong>public</strong>成员。</li>
+<li><strong>友元函数</strong>可以访问该类<strong>private</strong>的成员，但友元<strong>不能被传递、不能被继承</strong>。</li>
+</ul>
+<p>如下代码，定义了一个抽象的基类Shape，然后两个具体的形状类Square和Circle均继承了Shape类。</p>
 <pre><code>// 抽象类
 class Shape
 {
@@ -214,14 +221,29 @@ private:
 	return 0;
 }
 </code></pre>
-<h2 id="1-虚函数的作用">1. 虚函数的作用</h2>
-<p>如果基类有虚函数， 这样运行的时候，就可以通过<strong>基类指针指向派生类对象</strong>，同时根据不同的派生类对象调用相应的派生类成员函数，也就是多态。<br>
-**多态：C++ 多态意味着调用成员函数时，会根据调用函数的对象的类型来执行不同的函数。**这些不同的对象执行的都是继承自基类的虚函数。</p>
+<h2 id="1-虚函数和多态">1. 虚函数和多态</h2>
+<h3 id="虚函数">虚函数</h3>
+<blockquote>
+<p>对于某些函数，基类希望它的派生类各自定义适合自己的版本，此时基类就将这些函数声明为虚函数。  （《C++Primer》P.526）</p>
+</blockquote>
+<p>如果基类有虚函数， 这样运行的时候，就可以（只）允许<strong>基类指针/引用指向派生类对象</strong>（为什么可以这样？因为派生类中含有从基类继承的所有内容），同时可以调用相应的派生类成员函数，也就是实现多态（这种是运行时多态，也叫做动态绑定、运行时绑定）。<strong>任何构造函数之外的非静态函数都可以是虚函数</strong>，但仅限于类内成员函数。</p>
+<blockquote>
+<p>C++语言中，当且仅当我们使用一个基类的指针（或引用）调用一个虚函数时将发生动态绑定。</p>
+</blockquote>
+<h3 id="多态">多态</h3>
+<p><strong>多态：C++ 多态意味着调用成员函数时，会根据调用函数的对象的类型来执行不同的函数</strong>。多态分为编译时多态（静态多态）和运行时多态（动态多态）。编译时多态通过重载函数实现，运行时多态通过虚函数实现。<br>
+如果不希望动态绑定，也可以通过作用域运算符强迫执行某个特定的虚函数。例如：<br>
+shapes[0]-&gt;Shape::Display();</p>
+<h3 id="纯虚函数">纯虚函数</h3>
+<p>此外，上面的代码通过virtual function() = 0;的方式定义了基类的<strong>纯虚函数</strong>。含有纯虚函数的类是<strong>抽象基类</strong>，而抽象基类不能被实例化生成对象。因此上面不能声明一个Shape对象。<br>
+抽象基类的作用是声明一个接口，其派生类必须对这个接口进行具体实现。</p>
 <blockquote>
 <p>C++多态（知乎）<br>
 https://zhuanlan.zhihu.com/p/37340242<br>
 C++多态（菜鸟教程）<br>
-https://www.runoob.com/cplusplus/cpp-polymorphism.html</p>
+https://www.runoob.com/cplusplus/cpp-polymorphism.html<br>
+虚函数与纯虚函数<br>
+https://blog.csdn.net/JerryGou/article/details/79051547</p>
 </blockquote>
 <h2 id="2-对象的大小">2. 对象的大小</h2>
 <p>虽然Square类的s1对象中数据成员只有一个double，但输出的s1对象的大小为16。<br>
