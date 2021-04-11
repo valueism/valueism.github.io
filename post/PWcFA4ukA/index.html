@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>7-5 Tree Traversals Again | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618143473304">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+7-5 Tree Traversals Again
+https://pintia.cn/problem-sets/16/problems/667
+
+思路
+这道题乍看有点奇怪，感觉堆栈弹出的数字顺序比较特殊，在纸上写写画画，然后发现这是树的..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1618143473304" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Kick ass!
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">7-5 Tree Traversals Again</h2>
+            <div class="post-date">2021-04-11</div>
+            
+            <div class="post-content" v-pre>
+              <blockquote>
+<p>7-5 Tree Traversals Again<br>
+https://pintia.cn/problem-sets/16/problems/667</p>
+</blockquote>
+<h1 id="思路">思路</h1>
+<p>这道题乍看有点奇怪，感觉堆栈弹出的数字顺序比较特殊，在纸上写写画画，然后发现这是树的中序遍历。因为题目中讲“Then a unique binary tree (shown in Figure 1) can be generated from this sequence of operations”但是只有前序中序后序中的一种是不能唯一确定一棵二叉树的，至少需要两种才可以，并且题目要求输出树的后序遍历，所以大胆猜测可能堆栈的这些操作隐含了另一个次序（也就是前序）的遍历，仔细看入栈顺序，发现原来入栈顺序是前序遍历。<br>
+后面就很好办了，根据处理得到的前序遍历和中序遍历，对这棵二叉树进行重建，然后进行后序遍历就可以得到结果。</p>
+<h1 id="注意">注意</h1>
+<p>写代码应该细心，尤其是根据前序、中序重建二叉树的部分。首先是考虑到边界条件，即返回叶子节点的情况；其次要仔细考虑递归的调用，也就是从本次的前序、中序遍历结果分别推导出左右子树的前序、中序遍历结果，并将其作为递归调用的参数。<br>
+我在写重建二叉树时，不仅排查了半天bug，然后发现右子树的递归调用结果也赋值给了左子树（因为这行代码是从左子树赋值那里复制过来的，忘了改），而且后面发现右子树的递归调用还写错了一点。（🤡竟是我自己😅）</p>
+<h1 id="代码">代码</h1>
+<pre><code>#include &lt;string&gt;
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;stack&gt;
+using namespace std;
+
+using  node  = struct Node;
+using tree = node * ;
+struct Node
+{
+	int data;
+	tree left;
+	tree right;
+};
+
+void read(vector&lt;int&gt;&amp; pre, vector&lt;int&gt;&amp; in) {
+	stack&lt;int&gt; stk;
+	int n, m;
+	cin &gt;&gt; n;
+	m = n * 2;
+	while (m--)
+	{
+		string str;//&quot;Push&quot; or &quot;Pop&quot;
+		cin &gt;&gt; str;
+		if (str==&quot;Push&quot;)
+		{
+			int a;
+			cin &gt;&gt; a;
+			pre.push_back(a);
+			stk.push(a);
+		}
+		if (str==&quot;Pop&quot;)
+		{
+			int p = stk.top();
+			stk.pop();
+			in.push_back(p);
+		}
+
+	}
+
+}
+
+tree create(const vector&lt;int&gt;::iterator pre, const  vector&lt;int&gt;::iterator in, int size) {
+	if (size==0)
+	{
+		return NULL;
+	}
+	else if (size==1)
+	{
+		tree T = new node;
+		T-&gt;data = *pre;
+		T-&gt;left = NULL;
+		T-&gt;right = NULL;
+		return T;
+	}
+
+	tree T = new node;
+	int root = *pre;
+	auto it = find(in, in+size, root);
+	if (it == in + size)
+	{
+	    throw exception(&quot;not find&quot;);//正常情况下是不应该找不到的，可以根据异常排查错误
+	}
+	else
+	{
+		T-&gt;data = root;
+		int newSize = it - in; //根节点到中序第一个节点的位置，获得左子树的节点数
+		T-&gt;left = create(pre+1,in,newSize );
+		T-&gt;right = create(pre+newSize+1, it+1, size -newSize-1);
+	}
+	
+	return T;
+}
+
+
+bool first =1;
+void printPostOrder(tree T) {
+	if (T==NULL)
+	{
+		return;
+	}
+	if (T-&gt;left)
+		printPostOrder(T-&gt;left);
+	if (T-&gt;right)
+		printPostOrder(T-&gt;right);
+	if (!first)
+	{
+		cout &lt;&lt; &quot; &quot;;
+	}
+	else
+	{
+		first = 0;
+	}
+	cout &lt;&lt; T-&gt;data;
+
+}
+
+int main()
+{
+	vector&lt;int&gt; preOrder;
+	vector&lt;int&gt; inOrder;
+	
+	read(preOrder, inOrder);
+
+	tree T = create(preOrder.begin(), inOrder.begin(), preOrder.size());
+	printPostOrder(T);
+
+	return 0;
+}
+</code></pre>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/oGro-6r6A/">
+                  <h3 class="post-title">
+                    7-4 List Leaves
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
