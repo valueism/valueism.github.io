@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>《证券投资学》估值方法 | 菠萝屋</title>
+<title>7-4 List Leaves | 菠萝屋</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -22,15 +22,12 @@
 
 
 
-    <meta name="description" content="绝对估值和相对估值
+    <meta name="description" content="
+7-4 List Leaves
+https://pintia.cn/problem-sets/16/problems/666
 
-绝对估值法：现金流贴现法。
-准确程度取决于：现金流是否可靠、预期股息、折现率、卖出价格。
-相对估值法：P/E估值法、P/B估值法等。
-应当和相同行业的资产状况相比，隔行如隔山，不同行业的估值也不相同。
-
-
-并且，估值时..." />
+这道题就是根据给定的数据建立一棵树，然后从上到下、从左到右输出这棵树的叶子节点，属于基础题。
+如果做过树的一些..." />
     <meta name="keywords" content="" />
   </head>
   <body>
@@ -108,39 +105,143 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">《证券投资学》估值方法</h2>
-            <div class="post-date">2021-02-27</div>
+            <h2 class="post-title">7-4 List Leaves</h2>
+            <div class="post-date">2021-04-11</div>
             
             <div class="post-content" v-pre>
-              <h1 id="绝对估值和相对估值">绝对估值和相对估值</h1>
-<ul>
-<li>绝对估值法：现金流贴现法。<br>
-准确程度取决于：现金流是否可靠、预期股息、折现率、卖出价格。</li>
-<li>相对估值法：P/E估值法、P/B估值法等。<br>
-应当和相同行业的资产状况相比，隔行如隔山，不同行业的估值也不相同。</li>
-</ul>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210227174640.png" alt="" loading="lazy"></figure>
-<p>并且，估值时应当综合考虑到基本面（宏观环境、行业前景、公司护城河），并且通过技术分析把握合适的入场时机。</p>
-<h1 id="价值分析和技术分析都需要估值">价值分析和技术分析都需要估值：</h1>
-<ul>
-<li>价值派估值，判断股票是否值得买。</li>
-<li>技术派估值，判断股票趋势是否和价值相符，能否买。（应当以价值分析为主，如果高估，即使做涨形态也不能买）</li>
-</ul>
-<h1 id="估值的不靠谱">估值的不靠谱：</h1>
-<p>先入为主：家人朋友介绍、媒体告知、名字好听；<br>
-爱屋及乌：只用好消息、不用坏消息；只用好数据，不用差数据；<br>
-分析师推荐：股票分析师为了不得罪人，影响要数据影响工作，经常荐股，很少差评。<br>
-迷信复杂模型。</p>
-<p>要注意自己的能力圈，不做看不懂的交易，大道至简。</p>
+              <blockquote>
+<p>7-4 List Leaves<br>
+https://pintia.cn/problem-sets/16/problems/666</p>
+</blockquote>
+<p>这道题就是根据给定的数据建立一棵树，然后从上到下、从左到右输出这棵树的叶子节点，属于基础题。<br>
+如果做过树的一些题，这道题的“种树”（构建树）应该会很简单：只需要按顺序建立一个结构体数组，在每个结构体中保存左右节点的下标。同时看哪一个节点没有被输入过，即是树的根节点（输入的节点是不同节点的孩子节点，只有根节点没有父节点）。<br>
+后面也很简单，只需要找出所有叶子节点，然后根据题目“in the order of top down, and left to right”的要求使用BFS，遍历过程中按顺序输出这些叶子节点即可。</p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+using namespace std;
+
+using  node  = struct Node;
+using tree = node * ;
+struct Node
+{
+	int left;
+	int right;
+};
+
+int root = -1;
+vector&lt;int&gt; leaf;
+
+vector&lt;tree&gt; create() {
+	int n;
+	cin &gt;&gt; n;
+	vector&lt;tree&gt; nodes;
+	vector&lt;int&gt; isRoot;
+	for (auto i = 0; i &lt; n; i++)
+		isRoot.push_back(1);
+
+	for (auto i = 0; i &lt; n; i++) {
+		char a, b;
+		int left, right;
+		cin &gt;&gt; a &gt;&gt; b;
+
+		if (a == '-')
+			left = -1;
+		else {
+			left = a - '0';
+			isRoot[left] = 0;
+		}
+		if (b=='-')
+			right = -1;
+		else {
+			right = b - '0';
+			isRoot[right] = 0;
+		}
+		if (a=='-'&amp;&amp; b=='-')
+		{
+			leaf.push_back(i);
+		}
+
+		tree temp = new node;
+		temp-&gt;left = left;
+		temp-&gt;right = right;
+		nodes.push_back(temp);
+	}
+
+	for (auto i = 0; i &lt; n; i++)
+	{
+		if (isRoot[i] == 1)
+		{
+			root = i;
+			break;
+		}
+	}
+	return nodes;
+}
+
+void BFS(vector&lt;tree&gt; nodes) {
+	queue&lt;int&gt; que;
+	que.push(root);
+	bool first = 1;
+	while (!que.empty())
+	{
+		//弹出
+		int f = que.front();
+		que.pop();
+
+		//处理
+		for (auto x:leaf)
+		{
+			if (x == f)
+			{
+				if (!first)
+				{
+					cout &lt;&lt; &quot; &quot;;
+				}
+				else
+				{
+					first = 0;
+				}
+				cout &lt;&lt; x;
+				break;
+			}
+		}
+
+		//将左右节点加入队列
+		if (-1 != nodes[f]-&gt;left)
+		{
+			que.push(nodes[f]-&gt;left);
+
+		}
+		if (-1 != nodes[f]-&gt;right)
+		{
+			que.push(nodes[f]-&gt;right);
+
+		}
+	}
+
+
+
+}
+
+
+int main()
+{
+	vector&lt;tree&gt; nodes = create();
+	BFS(nodes);
+
+	return 0;
+}
+</code></pre>
 
             </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://444494.xyz/post/5-ji-shu-fen-xi/">
+                <a href="https://444494.xyz/post/pMQ4f0iV9/">
                   <h3 class="post-title">
-                    《证券投资学》5. 证券技术分析
+                    7-52 两个有序链表序列的交集
                   </h3>
                 </a>
               </div>
