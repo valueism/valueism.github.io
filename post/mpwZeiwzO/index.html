@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618119933176">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618120762656">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1618119933176" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1618120762656" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -111,7 +111,19 @@
 <h1 id="1-单例模式">1. 单例模式：</h1>
 <p>单例模式特点是系统中该实例有且只有一个，并且其创建不被用户控制，用户需要使用时直接对唯一的实例进行唤醒。<br>
 例如：windows资源管理器、系统日志（日志只由一个程序读写，避免造成丢失等问题）。</p>
-<p>根据上面的描述，从“创建不被用户控制”可知：实例的<strong>构造函数、事例对象需要是private</strong>的。那么如何在不能声明一个对象的情况下完成对对象的创建呢？这就需要该<strong>实例对象是static</strong>的，同时static还可以使得饿汉方式中实例对象永远存在（类似资源管理器，从开机到关机一直在后台运行）并且不用手动管理资源分配、释放；“用户需要使用时直接对唯一的实例进行唤醒”意味着需要<strong>实现一个专门用于返回实例的public方法</strong>，并且由于单例类不能被用户创建，<strong>这个方法只能是static</strong>的（否则没有对象可以调用这个方法）。</p>
+<p>根据上面的描述，从“创建不被用户控制”可知：实例的<strong>构造函数、事例对象需要是private</strong>的。那么如何在不能声明一个对象的情况下完成对对象的创建呢？这就需要该<strong>实例对象是static</strong>的，使用static不用手动管理资源分配、释放，还可以使得饿汉方式中实例对象永远存在（类似资源管理器，从开机到关机一直在后台运行）；“用户需要使用时直接对唯一的实例进行唤醒”意味着需要<strong>实现一个专门用于返回实例的public方法</strong>，并且由于单例类不能被用户创建，<strong>这个方法只能是static</strong>的（否则没有对象可以调用这个方法）。</p>
+<h2 id="思路">思路：</h2>
+<p>在singleTon类中有如下成员：</p>
+<ul>
+<li>singleTon类型的指针This，静态私有数据成员（唯一的数据成员）；<br>
+This指针表示该单例模式的对象，只能存在一个。</li>
+<li>getInstance()，返回This指针，静态公有函数成员；<br>
+获取单例模式的对象，表示用户对单例模式对象的唤醒。</li>
+<li>doSomething()，无返回值，静态公有函数成员；<br>
+单例对象直接调用的方法，表示用户要求单例对象完成的某些功能。</li>
+<li>私有构造和析构函数。</li>
+</ul>
+<h2 id="代码">代码</h2>
 <p>下面的代码均省略头文件、宏定义等。<br>
 singleTon.h部分代码：</p>
 <pre><code>class singleTon
@@ -131,8 +143,8 @@ private:
 };
 </code></pre>
 <p>singleTon.cpp</p>
-<pre><code>singleTon* singleTon::This = NULL;
-
+<pre><code>singleTon* singleTon::This = NULL;//如果不写这一句，将会出错，提示无法解析的外部命令
+//singleTon* singleTon::This = new singleTon; //也可以写成这样，表示单例对象在类创建时就存在，这就是饿汉模式
 const singleTon* singleTon::getInstance() {
 	if (This == NULL)
 	{
