@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>7-3 Pop Sequence | 菠萝屋</title>
+<title>7-52 两个有序链表序列的交集 | 菠萝屋</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -23,11 +23,11 @@
 
 
     <meta name="description" content="
-7-3 Pop Sequence
-https://pintia.cn/problem-sets/16/problems/665
+7-52 两个有序链表序列的交集
+https://pintia.cn/problem-sets/15/problems/2999
 
-第一遍做时，为了比较严谨好看，把栈做成了内存动态分配+结构体的形式，类似的还有一个pop序列和对应指针等变量..." />
-    <meta name="keywords" content="C数据结构" />
+这道题思路很简单，从一个链表（循环的内层）中多次搜索另一个链表（循环的外层）里面的数字。不过经过了简单的优..." />
+    <meta name="keywords" content="" />
   </head>
   <body>
     <div id="app" class="main">
@@ -104,109 +104,125 @@ https://pintia.cn/problem-sets/16/problems/665
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">7-3 Pop Sequence</h2>
-            <div class="post-date">2021-03-04</div>
+            <h2 class="post-title">7-52 两个有序链表序列的交集</h2>
+            <div class="post-date">2021-04-11</div>
             
             <div class="post-content" v-pre>
               <blockquote>
-<p>7-3 Pop Sequence<br>
-https://pintia.cn/problem-sets/16/problems/665</p>
+<p>7-52 两个有序链表序列的交集<br>
+https://pintia.cn/problem-sets/15/problems/2999</p>
 </blockquote>
-<p>第一遍做时，为了比较严谨好看，把栈做成了内存动态分配+结构体的形式，类似的还有一个pop序列和对应指针等变量，结果把我给搞晕了，中间有个样例会溢出导致异常，头昏脑胀半天没找出bug。<br>
-后来直接重构了代码，栈和pop序列都用了简单的int数组，并且第二遍做的时候思路也更清晰了一点，比较快做完了。</p>
-<p>思路比较简单：按照1，2，3，......，n的顺序不断push进栈中，每次push完检测栈顶元素是否和当前pop序列中元素相等（相等就说明该序列是可行的），如果是，就不断pop弹出，然后继续push进栈。这个过程中如果栈满了，那么直接跳出循环。<br>
-循环结束后，检测栈和pop序列是否为空，如果是，说明这个序列是一个可能的栈弹出序列（&quot;is a possible pop sequence of the stack.&quot;），输出&quot;YES&quot;。反之如果还有元素，说明不能该序列是不可能的，输出&quot;NO&quot;。</p>
-<p>出错点：</p>
-<ol>
-<li>栈顶元素可能连续多个和pop序列中元素相等，因此应当用while循环检测是否相等（而不是if语句）。每次相等时，pop指针+1，栈指针-1。</li>
-<li>k个循环每个循环都是独立的、全新的，因此都要重新初始化pop序列和栈。</li>
-</ol>
-<br/>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;string.h&gt;
-#include&lt;stdlib.h&gt;
+<p>这道题思路很简单，从一个链表（循环的内层）中多次搜索另一个链表（循环的外层）里面的数字。不过经过了简单的优化：因为链表有序，因此每次找到后记录内层被查找链表的位置，这样可以不用每次都从头开始搜索。<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210411163622.png" alt="" loading="lazy"><br>
+优化前大规模数据大概是400ms，优化后300+ms。<br>
+但是一直找不到大规模数据这组样例哪里错了……以后有时间了再找下。</p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+using namespace std;
 
-int stack[1003], stackNow = -1;
+typedef long long unsigned int  ElementType;
+typedef struct Node *PtrToNode;
+struct Node {
+	ElementType data;
+	PtrToNode   next;
+};
+typedef PtrToNode List;
 
-int size() {
-	return stackNow + 1;
-}
-
-int top() {
-	if (size() &gt; 0) //如果不为空
-	{
-		return stack[stackNow];
+inline List read(void) {
+	long long unsigned int X;
+	List L = NULL, now = L;
+	while ((cin &gt;&gt; X) &amp;&amp; X != -1) {
+		List tmp = (List)malloc(sizeof(struct Node));
+		tmp-&gt;data = X;
+		tmp-&gt;next = NULL;
+		if (now == NULL) {
+			L = tmp;
+			now = tmp;
+		}
+		else {
+			now-&gt;next = tmp;
+			now = tmp;
+		}
 	}
-	else
-		return -1;
+	return L;
+}
+inline void print(List L) {
+	if (L == NULL) {
+		cout &lt;&lt; &quot;NULL&quot; &lt;&lt; endl;
+		return;
+	}
+	while (L-&gt;next) {
+		cout &lt;&lt; L-&gt;data&lt;&lt; &quot; &quot; ;
+		L = L-&gt;next;
+	}
+	cout &lt;&lt; L-&gt;data &lt;&lt; endl;
+
+	return;
 }
 
-void pop() {
-	if (size() &gt; 0)
-		--stackNow;
+List intersectionList(List L1,List L2) {
+	List inter = NULL, internow = NULL;
+	List L2begin = L2;
+	for (auto now1 = L1; now1; now1 =now1-&gt;next )
+	{
+		long long unsigned int  data1 = now1-&gt;data;
+		//cout &lt;&lt; data1 &lt;&lt; &quot;:&quot;;
+		for (auto now2 = L2begin; now2 &amp;&amp; now2-&gt;data &lt;= data1; now2 = now2-&gt;next)
+		{
+			long long unsigned int  data2 = now2-&gt;data;
+			//cout &lt;&lt; data2 &lt;&lt;&quot; &quot;;
+
+			if (data1 == data2)
+			{
+
+				if (inter== NULL)
+				{
+					inter = (List)malloc(sizeof(struct Node));
+					inter-&gt;data = data1;
+					inter-&gt;next = NULL;
+					internow = inter;
+				}
+				else
+				{
+					List tmp = (List)malloc(sizeof(struct Node));;
+					tmp-&gt;data = data1;
+					tmp-&gt;next = NULL;
+					internow-&gt;next = tmp;
+					internow = internow-&gt;next;
+				}
+				L2begin = now2;
+				break;
+			}
+		}
+		//cout &lt;&lt; endl;
+	}
+
+	return inter;
 }
-
-void push(int a) {
-	stack[++stackNow] = a;
-}
-
-
 
 int main()
 {
-	int m, n, k;
-	int seq[1003], seqNow = 0;  //存放序列
-	scanf(&quot;%d %d %d&quot;, &amp;m, &amp;n, &amp;k);// 5 7 5
+	List L1 = read();
+	List L2 = read();
+	List inter = intersectionList(L1,L2);
 
-	while (k--)
-	{
-		seqNow = 0; stackNow = -1;
-		for (int i = 0; i &lt; n; i++)
-			scanf(&quot;%d&quot;, &amp;seq[i]);
-		
+	print(inter);
 
-		int num = 1;//将要放入的数字
-		while (num&lt;(n + 1))
-		{
-			stack[++stackNow] = num++;
 
-			if (size() &gt;m)
-				break;
 
-			while (size()&gt;0 &amp;&amp; seq[seqNow] == top())
-			{
-				seqNow++;
-				pop();
-			}
-
-		}
-		if (num== (n + 1) &amp;&amp;size()== 0)
-			printf(&quot;YES\n&quot;);
-		else
-			printf(&quot;NO\n&quot;);
-	}
 	return 0;
 }
-
-
 </code></pre>
 
             </div>
             
-              <div class="tag-container">
-                
-                  <a href="https://444494.xyz/tag/MSy8INJ59/" class="tag">
-                    C数据结构
-                  </a>
-                
-              </div>
-            
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://444494.xyz/post/7-2-yi-yuan-duo-xiang-shi-de-cheng-fa-yu-jia-fa-yun-suan/">
+                <a href="https://444494.xyz/post/hyw0l4D11/">
                   <h3 class="post-title">
-                    7-2 一元多项式的乘法与加法运算
+                    6-1 单链表逆转
                   </h3>
                 </a>
               </div>
