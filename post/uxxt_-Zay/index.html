@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618149577572">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618149896551">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -37,7 +37,7 @@ https://pintia.cn/problem-sets/15/problems/712
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1618149577572" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1618149896551" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -130,7 +130,11 @@ https://www.icourse163.org/learn/ZJU-93001?tid=1461682474#/learn/content?type=de
 <img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210411214055.png" alt="" loading="lazy"></p>
 <center>二叉搜索树查找-非递归方式</center>
 <h2 id="二叉搜索树的插入">二叉搜索树的插入</h2>
-<p>上面为什么要讲这么多二叉搜索树的查找操作呢？因为二叉搜索树的查找和插入非常相似。原理就是在找到合适的位置（找合适的插入位置的过程相当于在树中找被插入节点的数值）之后插入即可。不同的是<strong>插入涉及到了数据的传递，因此插入函数一定要返回插入完成后的节点，这样才可以在上级的函数中更新插入后的节点</strong>，代码如T-&gt;right = insert(T-&gt;right, a)。<font color=red>为什么不能通过函数参数完成对子树的更新？因为函数参数为实参指针的一份拷贝 ，要想实现修改，需要递归调用的函数中传递二级指针。</font >《iOS面试之C/C++部分》中的“二级指针”部分有讲到。</p>
+<p>上面为什么要讲这么多二叉搜索树的查找操作呢？因为二叉搜索树的查找和插入非常相似。原理就是在找到合适的位置（找合适的插入位置的过程相当于在树中找被插入节点的数值）之后插入即可。不同的是<strong>插入涉及到了数据的传递，因此插入函数一定要返回插入完成后的节点，这样才可以在上级的函数中更新插入后的节点</strong>，代码如T-&gt;right = insert(T-&gt;right, a)。<font color=red>为什么不能通过函数参数完成对子树的更新？因为函数参数为实参指针的一份拷贝 ，要想实现修改，需要递归调用的函数中传递二级指针。</font >《iOS面试之C/C++部分》中的“二级指针”部分有讲到。<br>
+创建一个二叉搜索树也等同于将各个节点逐渐插入到一棵空树。<br>
+<br><br>
+最后，根据给定的和需要判定的二叉搜索树分别“种树”，然后进行对比即可。对比的方法有很多，由于一棵树可以唯一对应一个BFS遍历的序列，所以我通过对比BFS遍历结果组成的字符串判断两棵树是否相等。</p>
+<h1 id="代码">代码</h1>
 <pre><code>#include &lt;string&gt;
 #include &lt;iostream&gt;
 #include &lt;queue&gt;
