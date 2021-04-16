@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" >
 
-<title>《重学C++》9. C++进阶编程 | 菠萝屋</title>
+<title>《重学C++》9. C++进阶编程（一）——容器、仿函数、算法 | 菠萝屋</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618547957986">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618564673853">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1618547957986" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1618564673853" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -113,7 +113,7 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">《重学C++》9. C++进阶编程</h2>
+            <h2 class="post-title">《重学C++》9. C++进阶编程（一）——容器、仿函数、算法</h2>
             <div class="post-date">2021-04-16</div>
             
             <div class="post-content" v-pre>
@@ -233,6 +233,15 @@ cout &lt;&lt; search(arr, arr + sizeof(arr) / sizeof(arr[0]), arr2,arr2+4);//输
 http://www.cplusplus.com/reference/algorithm/binary_search/?kw=binary_search<br>
 std::search<br>
 http://www.cplusplus.com/reference/algorithm/search/?kw=search</p>
+</blockquote>
+<h2 id="next_permutation函数和prev_permutation函数">next_permutation函数和prev_permutation函数</h2>
+<p>next_permutation：将range [first,last)中的元素重新排列为下一个更大的序列。<br>
+prev_permutation：将range [first,last)中的元素重新排列为上一个序列。<br>
+（要想输出全排列，需要用循环输出每一个下个序列）<br>
+需要注意：**next和prev分别要求序列中的元素递增和递减排列。**使用STL库一定要学习正确的使用方法。</p>
+<blockquote>
+<p>next_permutation<br>
+http://www.cplusplus.com/reference/algorithm/next_permutation/?kw=next_permutation</p>
 </blockquote>
 
             </div>

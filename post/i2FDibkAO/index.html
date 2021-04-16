@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>《重学C++》9. C++进阶编程（二）——迭代器、容器适配器、空间配置器 | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618564673853">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="迭代器（iterator）
+类似于关联容器，迭代器根据两个维度——指向的元素可变（const）和逆序——被分为四种迭代器。
+
+正向迭代器    iterator
+常量正向迭代器    const_iterator
+反向迭代器    reve..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1618564673853" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Kick ass!
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">《重学C++》9. C++进阶编程（二）——迭代器、容器适配器、空间配置器</h2>
+            <div class="post-date">2021-04-16</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="迭代器iterator">迭代器（iterator）</h1>
+<p>类似于关联容器，迭代器根据两个维度——<strong>指向的元素可变（const）<strong>和</strong>逆序</strong>——被分为四种迭代器。</p>
+<ul>
+<li>正向迭代器    iterator</li>
+<li>常量正向迭代器    const_iterator</li>
+<li>反向迭代器    reverse_iterator</li>
+<li>常量反向迭代器    const_reverse_iterator</li>
+</ul>
+<p>容器对迭代器的支持：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">容器</th>
+<th style="text-align:center">迭代器功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">vector</td>
+<td style="text-align:center">随机访问</td>
+</tr>
+<tr>
+<td style="text-align:center">deque</td>
+<td style="text-align:center">随机访问</td>
+</tr>
+<tr>
+<td style="text-align:center">list</td>
+<td style="text-align:center">双向访问</td>
+</tr>
+<tr>
+<td style="text-align:center">set/multiset</td>
+<td style="text-align:center">双向访问</td>
+</tr>
+<tr>
+<td style="text-align:center">map/multimap</td>
+<td style="text-align:center">双向访问</td>
+</tr>
+<tr>
+<td style="text-align:center">stack</td>
+<td style="text-align:center">不支持迭代器</td>
+</tr>
+<tr>
+<td style="text-align:center">queue</td>
+<td style="text-align:center">不支持迭代器</td>
+</tr>
+<tr>
+<td style="text-align:center">priority_queue</td>
+<td style="text-align:center">不支持迭代器</td>
+</tr>
+</tbody>
+</table>
+<h1 id="容器适配器adapter">容器适配器（adapter）</h1>
+<p>适配器包括三种：</p>
+<ul>
+<li>stack<br>
+LIFO，底层实现结构是deque；</li>
+<li>queue<br>
+FIFO，，底层实现结构是deque；</li>
+<li>priority_queue<br>
+最大/最小堆（默认最大堆），自动在堆中进行堆排序，底层实现结构是vector或deque</li>
+</ul>
+<p>使用很简单，push/push_back放入，top/front/back获取数据，pop/pop_front/pop_back删除数据。</p>
+<blockquote>
+<p>官方文档<br>
+stack<br>
+http://www.cplusplus.com/reference/stack/stack/?kw=stack<br>
+queue<br>
+http://www.cplusplus.com/reference/queue/queue/?kw=queue<br>
+priority_queue<br>
+http://www.cplusplus.com/reference/queue/priority_queue/?kw=priority_queue</p>
+</blockquote>
+<h1 id="空间配置器allocator">空间配置器（allocator）</h1>
+<p>空间配置器功能强大，负责为底层数据的存储提供服务，它不仅可以在内存上分配空间，甚至可以在硬盘上分配空间。</p>
+<p>……这部分比较难，视频没看懂，后面有时间再研究。推荐这部分的经典书籍《STL源码剖析》。</p>
+<ul>
+<li>STK 的六大组件给软件编程带来了新的多态复用，是现代C++语言高效的精髓；</li>
+<li>泛型和STL的学习路线很陡，建议初学者先学会基本使用和简单扩展；</li>
+<li>掌握了一定基础的情况下，可以通过进一步学习和分析源码，编写自己的组件来提升能力；</li>
+</ul>
+<p>trivial：内置类型<br>
+non_trivial：非内置类型</p>
+<blockquote>
+<p>C++ STL 空间配置器<br>
+https://blog.csdn.net/lisemi/article/details/100894471?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2<sub>aggregatepage</sub>first_rank_v2~rank_aggregation-1-100894471.pc_agg_rank_aggregation&amp;utm_term=c%2B%2B+%E7%A9%BA%E9%97%B4%E9%85%8D%E7%BD%AE%E5%99%A8%E7%9A%84%E6%A0%87%E5%87%86%E6%8E%A5%E5%8F%A3&amp;spm=1000.2123.3001.4430</p>
+</blockquote>
+<h1 id="boost库">Boost库</h1>
+<p>Boost库是为C++语言标准库提供扩展的一些C++程序库的总称，由Boost社区组织开发、维护，Boost库可以与C++标准库完美共同工作，并且为其提供扩展功能，包括字符串和文本处理库、容器库、算法库、函数对象和高阶编程库、综合类库等等。</p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/DjqFpjWJC/">
+                  <h3 class="post-title">
+                    《重学C++》9. C++进阶编程（一）——容器、仿函数、算法
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
