@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618657121739">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618664986726">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -22,9 +22,10 @@
 
 
 
-    <meta name="description" content="计算机基础——更适合程序员的编程必备基础知识
-
-..." />
+    <meta name="description" content="6.1 章节导学
+操作系统的演变
+多道程序设计：计算机内存中同时存放几道相互独立的程序，使它们在管理程序控制之下，相互穿插的运行。 多道程序设计可以提高CPU利用率。
+对每个进程来说，它拥有自己虚拟的CPU，而实际的CPU忙于在各个进程之间..." />
     <meta name="keywords" content="" />
   </head>
   <body>
@@ -34,7 +35,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1618657121739" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1618664986726" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -109,8 +110,137 @@
               </div>
             
             <div class="post-content" v-pre>
-              <p>计算机基础——更适合程序员的编程必备基础知识</p>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210417184937.png" alt="" loading="lazy"></figure>
+              <h1 id="61-章节导学">6.1 章节导学</h1>
+<h2 id="操作系统的演变">操作系统的演变</h2>
+<p>多道程序设计：计算机内存中同时存放几道相互独立的程序，使它们在管理程序控制之下，相互穿插的运行。 多道程序设计可以提高CPU利用率。</p>
+<p>对每个进程来说，它拥有自己虚拟的CPU，而实际的CPU忙于在各个进程之间来回切换。这种快速的切换运行也就是多道程序设计。</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210417192624.png" alt="" loading="lazy"></figure>
+<h2 id="操作系统的功能">操作系统的功能：</h2>
+<ol>
+<li>
+<p>进程管理</p>
+<ul>
+<li>
+<p>进程实体</p>
+</li>
+<li>
+<p>五状态模型</p>
+</li>
+<li>
+<p>进程同步</p>
+</li>
+<li>
+<p>Linux进程管理</p>
+</li>
+</ul>
+</li>
+<li>
+<p>作业管理</p>
+<ul>
+<li>进程调度</li>
+<li>死锁</li>
+</ul>
+</li>
+<li>
+<p>存储管理</p>
+<ul>
+<li>内存分配与回收</li>
+<li>段页式存储管理</li>
+<li>虚拟内存</li>
+<li>linux存储管理</li>
+</ul>
+</li>
+<li>
+<p>文件管理</p>
+<ul>
+<li>
+<p>操作系统的文件管理</p>
+</li>
+<li>
+<p>Linux的文件系统</p>
+</li>
+<li>
+<p>Linux文件的基本操作</p>
+</li>
+<li>
+<p>操作系统的设备管理</p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="62-操作系统概览">6.2 操作系统概览</h1>
+<h2 id="操作系统资源">操作系统资源</h2>
+<ul>
+<li>处理器资源</li>
+<li>存储器资源（寄存器、cache、内存、硬盘等）</li>
+<li>IO设备资源</li>
+<li>文件资源（？）</li>
+</ul>
+<h2 id="操作系统为用户提供的控制方式">操作系统为用户提供的控制方式:</h2>
+<ul>
+<li>
+<p>GUI</p>
+</li>
+<li>
+<p>命令</p>
+</li>
+<li>
+<p>系统调用（API，编程用）</p>
+</li>
+</ul>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210417193349.png" alt="" loading="lazy"></figure>
+<h2 id="操作系统四个性质">操作系统四个性质</h2>
+<h3 id="1-并发性">1. 并发性</h3>
+<p>并发性是学习后面三个性质的前提。</p>
+<p>并发和并行</p>
+<p>并发（concurrency）：两个或多个事件在<strong>同一个时间间隔内</strong>发生。单核单cpu只能做到并发（同一时刻只能运行一个程序），但是短时间（如1秒）内可能运行多个进程，给人并发的感觉，叫做<strong>伪并行</strong>。</p>
+<p>并行（parallel）：两个或多个事件在<strong>同一时间点</strong>发生。单CPU多核中线程可以并行、多CPU计算机中进程可以并行。</p>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210417184937.png" alt="" loading="lazy"></figure>
+<h3 id="2-共享性">2. 共享性</h3>
+<p>操作系统的资源可被并发的程序共享。</p>
+<p>例如：内存中存放着两个并发运行的程序，他们共享了内存。</p>
+<p>两种共享方式：</p>
+<p>*　<strong>互斥访问形式</strong>：某种资源在一个时间上只能同时被一个程序使用，其他程序需要等待或者放弃。（微观）</p>
+<p>*　<strong>同时访问形式</strong>：某种资源在一段时间内并发地被多个程序访问。（宏观）</p>
+<h3 id="3-虚拟性">3. 虚拟性</h3>
+<p>把一个物理实体转变为多个逻辑实体。物理实体是真实存在的，而逻辑实体是虚拟的。虚拟性可以提高资源利用率。</p>
+<ul>
+<li>
+<p>时分复用技术：复用时间资源，不同程序并发使用。</p>
+<p>虚拟处理器技术、虚拟设备技术</p>
+</li>
+<li>
+<p>空分复用技术：复用空间资源。</p>
+<p>虚拟硬盘（一块硬盘分为C、D、E盘）、虚拟内存（逻辑上扩大内存）</p>
+</li>
+</ul>
+<h3 id="4-异步性">4. 异步性</h3>
+<p>多道程序环境下，允许多个进程并发执行，进程在得不到互斥资源时可以选择等待或者放弃。</p>
+<p>由于互斥访问资源的存在，程序以不可预知的顺序并发运行，走走停停地执行。</p>
+<p>例如程序A释放打印机的使用后，程序B和C进行抢占，但具体是谁抢占到、抢占到的程序使用打印机多久都无法预知。这些都会影响这些异步程序的顺序和时间。</p>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210417195433.png" alt="" loading="lazy"></figure>
+<h1 id="63-进程管理之进程实体">6.3 进程管理之进程实体</h1>
+<h2 id="内存中的进程形态">内存中的进程形态</h2>
+<p>为什么需要进程：</p>
+<p>没有操作系统时，整个系统一次只能运行一个程序，所有资源都属于这个程序；为了<strong>提高系统资源利用率</strong>，引入操作系统和多道程序技术，使得多个程序能够共用系统资源，操作系统通过进程（即）对这些程序的拥有资源进行管理。</p>
+<p>为了实现进程管理，操作系统维护着一个表格（一个结构体数组），即<strong>进程表</strong>。每个进程占用一个进程表项，也叫做<strong>进程控制块（Processing Control Block, PCB）</strong>，这个进程控制块中保存着进程的重要信息。</p>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210417200331.png" alt="" loading="lazy"></figure>
+<p>PCB常驻内存，并且存放在专门的位置</p>
+<h2 id="进程与线程">进程与线程</h2>
+<p>进程：操作系统资源分配的最小单位。</p>
+<p>线程：操作系统调度的最小单位。</p>
+<p>了解<strong>为什么需要线程</strong>，可以帮助理解这两个最小单位（基本单位）👇：</p>
+<blockquote>
+<p>在传统的OS中（引入线程前），进程是系统分配资源和进行调度的基本单位。线程则是系统实施调度的基本的、独立的单位。线程基本上不拥有资源，只拥有一点运行必不可少的资源。<br>
+<strong>引入线程的原因</strong>：由于在进程的创建、撤消和切换过程中，系统付出的时空代价较大，因此在系统中的进程数目不宜过多，进程切换不能过于频繁，这就限制了并发程度的提高。引入线程之后，将传统的进程的两个基本属性分开，也就是说在传统的OS中，进程是系统分配资源和进行调度的基本单位，当引入线程之后，进程只作为分配资源的基本单位，而将线程作为调度的基本单位。可以通过创建线程来完成任务，提高了并发程度。</p>
+</blockquote>
+<p>进程和线程的关系：</p>
+<ul>
+<li>一个进程可以并发多个线程，每个线程执行不同的任务。</li>
+<li>线程包含在进程中，是进程中实际运行工作的单位。</li>
+<li>线程共享进程的资源（线程间通信也是通过读写进程的资源来实现的）。</li>
+</ul>
+<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210417210342.png" alt="" loading="lazy"></figure>
 
             </div>
             
