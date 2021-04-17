@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>《重学C++》9. C++进阶编程（三）多线程 | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1618646282087">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="多线程基础
+早期C++不支持，Win下只能使用微软提供的API。C++11之后在&lt;thread&gt;头文件中提供了Thread类，可以实现多线程。
+线程创建和终止：
+pthread_create (thread, attr, sta..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1618646282087" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Kick ass!
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">《重学C++》9. C++进阶编程（三）多线程</h2>
+            <div class="post-date">2021-04-17</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="多线程基础">多线程基础</h1>
+<p>早期C++不支持，Win下只能使用微软提供的API。C++11之后在&lt;thread&gt;头文件中提供了Thread类，可以实现多线程。</p>
+<h2 id="线程创建和终止">线程创建和终止：</h2>
+<pre><code>pthread_create (thread, attr, start_routine, arg) //线程创建（全参数）
+pthread_create (start_routine, arg) //线程创建（部分参数），一般使用这种方式即可
+pthread_exit (status) //线程终止
+</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">threa</td>
+<td style="text-align:left">指向线程标识符指针。</td>
+</tr>
+<tr>
+<td style="text-align:left">attr</td>
+<td style="text-align:left">一个不透明的属性对象，可以被用来设置线程属性。您可以指定线程属性对象，也可以使用默认值 NULL。</td>
+</tr>
+<tr>
+<td style="text-align:left">start_routine</td>
+<td style="text-align:left">线程运行函数起始地址，一旦线程被创建就会执行。</td>
+</tr>
+<tr>
+<td style="text-align:left">arg</td>
+<td style="text-align:left">运行函数的参数。它必须通过把引用作为指针强制转换为 void 类型进行传递。如果没有传递参数，则使用 NULL。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>C++ 多线程|菜鸟教程<br>
+https://www.runoob.com/cplusplus/cpp-multithreading.html<br>
+thread - C++ reference<br>
+http://www.cplusplus.com/reference/thread/thread/?kw=thread</p>
+</blockquote>
+<h2 id="进程创建方式的区别">进程创建方式的区别</h2>
+<pre><code>std::thread my_thread(background_task());  //方式一
+std::thread my_thread((background_task()));  //方式二
+std::thread my_thread{background_task()};  //方式三
+</code></pre>
+<p>方式一声明了一个叫做my_thread的函数，其接收一个指针作为参数（这个指针指向一个函数，该函数无参数，返回一个background_task对象）然后返回一个std::thread对象，并不是创建了一个新的thread。通过方式二和方式三可以避免这样。<br>
+方式二多加了一对小括号，这个额外的括号避免了这个语句被翻译成一个函数声明。因此方式二声明了一个std::thread类型的my_thread变量。<br>
+方式三使用大括号而不是小括号，通过这种新的语法，同样声明了一个变量。（和方式二相同）</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/v2-c4d226c711118e331afec4c8dc0c0810_720w.jpg" alt="" loading="lazy"></figure>
+<blockquote>
+<p>c++ 中 std::thread 调用仿函数问题? - 一只特立独行的猪的回答 - 知乎<br>
+https://www.zhihu.com/question/263965095/answer/274998573</p>
+</blockquote>
+<h1 id="join函数">join函数</h1>
+<p>该函数执行的前提是该线程joinable() == true（该线程可以被join）。<br>
+官方描述如下：</p>
+<blockquote>
+<p>The function returns when the thread execution has completed.<br>
+当线程执行完成时，函数返回。<br>
+This synchronizes the moment this function returns with the completion of all the operations in the thread: This blocks the execution of the thread that calls this function until the function called on construction returns (if it hasn't yet).<br>
+这将在函数返回的时刻与线程中所有操作的完成同步:这将阻塞调用该函数的线程的执行，直到被调用的构造函数返回(如果它还没有返回)。</p>
+</blockquote>
+<pre><code>int main()
+{
+    //若使用仿函数，一定要使用方式二（加小括号）/方式三（使用大括号），不能写thread t(hello());
+    //如果是普通函数，可以写thread t(hello);
+    thread t((hello()));   //等价于thread t{hello()};
+    t.join();
+    //t线程结束后，这里的代码才能被执行
+    return 0;
+}
+</code></pre>
+<p>以上面代码为例，简单来说就是，当main函数执行到thread t((hello()));  时，两个线程开始同步运行。为了防止调用t的主函数main线程执行完的时候线程t还没有结束，因此需要让main函数的线程等待t线程执行结束（通过join函数让线程等待），才可以继续执行后面的代码。<br>
+由于多个线程并行执行任务，带来的一个问题是<strong>如何解决多线程执行进度不同步的问题</strong>。就像写书，一个人写不需要协调，但是多个人合作写书时，写书进度有的快有的慢，进度不一致会带来问题。</p>
+<h1 id="mutex互斥锁">mutex互斥锁</h1>
+<p>互斥锁是C++中锁的一种，定义在<mutex>头文件中。<br>
+互斥锁用于<strong>控制多个线程对他们之间共享资源互斥访问</strong>的一个信号量。也就是说是为了<strong>避免多个线程在某一时刻同时操作一个共享资源</strong>。例如线程池中有多个空闲线程和一个任务队列。任何一个线程都要通过使用互斥锁互斥访问任务队列，以避免多个线程同时访问任务队列，导致发生错乱。</p>
+<p>在某一时刻，只有一个线程可以获取互斥锁，在释放互斥锁之前其他线程都不能获取该互斥锁。如果其他线程想要获取这个互斥锁，那么这个线程只能以阻塞方式进行等待。生活中一个例子就是上厕所，一间厕所最多只能一个人上（一个资源可以不被使用，但最多只能同时被一个人用），轮到上厕所的人刚进入厕所第一件事是上锁，防止别人进入、然后是解手（线程中就是进行操作）、最后一件事是释放该锁，离开。之后其他人可以上厕所（使用该资源），但轮到谁使用与自己无关（由操作系统决定）。</p>
+<blockquote>
+<p>C++线程中的几种锁<br>
+https://blog.csdn.net/bian_qing_quan11/article/details/73734157<br>
+C++11线程中的几种锁<br>
+https://blog.csdn.net/xy_cpp/article/details/81910513</p>
+</blockquote>
+<h2 id="示例一">示例一：</h2>
+<p>这个示例比较简单、基础，涉及线程创建（有参无参两种）、cout共享变量和锁</p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;thread&gt;
+#include &lt;mutex&gt;
+using namespace std;
+mutex tex;
+
+void T1() {
+	tex.lock();
+	cout &lt;&lt; &quot;T1 Hello World!&quot; &lt;&lt; endl; 
+	tex.unlock();
+
+	return;
+}
+
+//加上const，一是防止对字符串变量修改
+//二是如果实参是字符串常量，只有加上const才能运行
+void T2(const char *str) { 
+	tex.lock();
+	cout &lt;&lt; &quot;T2 &quot; &lt;&lt; str &lt;&lt; endl;
+	tex.unlock();
+	return;
+}
+
+int main()
+{
+	thread t1(T1);
+	thread t2(T2, &quot;Hello World&quot;); //形参只有加上const才能运行
+	t1.join();
+	t2.join();
+	cout &lt;&lt; &quot;Hi main&quot;&lt;&lt; endl;
+
+	return 0;
+}
+</code></pre>
+<p>如果不进行上锁，可能会出现t1线程输出一半，然后t2线程输出（打断t1）的问题。上面的上锁实际上是实现了对共享资源——标准输出cout——的互斥访问，也让两个进程实现了原子性（要么不做，要么把所有操作做完）。</p>
+<h2 id="示例二">示例二</h2>
+<p>多线程实现银行存取款。</p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;thread&gt;
+#include &lt;mutex&gt;
+
+using namespace std;
+
+void deposit(mutex &amp;tex,int &amp;money) {
+	for (int i = 0; i &lt; 100; i++)
+	{
+		tex.lock();
+		money += 1;
+		tex.unlock();
+	}
+	return;
+ }
+
+
+void withdraw(mutex &amp;tex, int &amp;money) {
+	for (int i = 0; i &lt; 100; i++)
+	{
+		tex.lock();
+		money -= 1;
+		tex.unlock();
+	}
+	return;
+}
+
+int main()
+{
+	mutex money_mutex;
+	int money = 2000;
+
+	cout &lt;&lt; money &lt;&lt; endl;
+	thread t1(deposit,ref(money_mutex), ref(money) );
+	thread t2(withdraw, ref(money_mutex), ref(money));
+	t1.join();
+	t2.join();
+	cout &lt;&lt; money &lt;&lt; endl;
+
+	return 0;
+}
+</code></pre>
+<p>有几点需要注意：</p>
+<ul>
+<li>尽量少使用全局变量，可以降低变量被修改的风险。</li>
+<li>锁的粒度最小化，该用锁的地方使用，不该用的时候不用，避免不必要的加锁。这样可以尽量实现异步，达到更高运行效率。</li>
+<li>thread编程应当注意参数的传递方式（因为函数参数是值拷贝），有时候需要引用，而且thread编程中引用是“ref()”而不是“&amp;”。</li>
+</ul>
+<h1 id="线程和进程-同步和异步">线程和进程、同步和异步</h1>
+<p>线程类似于容器，是分配资源的最小单位；线程是cpu调度、分配时间片的最小单位。<br>
+同步是有序的，顺序可控；异步是无序的，顺序不可控（由操作系统控制）。异步的效率更高。</p>
+<h1 id="线程的交换和移动">线程的交换和移动</h1>
+<pre><code>thread tW1([](){
+	cout&lt;&lt;&quot;ThreadSwap1&quot;&lt;&lt;endl;
+});
+thread tW2([](){
+	cout&lt;&lt;&quot;ThreadSwap2&quot;&lt;&lt;endl;
+});
+cout&lt;&lt;&quot;ThreadSwap1 id is&quot;&lt;&lt;tW1.get_id()&lt;&lt;endl;
+cout&lt;&lt;&quot;ThreadSwap2 id is&quot;&lt;&lt;tW2.get_id()&lt;&lt;endl;
+
+cout&lt;&lt;&quot;Swap after:&quot;&lt;&lt;endl;
+//等价于tW1.swap(tW2);
+swap(tW1,tW2);	//线程交换(句柄之间发生了交换)
+cout&lt;&lt;&quot;ThreadSwap1 id is&quot;&lt;&lt;tW1.get_id()&lt;&lt;endl;
+cout&lt;&lt;&quot;ThreadSwap2 id is&quot;&lt;&lt;tW2.get_id()&lt;&lt;endl;	
+
+t1.join();
+t2.join();
+
+//线程移动
+thread.tM1([](){cout&lt;&lt;&quot;ThreadSwap1&quot;&lt;&lt;endl;});
+//tM1.join();
+cout&lt;&lt;&quot;ThreadSwap1 id is&quot;&lt;&lt;tM1.get_id()&lt;&lt;endl;
+cout&lt;&lt;&quot;Swap after&quot;&lt;&lt;endl;
+thread tM2 = move(tM1);
+cout&lt;&lt;&quot;ThreadSwap2 id is&quot;&lt;&lt;tM2.get_id()&lt;&lt;endl;
+tM2.join();
+</code></pre>
+<blockquote>
+<p>public member function    std::thread::swap<br>
+void swap (thread&amp; x) noexcept;<br>
+Swaps the state of the object with that of x.<br>
+和对象x交换状态</p>
+</blockquote>
+<p>没有搞懂线程的交换、移动有什么作用，虽然说了是交换状态，但没弄清楚具体交换、移动了哪些东西（不过至少thread id肯定是交换/移动了）。<br>
+看了下swap函数的代码，猜测应该是交换了线程的资源和函数等所有内容。<br>
+<img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210417153310.png" alt="" loading="lazy"></p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/i2FDibkAO/">
+                  <h3 class="post-title">
+                    《重学C++》9. C++进阶编程（二）迭代器、容器适配器、空间配置器
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
