@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1619787249672">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1619788207648">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -35,7 +35,7 @@ qmake -tp vc DemoPro1.pro
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1619787249672" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1619788207648" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -159,8 +159,8 @@ qmake -tp vc DemoPro1.pro
 </tr>
 </tbody>
 </table>
-<p>QObject：是所有Qt对象的基类；</p>
-<p>QApplication：是 <a href="http://c.biancheng.net/qt/">Qt</a> 的标准应用程序类，继承QObject；</p>
+<p>QApplication：是 <a href="http://c.biancheng.net/qt/">Qt</a> 的标准应用程序类，继承关系：</p>
+<p>QApplication&lt;-QGuiApplication&lt;-QCoreApplication&lt;-QObject；</p>
 <h2 id="11-3-qqstring的基本使用">11-3 QQString的基本使用</h2>
 <p>QString：是Qt中的字符串类，和C++默认string类类似。下面的代码介绍了QString类的<strong>基本使用、查找下标、截取中间子串、获取长度、字符串和数字相互转换</strong>操作；</p>
 <p>##　11-4 QDebug的基本使用</p>
