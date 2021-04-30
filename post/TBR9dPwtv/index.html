@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>《重学C++》11. 实现项目《慕影》的通用组件模块 | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1619787249672">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="11-1 QT和VS的项目使用
+在QtCreator中创建一个项目后，例如名叫DemoPro1。为了能够使该项目在VS中运行，需要在项目目录下执行命令：
+qmake -tp vc DemoPro1.pro
+之后会生成一个“项目名.vcxpr..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1619787249672" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Kick ass!
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">《重学C++》11. 实现项目《慕影》的通用组件模块</h2>
+            <div class="post-date">2021-04-30</div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="11-1-qt和vs的项目使用">11-1 QT和VS的项目使用</h2>
+<p>在QtCreator中创建一个项目后，例如名叫DemoPro1。为了能够使该项目在VS中运行，需要在项目目录下执行命令：</p>
+<p><code>qmake -tp vc DemoPro1.pro</code></p>
+<p>之后会生成一个“项目名.vcxproj”等文件，如“DemoPro1.vcxproj”，之后即可通过该文件使用Visual Studio运行。</p>
+<h2 id="11-2-qt项目的基础架构类和ui类">11-2 QT项目的基础架构类和UI类</h2>
+<p>常用的Qt开发工具：</p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>qmake</td>
+<td>核心的项目构建工具，可以生成跨平台的 .pro 项目文件，并能依据不同操作系统和编译工具生成相应的 Makefile，用于构建可执行程序或链接库。</td>
+</tr>
+<tr>
+<td>uic</td>
+<td>User Interface Compiler，用户界面编译器，Qt 使用 XML 语法格式的 .ui 文件定义用户界面，uic 根据 .ui 文件生成用于创建用户界面的 C++ 代码头文件，比如 ui_*****.h 。</td>
+</tr>
+<tr>
+<td>moc</td>
+<td>Meta-Object Compiler，元对象编译器，moc 处理 C++ 头文件的类定义里面的 Q_OBJECT  宏，它会生成源代码文件，比如 moc_*****.cpp ，其中包含相应类的元对象代码，元对象代码主要用于实现 Qt  信号/槽机制、运行时类型定义、动态属性系统。</td>
+</tr>
+<tr>
+<td>rcc</td>
+<td>Resource Compiler，资源文件编译器，负责在项目构建过程中编译 .qrc 资源文件，将资源嵌入到最终的 Qt 程序里。</td>
+</tr>
+<tr>
+<td>qtcreator</td>
+<td>集成开发环境，包含项目生成管理、代码编辑、图形界面可视化编辑、 编译生成、程序调试、上下文帮助、版本控制系统集成等众多功能， 还支持手机和嵌入式设备的程序生成部署。</td>
+</tr>
+<tr>
+<td>assistant</td>
+<td>Qt 助手，帮助文档浏览查询工具，Qt 库所有模块和开发工具的帮助文档、示例代码等都可以检索到，是 Qt 开发必备神器，也可用于自学 Qt。</td>
+</tr>
+<tr>
+<td>designer</td>
+<td>Qt 设计师，专门用于可视化编辑图形用户界面（所见即所得），生成 .ui 文件用于 Qt 项目。</td>
+</tr>
+<tr>
+<td>linguist</td>
+<td>Qt 语言家，代码里用 tr() 宏包裹的就是可翻译的字符串，开发人员可用 lupdate 命令生成项目的待翻译字符串文件 .ts，用  linguist 翻译多国语言 .ts ，翻译完成后用 lrelease 命令生成 .qm 文件，然后就可用于多国语言界面显示。</td>
+</tr>
+<tr>
+<td>qmlscene</td>
+<td>在 Qt 4.x 里是用 qmlviewer 进行 QML 程序的原型设计和测试，Qt 5 用 qmlscene 取代了旧的 qmlviewer。新的 qmlscene 另外还支持 Qt 5 中的新特性 scenegraph 。</td>
+</tr>
+</tbody>
+</table>
+<p>QObject：是所有Qt对象的基类；</p>
+<p>QApplication：是 <a href="http://c.biancheng.net/qt/">Qt</a> 的标准应用程序类，继承QObject；</p>
+<h2 id="11-3-qqstring的基本使用">11-3 QQString的基本使用</h2>
+<p>QString：是Qt中的字符串类，和C++默认string类类似。下面的代码介绍了QString类的<strong>基本使用、查找下标、截取中间子串、获取长度、字符串和数字相互转换</strong>操作；</p>
+<p>##　11-4 QDebug的基本使用</p>
+<p>QDebug：因为程序前端窗口不能输出信息，因此借助该类进行调试。下面的代码介绍了使用QDebug<strong>输出简单的调试信息</strong>。</p>
+<p>这两部分的代码如下：</p>
+<pre><code class="language-c++">	QString str = &quot;C:\\&quot;;
+	QString str2 (&quot;D:/&quot;);
+	str.append(&quot;windows\\&quot;);   //str == &quot;C:\\windows\\&quot;
+	str2 += &quot;muying/&quot;;	//str2 ==&quot;D:/muying/&quot;
+	qDebug() &lt;&lt; str &lt;&lt; endl;
+	qDebug() &lt;&lt; str2 &lt;&lt; endl;
+	//string: length &amp; substr &amp; find index
+	str2 = str2.mid(str.indexOf(&quot;\\&quot;),QStringLiteral(&quot;muying&quot;).length());
+
+	//number to str
+	QString str3 = QString::number(199);
+	qDebug() &lt;&lt; &quot;The value of str is: &quot; &lt;&lt; str3 &lt;&lt; endl;
+	qDebug(&quot;The value of str is: %s&quot;, qPrintable(str3));
+	//str to number
+	QString str4 = &quot;12345&quot;;
+	int i = str4.toInt();
+	qDebug() &lt;&lt; &quot;The value of i is: &quot; &lt;&lt; i &lt;&lt; endl;
+	QString str5 = &quot;abc&quot;;   
+	int j = str5.toInt();    //如果不能转换为数字，将返回0
+	qDebug(&quot;The value of j is: %d&quot;, j);
+</code></pre>
+<p>输出信息：</p>
+<pre><code>&quot;C:\\windows\\&quot; 
+
+&quot;D:/muying/&quot; 
+
+The value of str is:  &quot;199&quot; 
+The value of str is: 199
+The value of i is:  12345 
+The value of j is: 0
+</code></pre>
+<h2 id="11-5-qt的智能指针qscopedpointer">11-5 QT的智能指针QScopedPointer</h2>
+<p>QScopedPointer智能指针有两种：单个变量指针和数组指针。</p>
+<p>这部分内容涉及<strong>内置类型的指针、自定义类型指针、数组指针、指针的reset操作</strong>，下面的代码为示例：</p>
+<pre><code class="language-c++">//添加作用域，在该大括号外里面的变量消亡
+{
+	QScopedPointer&lt;int&gt; p(new int(2));
+	*p = 10;
+	qDebug() &lt;&lt; *p &lt;&lt; endl;
+	p.reset(new int(3));
+	qDebug() &lt;&lt; *p &lt;&lt; endl;
+
+	QScopedPointer&lt;SPC&gt; SPCp(new SPC());
+	SPCp-&gt;print();
+	QScopedArrayPointer&lt;SPC&gt; SPCpp(new SPC[3]);
+}
+</code></pre>
+<p>在括号外加上断点，会看到程序输出：</p>
+<pre><code class="language-c++">10 3 
+SPC() 
+print() 
+SPC() 
+SPC() 
+SPC() 
+~SPC() 
+~SPC() 
+~SPC() 
+~SPC() 
+</code></pre>
+<p>即使没有运行到return()，但是构造的对象还是会被释放。</p>
+<h2 id="11-6-qthread的使用">11-6 QThread的使用</h2>
+<p>QThread是Qt中的线程类，需要引入&lt;QThread&gt;或&lt;Qthread.h&gt;头文件才能使用。</p>
+<p>声明和定义一个自定义的线程MyThread类，需要继承QThread类。</p>
+<pre><code>class MyThread :public QThread {
+public:
+	MyThread();
+	~MyThread();
+	void closeThread() {
+		isStop = true;
+	}
+	void run() {
+		while (true)
+		{
+			if (isStop)
+			{
+				return;
+			}
+			qDebug() &lt;&lt; tr(&quot;MyThread id is: &quot;) &lt;&lt; QThread::currentThreadId() &lt;&lt; endl;
+			sleep(2);
+		}
+	}
+private:
+	bool isStop;//标记停止，当true时run函数无法执行有效功能
+};
+
+MyThread::MyThread()
+{
+	isStop = false;
+}
+
+MyThread::~MyThread()
+{
+	isStop = true;
+}
+</code></pre>
+<p>main函数内：</p>
+<pre><code class="language-c++">//实现多线程
+MyThread t;
+t.start();
+while (true)
+{
+
+}
+t.closeThread();
+</code></pre>
+<p>运行后会不断输出线程id，例如：</p>
+<p><code>&quot;MyThread id is: &quot; 0x17e0</code></p>
+<p>更好的方法是通过点击按钮等触发运行t.closeThread()，后面学到前端将会讲到。</p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/U0hiUjg8G/">
+                  <h3 class="post-title">
+                    《重学C++》9. C++进阶编程（三）多线程
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
