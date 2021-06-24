@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1624555211775">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1624555902402">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -36,7 +36,7 @@ deng@..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1624555211775" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1624555902402" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -216,6 +216,62 @@ int main()
 </code></pre>
 <p>运行结果</p>
 <figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210624175136.png" alt="" loading="lazy"></figure>
+<hr>
+<h1 id="答案只有1-3题">答案（只有1、3题）</h1>
+<p>第一题Makefile</p>
+<pre><code class="language-makefile">#一条规则
+all: a b
+
+
+a:a.o
+	gcc $&lt; -o $@
+
+b:b.o
+	gcc $&lt; -o $@
+
+
+#模式规则
+%.o:%.c
+	gcc -c $&lt; -o $@
+
+
+.PHONY:clean
+clean:
+	-rm --f a b *.o
+</code></pre>
+<p>第三题Makefile</p>
+<pre><code class="language-makefile">#获取src目录中所有的.c文件
+SRC=$(wildcard ./src/*.c)
+#替换成目标文件  obj/*.o
+OBJS=$(patsubst ./src/%.c, ./obj/%.o, $(SRC))
+
+#变量定义
+CC=gcc
+INC=./inc
+CFLAGS=-c 
+TARGET=./bin/test
+
+$(TARGET):$(OBJS)
+	$(CC) $^ -o $@
+	@#mv $(TARGET) bin/
+
+#将对应的.c生成对应的.o文件
+./obj/%.o:./src/%.c
+	@#gcc -c -I./inc $&lt; -o $@
+	$(CC) $(CFLAGS) -I$(INC) $&lt; -o $@
+
+
+#伪目标
+.PHONY:clean all
+clean:
+	$(RM) $(OBJS) $(TARGET)
+
+#辅助调试
+all:
+	echo $(SRC)
+	echo $(OBJS)
+	echo $(RM)
+</code></pre>
 
             </div>
             
