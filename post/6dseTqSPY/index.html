@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
-<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1624554941512">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1624555211775">
 <link rel="stylesheet" href="https://444494.xyz/styles/main.css">
 
 
@@ -36,7 +36,7 @@ deng@..." />
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://444494.xyz">
-        <img src="https://444494.xyz/images/avatar.png?v=1624554941512" class="site-logo">
+        <img src="https://444494.xyz/images/avatar.png?v=1624555211775" class="site-logo">
         <h1 class="site-title">菠萝屋</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -139,7 +139,6 @@ ${TAR}:${OUTS}
 .PHONY: clean
 clean:
 	rm -rf ${OBJS} ${OUTS} 
-
 </code></pre>
 <figure data-type="image" tabindex="1"><img src="C:%5CUsers%5CYlvan%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210624170326375.png" alt="image-20210624170326375" loading="lazy"></figure>
 <h2 id="2-在1makefile中有如下目录-编写makefile生成可执行文件test"><strong>2) 在1makefile中有如下目录， 编写Makefile生成可执行文件test</strong></h2>
@@ -170,11 +169,10 @@ all:
 .PHONY:clean
 clean:
 	rm -rf ${OBJ} ${TAR}
-
 </code></pre>
-<figure data-type="image" tabindex="4"><img src="D:%5C100-Resource%5C110-Documents%5CNotes%5Cimage-20210625005657877.png" alt="image-20210625005657877" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210625011912.png" alt="" loading="lazy"></figure>
 <p>运行后目录结构和程序运行结果：</p>
-<figure data-type="image" tabindex="5"><img src="C:%5CUsers%5CYlvan%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210625005739082.png" alt="image-20210625005739082" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210625011824.png" alt="" loading="lazy"></figure>
 <p>关于如何根据存放在src目录的源文件生成目标文件到obj目录的问题困扰了我几个小时，最后去网上找了一个类似的文章（见下面的引用），我奇怪为什么他的代码%.o和%.c前面要加上一个地址的变量，最后尝试之后我才知道：<strong>原来%.o并不是make根据依赖（这里是${OBJ}）生成的带路径的.o文件，而是不加路径的.o文件</strong>。</p>
 <p>也就是说，这里%.o不是./obj/mul.o等，而是mul.o，这才是我的Makefile文件无效的根源。只需分别对%.o和%.c加上路径即可。</p>
 <blockquote>
@@ -214,9 +212,7 @@ int main()
 	close(ofp);
 
     return 0;
-
 }
-
 </code></pre>
 <p>运行结果</p>
 <figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210624175136.png" alt="" loading="lazy"></figure>
