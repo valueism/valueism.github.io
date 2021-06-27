@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>《博学谷C++》四.1-4Linux文件和系统调用 | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1624771622885">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="《博学谷C++》四.1-4Linux文件和系统调用
+这一节只学习了一部分，放弃了一些文件操作函数。因为感觉自己目前最需要学的是系统等相关的东西（进程间通信、线程、soket等），学怎么用这些函数也不难。
+1.系统调用
+程序等，通过统一系统调..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1624771622885" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Kick ass!
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">《博学谷C++》四.1-4Linux文件和系统调用</h2>
+            <div class="post-date">2021-06-25</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="博学谷c四1-4linux文件和系统调用">《博学谷C++》四.1-4Linux文件和系统调用</h1>
+<p>这一节只学习了一部分，放弃了一些文件操作函数。因为感觉自己目前最需要学的是系统等相关的东西（进程间通信、线程、soket等），学怎么用这些函数也不难。</p>
+<h2 id="1系统调用">1.系统调用</h2>
+<p>程序等，通过统一系统调用接口来进行对内核资源的使用。这样做是为了保护系统资源。</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210623164148.png" alt="" loading="lazy"></figure>
+<p>shell、库函数、应用程序<strong>都可以</strong>进行系统调用。但<strong>不是所有操作都需要</strong>进行系统调用，例如字符串处理，不需要系统调用即可实现。</p>
+<p>为了实现权限控制和资源保护，操作系统分为了两种运行级别：<strong>用户态</strong>和<strong>内核态</strong>。用户态下的进程访问受限，而内核态没有限制，如驱动程序等。通过<strong>系统中断</strong>，实现用户态和内核态之间的切换。</p>
+<h2 id="2系统调用和库函数">2.系统调用和库函数</h2>
+<p>同：库函数和系统调用都是函数；</p>
+<p>异：一些库函数不需要进行系统调用；另一些需要。</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210624133432.png" alt="" loading="lazy"></figure>
+<h2 id="3c库中io函数工作流程">3.C库中IO函数工作流程</h2>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210624134500.png" alt="" loading="lazy"></figure>
+<blockquote>
+<p>为什么需要缓冲区？</p>
+<p>读写机械硬盘很慢，使用缓冲区可以减少对机械硬盘的读写、减少IO系统调用次数，提高访问效率。</p>
+</blockquote>
+<h3 id="31-errno变量">3.1 errno变量</h3>
+<p>errno变量是定义在<code>#include &lt;errno.h&gt;</code>中的全局变量，可以直接使用。</p>
+<p>全部错误号位于<code>/usr/include/asm-generic/errno.h</code></p>
+<h3 id="32-strerrorerrno函数">3.2 strerror(errno)函数</h3>
+<p>输入errno变量，输出对应的错误信息。</p>
+<h3 id="33-perror函数">3.3 perror()函数</h3>
+<p>类似于strerror，但不需要输入错误号，直接输出最后一次的错误信息。</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;string.h&gt;
+
+int main(void) {
+	FILE *fp = fopen(&quot;test.txt&quot;, &quot;r&quot;);
+	if (fp ==NULL){
+		printf(&quot;open file error!\n&quot;);
+		printf(&quot;error no is %d\n&quot;,errno);
+		printf(&quot;Error msg: %s\n&quot;,strerror(errno));
+		perror(&quot;Error msg&quot;);
+
+	}
+	return 0;
+}
+
+</code></pre>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210624144426.png" alt="" loading="lazy"></figure>
+<h2 id="4虚拟地址空间">4.虚拟地址空间</h2>
+<p>32位机器中，进程虚拟地址空间为4G（= 2^32 ），实际内存地址空间没有这么大。</p>
+<blockquote>
+<p>MMU：将虚拟的地址转化为物理地址。</p>
+<p>这样做的好处在于：</p>
+<ul>
+<li>进程隔离，更好的保护系统安全运行</li>
+<li>屏蔽物理差异带来的麻烦，方便操作系统和编译器安排进程地址</li>
+</ul>
+</blockquote>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210624145354.png" alt="" loading="lazy"></figure>
+<p>静态局部变量放在.data区。</p>
+<blockquote>
+<p>栈区：超出作用域范围后，变量消亡；</p>
+<p>堆区：动态分配内存。</p>
+<p>上面两个都不符合静态局部变量的特点。</p>
+</blockquote>
+<p>查看栈空间大小：（一般10M左右）</p>
+<ol>
+<li>递归测试；</li>
+<li>使用命令查看。</li>
+</ol>
+<p>栈地址是从高到低，而堆地址相反，从低到高。</p>
+<p>只读数据段即常量区。</p>
+<p>运行程序时，会将程序加载到内核区中。因此程序运行中即使强制（从硬盘）删除文件，程序也仍然还在运行。</p>
+<p>内核区中，用户无权进行操作。</p>
+<h2 id="5-文件描述符">5. 文件描述符</h2>
+<p>打开现存文件或新建文件时，系统（内核）会返回一个文件描述符。</p>
+<p>文件描述符用来指定已打开的文件。这个文件描述符相当于这个已打开文件的标号，文件描述符是非负整数，<strong>是文件的标识</strong>，操作这个文件描述符相当于操作这个描述符所指定的文件。</p>
+<p>每个进程都有一张文件描述符的表，默认会打开标准输入、输出、错误输出。打开新的文件会打开新的文件描述符，最多打开1024个文件。</p>
+<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210624152425.png" alt="" loading="lazy"></figure>
+<h2 id="6阻塞和非阻塞">6.阻塞和非阻塞</h2>
+<p>读写常规文件是不会阻塞的，不管读写多少字节，一定会在有限时间内返回。</p>
+<p>而向终端设备或网络写则不一定：如读数据时，如果终端没有输入的数据、没有接收到数据包，那么将会一直等待数据；如果写满后没有及时获得新的写入空间，那么写数据也会阻塞。阻塞时间不确定。</p>
+<p>【注意】阻塞与非阻塞是对于文件而言的，而不是指read、write等的属性。</p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/6dseTqSPY/">
+                  <h3 class="post-title">
+                    (作业)《博学谷C++》四.1-3Makefile
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
