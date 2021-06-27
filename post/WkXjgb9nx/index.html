@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>《博学谷C++》四.1-5进程 | 菠萝屋</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://444494.xyz/favicon.ico?v=1624771334294">
+<link rel="stylesheet" href="https://444494.xyz/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="《博学谷C++》四.1-5进程
+1.学习目标
+
+掌握目录遍历相关的函数使用
+了解进程相关的概念
+掌握fork/getpid/getppid函数的使用
+熟练掌握ps/kill命令的使用
+熟练掌握execl/execlp函数的使用
+说出什么是孤..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://444494.xyz">
+        <img src="https://444494.xyz/images/avatar.png?v=1624771334294" class="site-logo">
+        <h1 class="site-title">菠萝屋</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页 Blog
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档 Archives
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签 Tags
+          </a>
+        
+      
+        
+          <a href="/about" class="site-nav">
+            关于 About
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/valueism" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Kick ass!
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://444494.xyz/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">《博学谷C++》四.1-5进程</h2>
+            <div class="post-date">2021-06-27</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="博学谷c四1-5进程">《博学谷C++》四.1-5进程</h1>
+<h2 id="1学习目标">1.学习目标</h2>
+<ul>
+<li>掌握目录遍历相关的函数使用</li>
+<li>了解进程相关的概念</li>
+<li>掌握fork/getpid/getppid函数的使用</li>
+<li>熟练掌握ps/kill命令的使用</li>
+<li>熟练掌握execl/execlp函数的使用</li>
+<li>说出什么是孤儿进程和僵尸进程</li>
+</ul>
+<h2 id="2进程和程序">2.进程和程序</h2>
+<p>进程是加载到内存后，运行的程序，可以理解为程序的执行过程。</p>
+<p>进程是CPU分配资源的最小单位、</p>
+<blockquote>
+<p>我们可以这么理解，公司相当于操作系统，部门相当于进程，公司通过部门来管理（系统通过进程管理），对于各个部门，每个部门有各自的资源，如人员、电脑设备、打印机等。（公司每个员工相当于线程。）</p>
+</blockquote>
+<h2 id="3单道-多道程序设计">3.单道、多道程序设计</h2>
+<p>单道程序设计：</p>
+<p>​	多个程序排队执行。</p>
+<p>多道程序设计：</p>
+<p>​	多个程序相互穿插运行，需要硬件支持。</p>
+<h2 id="4并行和并发">4.并行和并发：</h2>
+<p>**并行(parallel)：**指在同一时刻，有多条指令在多个处理器上同时执行。</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210623145630.png" alt="" loading="lazy"></figure>
+<p>**并发(concurrency)：**指在同一时刻只能有一条指令执行，但多个进程指令被快速的轮换执行，使得在宏观上具有多个进程同时执行的效果，但在微观上并不是同时执行的，只是把时间分成若干段，使多个进程快速交替的执行。</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210623145646.png" alt="" loading="lazy"></figure>
+<h3 id="总结">总结</h3>
+<p>并行是两个队列<strong>同时</strong>使用两台咖啡机；</p>
+<p>并发是两个队列<strong>交替</strong>使用一台咖啡机。</p>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210623145747.png" alt="" loading="lazy"></figure>
+<h2 id="5mmu">5.MMU</h2>
+<p>内存管理单元（MMU,Memory Management Unit），是中央处理器（CPU）中用来管理<a href="https://baike.baidu.com/item/%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8">虚拟存储器</a>、物理存储器的控制线路，也负责也负责<a href="https://baike.baidu.com/item/%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80">虚拟地址</a>映射为<a href="https://baike.baidu.com/item/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80">物理地址</a>等。</p>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210623150948.png" alt="" loading="lazy"></figure>
+<h2 id="6进程控制块pcb">6.进程控制块PCB</h2>
+<p>每个进程有一个结构体task_struct，叫做进程控制块，保存进程的相关信息。</p>
+<p>保存的文件路径：</p>
+<blockquote>
+<p>/usr/src/kernels/4.18.0-305.3.1.el8.x86_64/include/linux/sched.h</p>
+</blockquote>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210623152347.png" alt="" loading="lazy"></figure>
+<p>PCB中需要掌握的部分：</p>
+<ul>
+<li>进程id。系统中每个进程有唯一的id，在C语言中用pid_t类型表示，其实就是一个非负整数。</li>
+<li>进程的状态，有就绪、运行、挂起、停止等状态。</li>
+<li>进程切换时需要保存和恢复的一些CPU寄存器。</li>
+<li>描述虚拟地址空间的信息。</li>
+<li>描述控制终端的信息。</li>
+<li>当前工作目录（Current Working Directory）。</li>
+<li>umask掩码。</li>
+<li>文件描述符表，包含很多指向file结构体的指针。</li>
+<li>和信号相关的信息。</li>
+<li>用户id和组id。</li>
+<li>会话（Session）和进程组。</li>
+<li>进程可以使用的资源上限（Resource Limit）。</li>
+</ul>
+<h2 id="7进程的状态">7.进程的状态</h2>
+<p>程序是静态的，而进程是动态的，因此进程才有各种运行过程中的各种状态。</p>
+<p>三态模型：<strong>运行态，就绪态，阻塞态</strong>。</p>
+<p>五态模型：<strong>新建态、停止态，运行态，就绪态，阻塞态</strong>。</p>
+<figure data-type="image" tabindex="6"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210623152830.png" alt="" loading="lazy"></figure>
+<p>就绪态：进程所有资源都满足，但还未被CPU调度；</p>
+<p>运行态：被调度的就绪态进程；</p>
+<p>僵尸态：子进程结束，但父进程还未释放进程描述符。僵尸态不可恢复为运行态。</p>
+<blockquote>
+<p>**①TASK_RUNNING：**进程正在被CPU执行。当一个进程刚被创建时会处于TASK_RUNNABLE，表示己经准备就绪，正等待被调度。</p>
+<p><strong>②TASK_INTERRUPTIBLE（可中断）：<strong>进程正在睡眠（也就是说它被阻塞）等待某些条件的达成。一旦这些条件达成，内核就会把进程状态设置为运行。处于</strong>此状态的进程也会因为接收到信号而提前被唤醒</strong>，<strong>比如给一个TASK_INTERRUPTIBLE状态的进程发送SIGKILL信号，这个进程将先被唤醒（进入TASK_RUNNABLE状态），然后再响应SIGKILL信号而退出</strong>（变为TASK_ZOMBIE状态），并不会从TASK_INTERRUPTIBLE状态直接退出。</p>
+<p><strong>③TASK_UNINTERRUPTIBLE（不可中断）：<strong>处于等待中的进程，待资源满足时被唤醒，<strong>但不可以由其它进程通过信号或中断唤醒</strong>。由于不接受外来的任何信号，<strong>因此无法用kill杀掉这些处于该状态的进程</strong>。而</strong>TASK_UNINTERRUPTIBLE状态存在的意义就在于</strong>，<strong>内核的某些处理流程是不能被打断的</strong>。如果响应异步信号，程序的执行流程中就会被插入一段用于处理异步信号的流程，于是原有的流程就被中断了，这可能使某些设备陷入不可控的状态。处于TASK_UNINTERRUPTIBLE状态一般总是非常短暂的，通过ps命令基本上不可能捕捉到。</p>
+<p>**④TASK_ZOMBIE（僵死）：**表示进程已经结束了，<strong>但是其父进程还没有调用wait4或waitpid()来释放进程描述符</strong>。为了父进程能够获知它的消息，子进程的进程描述符仍然被保留着。一旦父进程调用了wait4()，进程描述符就会被释放。</p>
+<p>**⑤TASK_STOPPED（停止）：**进程停止执行。当进程接收到SIGSTOP，SIGTSTP，SIGTTIN，SIGTTOU等信号的时候。此外，<strong>在调试期间接收到任何信号</strong>，都会使进程进入这种状态。<strong>当接收到SIGCONT信号，会重新回到TASK_RUNNABLE</strong>。</p>
+</blockquote>
+<blockquote>
+<p>https://blog.csdn.net/zanda_/article/details/94784959</p>
+<p>进程五态模型简明理解</p>
+</blockquote>
+<h3 id="71-ps命令">7.1 ps命令</h3>
+<p>查看进程状态<br>
+<code>ps -aux</code></p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>选项</strong></th>
+<th style="text-align:left"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-a</td>
+<td style="text-align:left">显示终端上的所有进程，包括其他用户的进程</td>
+</tr>
+<tr>
+<td style="text-align:left">-u</td>
+<td style="text-align:left">显示进程的详细状态</td>
+</tr>
+<tr>
+<td style="text-align:left">-x</td>
+<td style="text-align:left">显示没有控制终端的进程</td>
+</tr>
+<tr>
+<td style="text-align:left">-w</td>
+<td style="text-align:left">显示加宽，以便显示更多的信息</td>
+</tr>
+<tr>
+<td style="text-align:left">-r</td>
+<td style="text-align:left">只显示正在运行的进程</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>其中STAT是进程状态</p>
+<figure data-type="image" tabindex="7"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210623154457.png" alt="" loading="lazy"></figure>
+<h3 id="72-top命令">7.2 top命令</h3>
+<p>动态显示运行中的进程，可以在使用top命令时加上-d 来指定显示信息更新的时间间隔。</p>
+<h3 id="73-kill命令">7.3 kill命令</h3>
+<p>终止指定pid的进程，<strong>需要配合 ps 使用</strong>。</p>
+<p><code>kill [-signal] pid</code></p>
+<p>信号值从0到15，其中9为绝对终止，可以处理一般信号无法终止的进程。</p>
+<p>如<code>kill 8685</code></p>
+<h3 id="74-killall">7.4 killall</h3>
+<p>可以根据进程名，杀死进程</p>
+<pre><code class="language-bash">[user@Mydesktop ~]$ sleep 3000&amp;
+[1] 2995
+[user@Mydesktop ~]$ sleep 3000&amp;`
+[2] 3002`
+[user@Mydesktop ~]$ sleep 3000&amp;`
+[3] 3009`
+
+[user@Mydesktop ~]$ killall sleep` 
+[1]   Terminated              sleep 3000`
+[2]-  Terminated              sleep 3000`
+[3]+  Terminated              sleep 3000`
+</code></pre>
+<h3 id="75-pstree">7.5 pstree</h3>
+<p>显示进程树，方便可以看出父子关系，可以搭配killall使用</p>
+<figure data-type="image" tabindex="8"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210623160856.png" alt="" loading="lazy"></figure>
+<h2 id="8进程号和相关函数">8.进程号和相关函数</h2>
+<figure data-type="image" tabindex="9"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210623161046.png" alt="" loading="lazy"></figure>
+<p><strong>进程号（PID）</strong>：</p>
+<p>标识进程的一个非负整型数。</p>
+<p><strong>父进程号（PPID）</strong>：</p>
+<p>任何进程（ 除 init 进程）都是由另一个进程创建，该进程称为被创建进程的父进程，对应的进程号称为父进程号（PPID）。如，A 进程创建了 B 进程，A 的进程号就是 B 进程的父进程号。</p>
+<p><strong>进程组号（PGID）</strong>：</p>
+<p>进程组是一个或多个进程的集合。他们之间相互关联，进程组可以接收同一终端的各种信号，关联的进程有一个进程组号（PGID） 。这个过程有点类似于 QQ 群，组相当于 QQ 群，各个进程相当于各个好友，把各个好友都拉入这个 QQ 群里，主要是方便管理，特别是通知某些事时，只要在群里吼一声，所有人都收到，简单粗暴。但是，这个进程组号和 QQ 群号是有点区别的，默认的情况下，当前的进程号会当做当前的进程组号。</p>
+<pre><code class="language-c">#include &lt;sys/types.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+
+int main(void ){
+	pid_t pid = getpid();
+	printf(&quot;The process id:%d\n&quot;,pid);
+
+	printf(&quot;The parent process id:%d\n&quot;,getppid());
+	printf(&quot;The group process id:%d\n&quot;,getpgid(pid));
+	return 0;
+}
+</code></pre>
+<h2 id="9子进程的创建">9.子进程的创建</h2>
+<p>使用fork创建新的进程。</p>
+<pre><code class="language-c">#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+
+pid_t fork(void);
+功能：
+    用于从一个已存在的进程中创建一个新进程，新进程称为子进程，原进程称为父进程。
+参数：
+    无
+返回值：
+    成功：子进程中返回 0，父进程中返回子进程 ID。pid_t，为整型。
+    失败：返回-1。
+    失败的两个主要原因是：
+        1）当前的进程数已经达到了系统规定的上限，这时 errno 的值被设置为 EAGAIN。
+        2）系统内存不足，这时 errno 的值被设置为 ENOMEM。
+</code></pre>
+<h3 id="以如下代码为例说明进程的创建">以如下代码为例，说明进程的创建：</h3>
+<p>程序运行后输出两个&quot;Hello World&quot;，但每次的显示结果可能不一样，因为父子进程的执行顺序不确定（bash、和两个进程的关系是父、子、孙进程的关系）。</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+
+int main(void ){
+	fork();
+    printf(&quot;Hello World\n&quot;);
+	return 0;
+}
+</code></pre>
+<p>子进程几乎是父进程的复制品（代码段等等完全相同，进程号、计时器等少量信息除外）。但是<strong>子进程中，代码会从代码的fork函数之后开始执行</strong>（否则，子进程会再次通过fork创建孙进程，这样循环下去创建无数个进程）。</p>
+<p>箭头表示父子进程的执行流程。</p>
+<figure data-type="image" tabindex="10"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210625161308.png" alt="" loading="lazy"></figure>
+<h2 id="10父子进程的数据">10.父子进程的数据</h2>
+<h4 id="数据">数据：</h4>
+<p>创建子进程时，系统会根据父进程的数据复制到子进程。为了减少费时的数据拷贝，Linux实行<strong>读时共享，写时拷贝</strong>。</p>
+<p>都在读取数据时，读取同一块数据；只要有一方写入，都会发生拷贝。</p>
+<figure data-type="image" tabindex="11"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210625163122.png" alt="" loading="lazy"></figure>
+<h4 id="文件">文件：</h4>
+<p>fork之后父子进程共享文件，fork产生的子进程与父进程相同的文件文件描述符指向相同的文件表，引用计数增加，共享文件文件偏移指针。</p>
+<p>即，<strong>父子进程共享文件表项</strong>。</p>
+<h2 id="11区分父子进程">11.区分父子进程</h2>
+<p>通过区分父子进程，让进程实现不同的功能。</p>
+<blockquote>
+<p>为什么fork在子进程中返回0，却在父进程中返回子进程的id？</p>
+<p>因为子进程可以分别通过getpid()和getppid()获得自己、父进程的id；而父进程无法获得子进程的id。</p>
+</blockquote>
+<h2 id="12父子进程">12.父子进程</h2>
+<h3 id="地址空间">地址空间</h3>
+<p>关于父子进程的数据，可以运行代码进行验证</p>
+<pre><code class="language-c">int a = 10;     // 全局变量
+
+int main()
+{
+    int b = 20; //局部变量
+    pid_t pid;
+    pid = fork();
+    if (pid &lt; 0)
+    {   // 没有创建成功
+        perror(&quot;fork&quot;);
+    }
+
+    if (0 == pid)
+    { // 子进程
+        a = 111;
+        b = 222;    // 子进程修改其值
+        printf(&quot;son: a = %d, b = %d\n&quot;, a, b);   //结果：a= 111 b=222
+    }
+    else if (pid &gt; 0)
+    { // 父进程
+        sleep(1);   // 保证子进程先运行
+        printf(&quot;father: a = %d, b = %d\n&quot;, a, b); //结果：a=10 b=20
+    }
+
+    return 0;
+}
+</code></pre>
+<h3 id="堆空间">堆空间</h3>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+int a = 10;     // 全局变量
+
+int main()
+{
+    int b = 20; //局部变量
+	int* p = NULL;
+	p = malloc(sizeof(int));
+	if(p == NULL){
+		printf(&quot;malloc failed...\n&quot;);
+		return 1;
+	}
+	memset(p,0,sizeof(int));
+	*p = 200;
+    pid_t pid;
+    pid = fork();
+    if (pid &lt; 0)
+    {   // 没有创建成功
+        perror(&quot;fork&quot;);
+    }
+
+    if (0 == pid)
+    { // 子进程
+        a = 111;
+        b = 222;    // 子进程修改其值
+        printf(&quot;son before: *p = %d, a = %d, b = %d\n&quot;,*p, a, b);   //结果：p=200, a=111 b=222
+		(*p)++;
+        printf(&quot;son after: *p = %d, a = %d, b = %d\n&quot;,*p, a, b);   //结果：p=201,a= 111 b=222
+        //free(p);   //子进程中释放指针
+        //p = NULL
+    }
+    else if (pid &gt; 0)
+    { // 父进程
+        sleep(1);   // 保证子进程先运行
+        printf(&quot;father: *p = %d, a = %d, b = %d\n&quot;, *p, a, b); //结果：p=200, a=10 b=20
+        //free(p);   //父进程中释放指针
+        //p = NULL
+    }
+
+    return 0;
+}
+</code></pre>
+<p>可以看到，父、子进程均存在内存泄漏的问题。</p>
+<figure data-type="image" tabindex="12"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210625182943.png" alt="" loading="lazy"></figure>
+<p>执行<code>free(p);</code> 可以对堆空间进行释放，但是要注意：<strong>申请只有一次，但是要释放两次</strong>。</p>
+<h2 id="13gdb调试多进程">13.gdb调试多进程</h2>
+<p>gdb默认调试父进程，通过<code>set follow-fork-mode child</code>调试子进程。</p>
+<p>注意，一定要在fork函数之前设置。</p>
+<h2 id="14进程退出函数">14.进程退出函数</h2>
+<p>有四种退出方式：</p>
+<p>return()、exit()、_exit()、_Exit()</p>
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
+void exit(int status);
+
+#include &lt;unistd.h&gt;
+void _exit(int status);
+功能：
+    结束调用此函数的进程。
+参数：
+    status：返回给父进程的参数（低 8 位有效），至于这个参数是多少根据需要来填写。
+返回值：
+    无
+</code></pre>
+<p>区别在于，_exit()属于系统调用，而exit() 是库函数。并且存在缓冲区刷新的区别。</p>
+<figure data-type="image" tabindex="13"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210626114647.png" alt="" loading="lazy"></figure>
+<p><strong>使用exit()和return()都会进行缓冲区刷新，但是_exit()不会，_Exit()等价于_exit()</strong></p>
+<h2 id="15清理子进程">15.清理子进程</h2>
+<p>wait()</p>
+<p>阻塞父进程，等待子进程结束；如果没有子进程，立即返回。</p>
+<p>waitpid()</p>
+<p>通过设置可以自定义</p>
+<h2 id="16孤儿进程">16.孤儿进程</h2>
+<p>父进程结束，但子进程还在运行。</p>
+<p>最后init进程作为”福利院“会”收养“接管孤儿进程，并在孤儿进程结束后释放资源，因此孤儿进程没有危害。</p>
+<h2 id="17僵尸进程">17.僵尸进程</h2>
+<p>一个进程已经终止，但是父进程没有回收其资源（”收尸“），其残留PCB资源还存放在内核中，就变成僵尸进程。</p>
+<p>僵尸进程会造成资源不能被及时释放，会造成危害。</p>
+<h2 id="18exec">18.exec</h2>
+<p>exec 只是用另一个新程序替换了当前进程的正文、数据、堆和栈段（进程替换）。因此进程号等不会变化，但是程序执行内容会被替换掉。</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+
+int main (void){
+	printf(&quot;Hello world\n&quot;);
+
+    //int execlp(const char *file, const char *arg, ...                /* (char  *) NULL */);
+    //execlp第一个参数是文件名，后面以此是各个选项、参数等，最后参数一定是空指针
+    //int execl(const char *path, const char *arg, ...       /* (char  *) NULL */);
+    //execl第一个参数是路径，绝对路径或相对路径
+    
+	execlp(&quot;ls&quot;,&quot;ls&quot;,&quot;-l&quot;,NULL);//和下面几条等价
+    //execlp(&quot;/bin/ls&quot;,&quot;/bin/ls&quot;,&quot;-l&quot;,NULL);
+    //execl(&quot;/bin/ls&quot;,&quot;/bin/ls&quot;,&quot;-l&quot;,NULL); 
+	
+    
+	printf(&quot;end\n&quot;);
+	return 0;
+}
+</code></pre>
+<p>在执行execlp时，会载入指定的文件代码，并且从其main函数中开始执行（源文件execlp后面的代码就失效了）</p>
+<figure data-type="image" tabindex="14"><img src="https://raw.githubusercontent.com/valueism/Pictures/master/img/20210626202335.png" alt="" loading="lazy"></figure>
+<p>其他四个类似的函数</p>
+<pre><code class="language-c">int execle(const char *path, const char *arg, ... /*, (char *) NULL, char * const envp[] */);int execv(const char *path, char *const argv[]);int execvp(const char *file, char *const argv[]);int execvpe(const char *file, char *const argv[], char *const envp[]);
+</code></pre>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://444494.xyz/post/6dseTqSPY/">
+                  <h3 class="post-title">
+                    (作业)《博学谷C++》四.1-3Makefile
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
